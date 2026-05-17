@@ -1,8 +1,6 @@
 import {
     CreditCard,
     ArrowRightLeft,
-    LineChart,
-    LifeBuoy,
     ShieldCheck,
     PlusCircle,
     LogOut
@@ -16,14 +14,6 @@ const menuItems = [
     {
         icon: ArrowRightLeft,
         label: "transactions"
-    },
-    {
-        icon: LineChart,
-        label: "analytics"
-    },
-    {
-        icon: LifeBuoy,
-        label: "support"
     }
 ];
 

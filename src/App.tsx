@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import Sidebar from "./components/layout/Sidebar";
 import Header from "./components/layout/Header";
-
+import { confirmTransaction } from "./utils/alerts";
 import AccountsPage from "./pages/AccountPage";
 import TransactionsPage from "./pages/TransactionsPage";
 
@@ -36,6 +36,23 @@ function App() {
 
   const [tipoMensaje, setTipoMensaje] =
     useState("");
+
+  const showMessage = (
+    text: string,
+    type: string
+  ) => {
+
+    setTipoMensaje(type);
+
+    setMensaje(text);
+
+    setTimeout(() => {
+
+      setMensaje("");
+
+    }, 3000);
+
+  };
 
   const consultarCuenta = async () => {
 
@@ -76,6 +93,27 @@ function App() {
 
   const depositar = async () => {
 
+    if (!monto.trim() || isNaN(Number(monto)) || Number(monto) <= 0) {
+
+      showMessage(
+        "Ingresa un monto válido.",
+        "error"
+      );
+
+      return;
+
+    }
+
+    const result =
+      await confirmTransaction(
+        "Confirmar depósito",
+        `¿Deseas depositar $${monto}?`
+      );
+
+    if (!result.isConfirmed) {
+      return;
+    }
+
     try {
 
       const response =
@@ -84,11 +122,10 @@ function App() {
           Number(monto)
         );
 
-      setTipoMensaje("success");
-
-      setMensaje(
+      showMessage(
         response.message ||
-        "Depósito realizado"
+        "Depósito realizado",
+        "success"
       );
 
       setMonto("");
@@ -97,10 +134,9 @@ function App() {
 
     } catch {
 
-      setTipoMensaje("error");
-
-      setMensaje(
-        "Error al realizar depósito"
+      showMessage(
+        "Error al realizar depósito",
+        "error"
       );
 
     }
@@ -108,6 +144,27 @@ function App() {
   };
 
   const retirar = async () => {
+
+    if (!monto.trim() || isNaN(Number(monto)) || Number(monto) <= 0) {
+
+      showMessage(
+        "Ingresa un monto válido.",
+        "error"
+      );
+
+      return;
+
+    }
+
+    const result =
+      await confirmTransaction(
+        "Confirmar retiro",
+        `¿Deseas retirar $${monto}?`
+      );
+
+    if (!result.isConfirmed) {
+      return;
+    }
 
     try {
 
@@ -117,11 +174,10 @@ function App() {
           Number(monto)
         );
 
-      setTipoMensaje("success");
-
-      setMensaje(
+      showMessage(
         response.message ||
-        "Retiro realizado"
+        "Retiro realizado",
+        "success"
       );
 
       setMonto("");
@@ -130,10 +186,9 @@ function App() {
 
     } catch {
 
-      setTipoMensaje("error");
-
-      setMensaje(
-        "Error al realizar retiro"
+      showMessage(
+        "Error al realizar retiro",
+        "error"
       );
 
     }

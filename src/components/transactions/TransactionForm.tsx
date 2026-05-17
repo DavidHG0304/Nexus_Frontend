@@ -1,4 +1,8 @@
 import MessageAlert from "./MessageAlert";
+import {
+    primaryButton,
+    secondaryButton
+} from "../../styles/buttons";
 
 type TransactionFormProps = {
     cuenta: string;
@@ -77,12 +81,11 @@ function TransactionForm({
 
                 </div>
 
-                <div className="grid gap-4 sm:grid-cols-2">
+                <div className="grid gap-3 pt-2 sm:grid-cols-2">
 
                     <button
                         onClick={depositar}
-                        className="h-14 rounded-2xl bg-emerald-400 text-lg font-semibold text-slate-950 transition hover:bg-emerald-300"
-                    >
+                        className={primaryButton}>
 
                         Depositar
 
@@ -90,8 +93,7 @@ function TransactionForm({
 
                     <button
                         onClick={retirar}
-                        className="h-14 rounded-2xl bg-rose-400 text-lg font-semibold text-slate-950 transition hover:bg-rose-300"
-                    >
+                        className={secondaryButton}>
 
                         Retirar
 
