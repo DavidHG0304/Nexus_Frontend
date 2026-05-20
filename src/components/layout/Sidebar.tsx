@@ -2,7 +2,6 @@ import {
     CreditCard,
     ArrowRightLeft,
     ShieldCheck,
-    PlusCircle,
     LogOut
 } from "lucide-react";
 
@@ -15,7 +14,9 @@ const menuItems = [
         icon: ArrowRightLeft,
         label: "transactions"
     }
+
 ];
+
 
 type SidebarProps = {
     tab: string;
@@ -39,7 +40,7 @@ function Sidebar({
 
                 <div>
                     <h1 className="text-lg font-semibold tracking-tight text-cyan-300">
-                        Nexus Finance
+                        Nexus Bank
                     </h1>
 
                     <p className="text-xs text-slate-500">
@@ -62,8 +63,8 @@ function Sidebar({
                                 key={item.label}
                                 onClick={() => setTab(item.label)}
                                 className={`flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-left text-sm capitalize transition ${tab === item.label
-                                        ? "bg-white/8 text-white ring-1 ring-white/10"
-                                        : "text-slate-400 hover:bg-white/5 hover:text-white"
+                                    ? "bg-white/8 text-white ring-1 ring-white/10"
+                                    : "text-slate-400 hover:bg-white/5 hover:text-white"
                                     }`}
                             >
 
@@ -82,16 +83,6 @@ function Sidebar({
 
             <div className="mt-auto space-y-3">
 
-                <button
-                    onClick={() => setTab("transactions")}
-                    className="flex w-full items-center justify-center gap-2 rounded-2xl bg-cyan-400 px-4 py-3 text-sm font-semibold text-slate-950 shadow-lg shadow-cyan-500/15 transition hover:bg-cyan-300"
-                >
-
-                    <PlusCircle className="h-4 w-4" />
-
-                    New Transaction
-
-                </button>
 
                 <button className="flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-sm text-slate-400 transition hover:bg-white/5 hover:text-white">
 
