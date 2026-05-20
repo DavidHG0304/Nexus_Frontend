@@ -1,10 +1,17 @@
 import AccountSearch from "../components/accounts/AccountSearch";
+
 import AccountSummary from "../components/accounts/AccountSummary";
+
+import MonthlyFlow from "../components/accounts/MonthlyFlow";
+
 import TransactionsList from "../components/accounts/TransactionsList";
 
-import type { ApiResponse } from "../types";
+import type {
+    ApiResponse
+} from "../types";
 
 type AccountsPageProps = {
+
     cuenta: string;
 
     setCuenta: React.Dispatch<
@@ -13,20 +20,20 @@ type AccountsPageProps = {
 
     consultarCuenta: () => void;
 
-    loading: boolean;
-
-    error: string;
-
     data: ApiResponse | null;
+
 };
 
 function AccountsPage({
+
     cuenta,
+
     setCuenta,
+
     consultarCuenta,
-    loading,
-    error,
+
     data
+
 }: AccountsPageProps) {
 
     return (
@@ -37,17 +44,42 @@ function AccountsPage({
                 cuenta={cuenta}
                 setCuenta={setCuenta}
                 consultarCuenta={consultarCuenta}
-                loading={loading}
-                error={error}
             />
 
-            <AccountSummary
-                data={data}
-            />
+            <div
+                className="
+        grid
+        gap-5
+        items-start
+        xl:grid-cols-[1.1fr_0.55fr]
+        "
+            >
 
-            <TransactionsList
-                transactions={data?.transactions || []}
-            />
+                <div className="space-y-5">
+
+                    <AccountSummary
+                        data={data}
+                    />
+
+                    <TransactionsList
+                        transactions={
+                            data?.transactions || []
+                        }
+                    />
+
+                </div>
+
+                <div className="sticky top-24">
+
+                    <MonthlyFlow
+                        transactions={
+                            data?.transactions || []
+                        }
+                    />
+
+                </div>
+
+            </div>
 
         </div>
 

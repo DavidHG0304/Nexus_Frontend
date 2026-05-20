@@ -1,62 +1,100 @@
+import {
+    Search
+} from "lucide-react";
+
+import {
+    primaryButton
+} from "../../styles/buttons";
+
+import {
+    formCard,
+    inputStyle
+} from "../../styles/forms";
+
+import {
+    cyanLabel,
+    mutedText,
+    sectionHeading
+} from "../../styles/text";
+
 type AccountSearchProps = {
+
     cuenta: string;
-    setCuenta: React.Dispatch<React.SetStateAction<string>>;
+
+    setCuenta: React.Dispatch<
+        React.SetStateAction<string>
+    >;
+
     consultarCuenta: () => void;
-    loading: boolean;
-    error: string;
+
 };
 
 function AccountSearch({
+
     cuenta,
+
     setCuenta,
-    consultarCuenta,
-    loading,
-    error
+
+    consultarCuenta
+
 }: AccountSearchProps) {
 
     return (
 
-        <div className="rounded-[28px] border border-white/5 bg-[#0b1524] p-5 shadow-2xl shadow-black/20">
+        <section className={formCard}>
 
-            <label className="mb-3 block text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">
+            <div className="mb-5">
 
-                Número de cuenta
+                <p className={cyanLabel}>
 
-            </label>
+                    Banking Access
+
+                </p>
+
+                <h2 className={sectionHeading}>
+
+                    Search Account
+
+                </h2>
+
+                <p className={`mt-2 ${mutedText}`}>
+
+                    Access account information and financial activity.
+
+                </p>
+
+            </div>
 
             <div className="flex flex-col gap-3 sm:flex-row">
 
                 <input
                     type="text"
+                    placeholder="Enter account number..."
                     value={cuenta}
-                    onChange={(e) => setCuenta(e.target.value)}
-                    placeholder="Ej. 001"
-                    className="h-14 flex-1 rounded-2xl border border-white/5 bg-[#07111f] px-4 text-sm text-white outline-none placeholder:text-slate-600 focus:border-cyan-400/40"
+                    onChange={(e) =>
+                        setCuenta(e.target.value)
+                    }
+                    className={inputStyle}
                 />
 
                 <button
                     onClick={consultarCuenta}
-                    disabled={loading}
-                    className="h-14 rounded-2xl bg-cyan-400 px-6 text-sm font-semibold text-slate-950 transition hover:bg-cyan-300"
+                    className={primaryButton}
                 >
 
-                    {loading ? "Consultando..." : "Consultar"}
+                    <span className="flex items-center justify-center gap-2">
+
+                        <Search className="h-4 w-4" />
+
+                        Search
+
+                    </span>
 
                 </button>
 
             </div>
 
-            {
-                error && (
-
-                    <p className="mt-3 text-sm text-red-300">
-                        {error}
-                    </p>
-
-                )
-            }
-
-        </div>
+        </section>
 
     );
 
