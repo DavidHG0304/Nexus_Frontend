@@ -1,10 +1,30 @@
+import {
+    ArrowLeft,
+    ArrowRight,
+    Landmark
+} from "lucide-react";
+
 import MessageAlert from "./MessageAlert";
+
 import {
     primaryButton,
     secondaryButton
 } from "../../styles/buttons";
 
+import {
+    formCard,
+    inputStyle,
+    quickAmountButton
+} from "../../styles/forms";
+
+import {
+    cyanLabel,
+    mutedText,
+    sectionHeading
+} from "../../styles/text";
+
 type TransactionFormProps = {
+
     cuenta: string;
 
     monto: string;
@@ -20,31 +40,77 @@ type TransactionFormProps = {
     mensaje: string;
 
     tipoMensaje: string;
+
 };
 
 function TransactionForm({
+
     cuenta,
+
     monto,
+
     setMonto,
+
     depositar,
+
     retirar,
+
     mensaje,
+
     tipoMensaje
+
 }: TransactionFormProps) {
+
+    const quickAmounts = [
+        500,
+        1000,
+        2500,
+        5000
+    ];
 
     return (
 
-        <div className="rounded-[28px] border border-white/5 bg-[#0b1524] p-5 shadow-2xl shadow-black/20">
+        <section className={formCard}>
 
-            <div className="mb-5">
+            <div className="mb-6 flex items-start justify-between">
 
-                <p className="text-xs uppercase tracking-[0.2em] text-slate-500">
-                    Operaciones bancarias
-                </p>
+                <div>
 
-                <h3 className="mt-2 text-2xl font-semibold text-white">
-                    Depósitos y retiros
-                </h3>
+                    <p className={cyanLabel}>
+
+                        Banking Operations
+
+                    </p>
+
+                    <h2 className={sectionHeading}>
+
+                        New Transaction
+
+                    </h2>
+
+                    <p className={`mt-2 ${mutedText}`}>
+
+                        Make deposits and withdrawals securely.
+
+                    </p>
+
+                </div>
+
+                <div
+                    className="
+          grid
+          h-14
+          w-14
+          place-items-center
+          rounded-2xl
+          bg-cyan-400/10
+          text-cyan-300
+          "
+                >
+
+                    <Landmark className="h-6 w-6" />
+
+                </div>
 
             </div>
 
@@ -52,63 +118,139 @@ function TransactionForm({
 
                 <div>
 
-                    <label className="mb-3 block text-sm text-slate-400">
-                        Número de cuenta
+                    <label
+                        className="
+            mb-2
+            block
+            text-sm
+            font-medium
+            text-slate-300
+            "
+                    >
+
+                        Account Number
+
                     </label>
 
                     <input
                         type="text"
                         value={cuenta}
                         disabled
-                        className="h-14 w-full rounded-2xl border border-white/5 bg-[#07111f] px-4 text-white opacity-70 outline-none"
+                        className={`
+              ${inputStyle}
+              opacity-60
+              cursor-not-allowed
+            `}
                     />
 
                 </div>
 
                 <div>
 
-                    <label className="mb-3 block text-sm text-slate-400">
-                        Monto
-                    </label>
+                    <div className="mb-2 flex items-center justify-between">
+
+                        <label
+                            className="
+              text-sm
+              font-medium
+              text-slate-300
+              "
+                        >
+
+                            Amount
+
+                        </label>
+
+                        <span className="text-xs text-slate-500">
+
+                            MXN Currency
+
+                        </span>
+
+                    </div>
 
                     <input
                         type="number"
+                        placeholder="Enter amount..."
                         value={monto}
-                        onChange={(e) => setMonto(e.target.value)}
-                        placeholder="Ej. 500"
-                        className="h-14 w-full rounded-2xl border border-white/5 bg-[#07111f] px-4 text-white outline-none placeholder:text-slate-600 focus:border-cyan-400/40"
+                        onChange={(e) =>
+                            setMonto(e.target.value)
+                        }
+                        className={inputStyle}
                     />
 
                 </div>
 
+                <div className="flex flex-wrap gap-2">
+
+                    {
+                        quickAmounts.map((amount) => (
+
+                            <button
+                                key={amount}
+                                onClick={() =>
+                                    setMonto(String(amount))
+                                }
+                                className={quickAmountButton}
+                            >
+
+                                ${amount.toLocaleString("es-MX")}
+
+                            </button>
+
+                        ))
+                    }
+
+                </div>
+
+                {
+                    mensaje && (
+
+                        <MessageAlert
+                            mensaje={mensaje}
+                            tipoMensaje={tipoMensaje}
+                        />
+
+                    )
+                }
+
                 <div className="grid gap-3 pt-2 sm:grid-cols-2">
 
                     <button
-                        onClick={depositar}
-                        className={primaryButton}>
+                        onClick={retirar}
+                        className={secondaryButton}
+                    >
 
-                        Depositar
+                        <span className="flex items-center justify-center gap-2">
+
+                            <ArrowLeft className="h-4 w-4" />
+
+                            Withdraw
+
+                        </span>
 
                     </button>
 
                     <button
-                        onClick={retirar}
-                        className={secondaryButton}>
+                        onClick={depositar}
+                        className={primaryButton}
+                    >
 
-                        Retirar
+                        <span className="flex items-center justify-center gap-2">
+
+                            Deposit
+
+                            <ArrowRight className="h-4 w-4" />
+
+                        </span>
 
                     </button>
 
                 </div>
 
-                <MessageAlert
-                    mensaje={mensaje}
-                    tipoMensaje={tipoMensaje}
-                />
-
             </div>
 
-        </div>
+        </section>
 
     );
 

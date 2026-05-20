@@ -1,9 +1,31 @@
 import {
-    ShieldCheck,
-    UserCircle2
+    ArrowDownLeft,
+    ArrowUpRight,
+    ShieldCheck
 } from "lucide-react";
 
 import type { ApiResponse } from "../../types";
+
+import {
+    activityCard,
+    miniIconContainer,
+    primaryCard,
+    secondaryCard
+} from "../../styles/cards";
+
+import {
+    depositAmount,
+    depositStyle,
+    progressBar,
+    secureIcon,
+    withdrawAmount,
+    withdrawStyle
+} from "../../styles/transactions";
+
+import {
+    cyanLabel,
+    smallMutedText
+} from "../../styles/text";
 
 type TransactionSidePanelProps = {
     data: ApiResponse | null;
@@ -15,103 +37,251 @@ function TransactionSidePanel({
 
     return (
 
-        <div className="space-y-5">
+        <div className="space-y-4">
 
-            <div className="rounded-[32px] border border-cyan-400/10 bg-[#091423] p-6 shadow-2xl shadow-black/30">
+            <section
+                className={`
+          ${primaryCard}
+          border-cyan-400/10
+          p-5
+        `}
+            >
 
-                <p className="text-sm text-slate-400">
+                <p className={cyanLabel}>
+
                     Available Balance
+
                 </p>
 
                 <h1 className="mt-3 text-5xl font-bold tracking-tight text-white">
 
                     $
-                    {data?.account.balance.toLocaleString("es-MX") || "0"}
+
+                    {
+                        data?.account.balance
+                            ?.toLocaleString("es-MX")
+                        || "0"
+                    }
 
                 </h1>
 
-                <div className="mt-6 rounded-2xl bg-cyan-400/10 px-4 py-3 text-sm text-cyan-300">
+                <div className="mt-6 space-y-3">
 
-                    Account:
-                    {" "}
-                    {data?.account.accountNumber || "N/A"}
+                    <div>
+
+                        <div
+                            className={`
+                mb-1
+                flex
+                items-center
+                justify-between
+                ${smallMutedText}
+              `}
+                        >
+
+                            <span>
+
+                                Daily Limit
+
+                            </span>
+
+                            <span>
+
+                                $50,000.00
+
+                            </span>
+
+                        </div>
+
+                        <div className="h-2 overflow-hidden rounded-full bg-white/5">
+
+                            <div
+                                className={progressBar}
+                                style={{
+                                    width: "35%"
+                                }}
+                            />
+
+                        </div>
+
+                    </div>
+
+                    <div className="flex items-center justify-between text-sm">
+
+                        <span className="text-slate-400">
+
+                            Used today
+
+                        </span>
+
+                        <span className="font-medium text-white">
+
+                            $7,500.00
+
+                        </span>
+
+                    </div>
 
                 </div>
 
-            </div>
+            </section>
 
-            <div className="rounded-[32px] border border-white/5 bg-[#091423] p-6">
+            <section
+                className={`
+          ${secondaryCard}
+          p-5
+        `}
+            >
+
+                <div className="mb-4 flex items-center justify-between">
+
+                    <h3 className={cyanLabel}>
+
+                        Recent Activity
+
+                    </h3>
+
+                    <span className={smallMutedText}>
+
+                        Live
+
+                    </span>
+
+                </div>
+
+                <div className="space-y-3">
+
+                    {
+                        data?.transactions
+                            ?.slice(0, 3)
+                            .map((transaction, index) => {
+
+                                const isDeposit =
+                                    transaction.type
+                                        .toLowerCase()
+                                        .includes("deposit");
+
+                                return (
+
+                                    <div
+                                        key={index}
+                                        className={activityCard}
+                                    >
+
+                                        <div className="flex items-center gap-3">
+
+                                            <div
+                                                className={`
+                          ${miniIconContainer}
+
+                          ${isDeposit
+                                                        ? depositStyle
+                                                        : withdrawStyle
+                                                    }
+                        `}
+                                            >
+
+                                                {
+                                                    isDeposit ? (
+
+                                                        <ArrowDownLeft className="h-4 w-4" />
+
+                                                    ) : (
+
+                                                        <ArrowUpRight className="h-4 w-4" />
+
+                                                    )
+                                                }
+
+                                            </div>
+
+                                            <div>
+
+                                                <p className="text-sm font-medium text-white">
+
+                                                    {transaction.type}
+
+                                                </p>
+
+                                                <p className={smallMutedText}>
+
+                                                    {transaction.status}
+
+                                                </p>
+
+                                            </div>
+
+                                        </div>
+
+                                        <p
+                                            className={`
+                        text-sm
+                        font-semibold
+
+                        ${isDeposit
+                                                    ? depositAmount
+                                                    : withdrawAmount
+                                                }
+                      `}
+                                        >
+
+                                            {isDeposit ? "+" : "-"}
+
+                                            $
+
+                                            {
+                                                transaction.amount
+                                                    .toLocaleString("es-MX")
+                                            }
+
+                                        </p>
+
+                                    </div>
+
+                                );
+
+                            })
+                    }
+
+                </div>
+
+            </section>
+
+            <section
+                className={`
+          ${secondaryCard}
+          px-4
+          py-3
+        `}
+            >
 
                 <div className="flex items-center gap-3">
 
-                    <div className="grid h-12 w-12 place-items-center rounded-2xl bg-cyan-400/10 text-cyan-300">
+                    <div className={secureIcon}>
 
-                        <ShieldCheck className="h-6 w-6" />
+                        <ShieldCheck className="h-5 w-5" />
 
                     </div>
 
                     <div>
 
-                        <h3 className="font-semibold text-white">
-                            Secure Transaction
+                        <h3 className="text-sm font-medium text-white">
+
+                            Encrypted & Secure
+
                         </h3>
 
-                        <p className="text-sm text-slate-400">
+                        <p className={smallMutedText}>
+
                             Protected banking operations.
+
                         </p>
 
                     </div>
 
                 </div>
 
-            </div>
-
-            <div className="rounded-[32px] border border-white/5 bg-[#091423] p-6">
-
-                <h3 className="mb-5 text-lg font-semibold text-white">
-                    Recent Recipients
-                </h3>
-
-                <div className="space-y-4">
-
-                    {
-                        [
-                            "Juan Pérez",
-                            "María López",
-                            "Carlos Ramírez"
-                        ].map((name) => (
-
-                            <div
-                                key={name}
-                                className="flex items-center gap-3"
-                            >
-
-                                <div className="grid h-12 w-12 place-items-center rounded-full bg-white/5 text-cyan-300">
-
-                                    <UserCircle2 className="h-6 w-6" />
-
-                                </div>
-
-                                <div>
-
-                                    <p className="font-medium text-white">
-                                        {name}
-                                    </p>
-
-                                    <p className="text-sm text-slate-500">
-                                        Nexus Client
-                                    </p>
-
-                                </div>
-
-                            </div>
-
-                        ))
-                    }
-
-                </div>
-
-            </div>
+            </section>
 
         </div>
 
