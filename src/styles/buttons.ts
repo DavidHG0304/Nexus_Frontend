@@ -1,36 +1,36 @@
+import {
+  radius,
+  shadows
+} from "./theme";
+
 export const primaryButton = `
-h-14
-rounded-full
+h-11
+px-5
+${radius.full}
 bg-gradient-to-r
 from-cyan-400
 to-cyan-300
-px-6
 text-sm
 font-semibold
 text-slate-950
-shadow-lg
-shadow-cyan-500/20
 transition-all
 duration-300
 hover:scale-[1.02]
-hover:shadow-cyan-400/30
 active:scale-[0.98]
+${shadows.glow}
 `;
 
 export const secondaryButton = `
-h-14
-rounded-full
+h-11
+px-5
+${radius.full}
 border
 border-white/10
-bg-white/[0.04]
-px-6
+bg-white/[0.02]
 text-sm
 font-semibold
 text-white
-backdrop-blur-xl
 transition-all
 duration-300
-hover:bg-white/[0.08]
-hover:scale-[1.02]
-active:scale-[0.98]
+hover:bg-white/[0.06]
 `;
