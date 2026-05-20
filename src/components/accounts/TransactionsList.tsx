@@ -1,6 +1,34 @@
-import { ArrowRightLeft } from "lucide-react";
+import {
+    ArrowDownLeft,
+    ArrowUpRight
+} from "lucide-react";
 
-import type { Transaction } from "../../types";
+import type {
+    Transaction
+} from "../../types";
+
+import {
+    activityCard,
+    emptyStateCard,
+    miniIconContainer,
+    primaryCard
+} from "../../styles/cards";
+
+import {
+    depositAmount,
+    depositStyle,
+    withdrawAmount,
+    withdrawStyle
+} from "../../styles/transactions";
+
+import {
+    amountText,
+    cyanLabel,
+    mutedText,
+    sectionHeading,
+    smallMutedText,
+    statusBadge
+} from "../../styles/text";
 
 type TransactionsListProps = {
     transactions: Transaction[];
@@ -12,25 +40,52 @@ function TransactionsList({
 
     return (
 
-        <div className="rounded-[28px] border border-white/5 bg-[#0b1524] p-5 shadow-2xl shadow-black/20">
+        <section
+            className={`
+        ${primaryCard}
+        p-5
+      `}
+        >
 
             <div className="mb-5 flex items-center justify-between">
 
                 <div>
 
-                    <p className="text-xs uppercase tracking-[0.2em] text-slate-500">
-                        Movimientos recientes
+                    <p className={cyanLabel}>
+
+                        Banking History
+
                     </p>
 
-                    <h3 className="text-xl font-semibold text-white">
-                        Últimas transacciones
+                    <h3 className={sectionHeading}>
+
+                        Recent Transactions
+
                     </h3>
 
                 </div>
 
+                <span className={smallMutedText}>
+
+                    {
+                        transactions.length
+                    }
+
+                    {" "}
+                    movements
+
+                </span>
+
             </div>
 
-            <div className="space-y-4 max-h-[650px] overflow-y-auto pr-2">
+            <div
+                className="
+        max-h-[480px]
+        space-y-3
+        overflow-y-auto
+        pr-2
+        "
+            >
 
                 {
                     transactions.length ? (
@@ -40,10 +95,12 @@ function TransactionsList({
                             .sort((a, b) => {
 
                                 const dateA =
-                                    new Date(a.date || "").getTime();
+                                    new Date(a.date || "")
+                                        .getTime();
 
                                 const dateB =
-                                    new Date(b.date || "").getTime();
+                                    new Date(b.date || "")
+                                        .getTime();
 
                                 return dateB - dateA;
 
@@ -51,42 +108,54 @@ function TransactionsList({
 
                             .map((transaction, index) => {
 
-                                const isIncome =
+                                const isDeposit =
                                     transaction.type
                                         .toLowerCase()
-                                        .includes("deposit") ||
-
-                                    transaction.type
-                                        .toLowerCase()
-                                        .includes("transfer");
+                                        .includes("deposit");
 
                                 return (
 
                                     <article
                                         key={index}
-                                        className="flex items-center justify-between gap-4 rounded-[22px] border border-white/5 bg-[#07111f] p-4"
+                                        className={activityCard}
                                     >
 
-                                        <div className="flex items-start gap-3">
+                                        <div className="flex items-center gap-3">
 
-                                            <div className={`mt-1 grid h-11 w-11 place-items-center rounded-2xl ${isIncome
-                                                    ? "bg-cyan-400/15 text-cyan-300"
-                                                    : "bg-rose-400/15 text-rose-300"
-                                                }`}>
+                                            <div
+                                                className={`
+                          ${miniIconContainer}
 
-                                                <ArrowRightLeft className="h-4 w-4" />
+                          ${isDeposit
+                                                        ? depositStyle
+                                                        : withdrawStyle
+                                                    }
+                        `}
+                                            >
+
+                                                {
+                                                    isDeposit ? (
+
+                                                        <ArrowDownLeft className="h-4 w-4" />
+
+                                                    ) : (
+
+                                                        <ArrowUpRight className="h-4 w-4" />
+
+                                                    )
+                                                }
 
                                             </div>
 
                                             <div>
 
-                                                <h4 className="font-semibold text-white">
+                                                <h4 className="text-sm font-medium text-white">
 
                                                     {transaction.type}
 
                                                 </h4>
 
-                                                <p className="mt-1 text-sm text-slate-400">
+                                                <p className={mutedText}>
 
                                                     {transaction.description}
 
@@ -98,20 +167,29 @@ function TransactionsList({
 
                                         <div className="text-right">
 
-                                            <p className={`text-lg font-semibold ${isIncome
-                                                    ? "text-cyan-300"
-                                                    : "text-rose-300"
-                                                }`}>
+                                            <p
+                                                className={`
+                          ${amountText}
 
-                                                {isIncome ? "+" : "-"}
+                          ${isDeposit
+                                                        ? depositAmount
+                                                        : withdrawAmount
+                                                    }
+                        `}
+                                            >
+
+                                                {isDeposit ? "+" : "-"}
 
                                                 $
 
-                                                {transaction.amount.toLocaleString("es-MX")}
+                                                {
+                                                    transaction.amount
+                                                        .toLocaleString("es-MX")
+                                                }
 
                                             </p>
 
-                                            <span className="mt-1 inline-flex rounded-full border border-white/5 bg-white/5 px-3 py-1 text-[11px] uppercase tracking-[0.18em] text-slate-400">
+                                            <span className={statusBadge}>
 
                                                 {transaction.status}
 
@@ -127,19 +205,22 @@ function TransactionsList({
 
                     ) : (
 
-                        <p className="text-slate-400">
+                        <div className={emptyStateCard}>
 
-                            No hay transacciones para mostrar.
+                            <p className={mutedText}>
 
-                        </p>
+                                No transactions found.
+
+                            </p>
+
+                        </div>
 
                     )
-
                 }
 
             </div>
 
-        </div>
+        </section>
 
     );
 

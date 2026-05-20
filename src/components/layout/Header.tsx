@@ -1,67 +1,99 @@
 import {
-    Bell,
-    Search,
-    Settings,
-    UserCircle2
+  Bell,
+  Settings
 } from "lucide-react";
 
+import {
+  avatarStyle,
+  glassContainer,
+  iconButton,
+  pageHeader
+} from "../../styles/layout";
+
+import {
+  primaryButton
+} from "../../styles/buttons";
+
 type HeaderProps = {
-    tab: string;
+
+  tab: string;
+
+  setTab: React.Dispatch<
+    React.SetStateAction<string>
+  >;
+
 };
 
 function Header({
-    tab
+  tab,
+  setTab
 }: HeaderProps) {
 
-    return (
+  return (
 
-        <header className="mb-6 flex flex-col gap-4 rounded-[28px] border border-white/5 bg-[#0b1524]/80 px-5 py-4 shadow-2xl shadow-black/20 backdrop-blur xl:flex-row xl:items-center xl:justify-between">
+    <header
+      className={`
+        ${pageHeader}
+        ${glassContainer}
+      `}
+    >
 
-            <div>
+      <div>
 
-                <p className="text-sm text-cyan-300/80">
-                    Banco Nexus
-                </p>
+        <p className="text-xs uppercase tracking-[0.25em] text-cyan-300">
 
-                <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl capitalize">
-                    {tab}
-                </h2>
+          Nexus Finance
 
-            </div>
+        </p>
 
-            <div className="flex items-center gap-3">
+        <h1 className="mt-1 text-3xl font-bold text-white capitalize">
 
-                <div className="hidden items-center gap-2 rounded-full border border-white/5 bg-black/20 px-4 py-2 text-sm text-slate-500 md:flex">
+          {tab}
 
-                    <Search className="h-4 w-4" />
+        </h1>
 
-                    Search accounts...
+      </div>
 
-                </div>
+      <div className="flex items-center gap-3">
 
-                <button className="grid h-11 w-11 place-items-center rounded-full bg-white/5 text-slate-300 hover:bg-white/10">
+        <button
+          onClick={() => setTab("transactions")}
+          className={`
+            ${primaryButton}
+            hidden
+            h-11
+            px-5
+            md:block
+          `}
+        >
 
-                    <Bell className="h-4 w-4" />
+          New Transaction
 
-                </button>
+        </button>
 
-                <button className="grid h-11 w-11 place-items-center rounded-full bg-white/5 text-slate-300 hover:bg-white/10">
+        <button className={iconButton}>
 
-                    <Settings className="h-4 w-4" />
+          <Bell className="h-5 w-5" />
 
-                </button>
+        </button>
 
-                <div className="grid h-11 w-11 place-items-center rounded-full bg-cyan-400/15 text-cyan-300 ring-1 ring-cyan-400/20">
+        <button className={iconButton}>
 
-                    <UserCircle2 className="h-5 w-5" />
+          <Settings className="h-5 w-5" />
 
-                </div>
+        </button>
 
-            </div>
+        <div className={avatarStyle}>
 
-        </header>
+          U
 
-    );
+        </div>
+
+      </div>
+
+    </header>
+
+  );
 
 }
 
