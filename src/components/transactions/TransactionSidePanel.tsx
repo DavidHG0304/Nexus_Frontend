@@ -152,8 +152,24 @@ function TransactionSidePanel({
                 <div className="space-y-3">
 
                     {
-                        data?.transactions
-                            ?.slice(0, 3)
+                        [...(data?.transactions || [])]
+
+                            .sort((a, b) => {
+
+                                const dateA =
+                                    new Date(a.date || "")
+                                        .getTime();
+
+                                const dateB =
+                                    new Date(b.date || "")
+                                        .getTime();
+
+                                return dateB - dateA;
+
+                            })
+
+                            .slice(0, 3)
+
                             .map((transaction, index) => {
 
                                 const isDeposit =

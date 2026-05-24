@@ -1,26 +1,45 @@
 import { useState } from "react";
 
 import Sidebar from "./components/layout/Sidebar";
-import Header from "./components/layout/Header";
-import { confirmTransaction } from "./utils/alerts";
-import AccountsPage from "./pages/AccountPage";
-import TransactionsPage from "./pages/TransactionsPage";
 
-import type { ApiResponse } from "./types";
+import Header from "./components/layout/Header";
+
+import ReplicaAlertModal
+  from "./components/layout/ReplicaAlertModal";
+
+import AccountsPage from "./pages/AccountPage";
+
+import TransactionsPage
+  from "./pages/TransactionsPage";
 
 import {
+  confirmTransaction
+} from "./utils/alerts";
+
+import type {
+  ApiResponse
+} from "./types";
+
+import {
+
   consultarCuenta as consultarCuentaAPI,
+
   depositar as depositarAPI,
+
   retirar as retirarAPI
+
 } from "./services/api";
 
 function App() {
 
-  const [tab, setTab] = useState("accounts");
+  const [tab, setTab] =
+    useState("accounts");
 
-  const [cuenta, setCuenta] = useState("001");
+  const [cuenta, setCuenta] =
+    useState("001");
 
-  const [monto, setMonto] = useState("");
+  const [monto, setMonto] =
+    useState("");
 
   const [data, setData] =
     useState<ApiResponse | null>(null);
@@ -37,6 +56,30 @@ function App() {
   const [tipoMensaje, setTipoMensaje] =
     useState("");
 
+  const [
+    replicaModalOpen,
+    setReplicaModalOpen
+  ] = useState(false);
+
+  const [
+    replicaModalTitle,
+    setReplicaModalTitle
+  ] = useState("");
+
+  const [
+    replicaModalDescription,
+    setReplicaModalDescription
+  ] = useState("");
+
+  const [
+    replicaModalType,
+    setReplicaModalType
+  ] = useState<
+    "error" |
+    "warning" |
+    "success"
+  >("error");
+
   const showMessage = (
     text: string,
     type: string
@@ -50,7 +93,29 @@ function App() {
 
       setMensaje("");
 
+      setTipoMensaje("");
+
     }, 3000);
+
+  };
+
+  const showReplicaModal = (
+
+    title: string,
+
+    description: string,
+
+    type: "error" | "warning" | "success"
+
+  ) => {
+
+    setReplicaModalTitle(title);
+
+    setReplicaModalDescription(description);
+
+    setReplicaModalType(type);
+
+    setReplicaModalOpen(true);
 
   };
 
@@ -58,7 +123,9 @@ function App() {
 
     if (!cuenta.trim()) {
 
-      setError("Escribe un número de cuenta.");
+      setError(
+        "Enter an account number."
+      );
 
       return;
 
@@ -71,16 +138,35 @@ function App() {
       setError("");
 
       const response =
-        await consultarCuentaAPI(cuenta);
+        await consultarCuentaAPI(
+          cuenta
+        );
 
       setData(response);
+
+      showMessage(
+        "Account loaded successfully",
+        "success"
+      );
 
     } catch (err) {
 
       setError(
+
         err instanceof Error
           ? err.message
-          : "Error inesperado"
+          : "Unexpected error"
+
+      );
+
+      showReplicaModal(
+
+        "Replica Connection Error",
+
+        "Unable to retrieve account information from the replica set.",
+
+        "warning"
+
       );
 
     } finally {
@@ -93,10 +179,18 @@ function App() {
 
   const depositar = async () => {
 
-    if (!monto.trim() || isNaN(Number(monto)) || Number(monto) <= 0) {
+    if (
+
+      !monto.trim() ||
+
+      isNaN(Number(monto)) ||
+
+      Number(monto) <= 0
+
+    ) {
 
       showMessage(
-        "Ingresa un monto válido.",
+        "Enter a valid amount.",
         "error"
       );
 
@@ -106,26 +200,38 @@ function App() {
 
     const result =
       await confirmTransaction(
-        "Confirmar depósito",
-        `¿Deseas depositar $${monto}?`
+
+        "Confirm Deposit",
+
+        `Do you want to deposit $${monto}?`
+
       );
 
     if (!result.isConfirmed) {
+
       return;
+
     }
 
     try {
 
       const response =
         await depositarAPI(
+
           cuenta,
+
           Number(monto)
+
         );
 
       showMessage(
+
         response.message ||
-        "Depósito realizado",
+
+        "Deposit completed successfully",
+
         "success"
+
       );
 
       setMonto("");
@@ -134,9 +240,14 @@ function App() {
 
     } catch {
 
-      showMessage(
-        "Error al realizar depósito",
+      showReplicaModal(
+
+        "Primary Node Unreachable",
+
+        "The replica set is currently reconnecting. Please wait a moment and try again.",
+
         "error"
+
       );
 
     }
@@ -145,10 +256,18 @@ function App() {
 
   const retirar = async () => {
 
-    if (!monto.trim() || isNaN(Number(monto)) || Number(monto) <= 0) {
+    if (
+
+      !monto.trim() ||
+
+      isNaN(Number(monto)) ||
+
+      Number(monto) <= 0
+
+    ) {
 
       showMessage(
-        "Ingresa un monto válido.",
+        "Enter a valid amount.",
         "error"
       );
 
@@ -158,26 +277,38 @@ function App() {
 
     const result =
       await confirmTransaction(
-        "Confirmar retiro",
-        `¿Deseas retirar $${monto}?`
+
+        "Confirm Withdrawal",
+
+        `Do you want to withdraw $${monto}?`
+
       );
 
     if (!result.isConfirmed) {
+
       return;
+
     }
 
     try {
 
       const response =
         await retirarAPI(
+
           cuenta,
+
           Number(monto)
+
         );
 
       showMessage(
+
         response.message ||
-        "Retiro realizado",
+
+        "Withdrawal completed successfully",
+
         "success"
+
       );
 
       setMonto("");
@@ -187,8 +318,18 @@ function App() {
     } catch {
 
       showMessage(
-        "Error al realizar retiro",
+        "Transaction failed",
         "error"
+      );
+
+      showReplicaModal(
+
+        "High Latency Detected",
+
+        "The transaction could not be completed because the primary replica node is unavailable.",
+
+        "warning"
+
       );
 
     }
@@ -197,14 +338,29 @@ function App() {
 
   return (
 
-    <div className="flex min-h-screen bg-[#07111f] text-slate-100">
+    <div
+      className="
+      flex
+      min-h-screen
+      bg-[#07111f]
+      text-slate-100
+      "
+    >
 
       <Sidebar
         tab={tab}
         setTab={setTab}
       />
 
-      <main className="flex-1 px-4 py-4 sm:px-6 lg:px-8">
+      <main
+        className="
+        flex-1
+        px-4
+        py-4
+        sm:px-6
+        lg:px-8
+        "
+      >
 
         <Header
           tab={tab}
@@ -214,31 +370,65 @@ function App() {
           tab === "accounts" ? (
 
             <AccountsPage
+
               cuenta={cuenta}
+
               setCuenta={setCuenta}
+
               consultarCuenta={consultarCuenta}
+
               loading={loading}
+
               error={error}
+
               data={data}
+
             />
 
           ) : (
 
             <TransactionsPage
+
               cuenta={cuenta}
+
               monto={monto}
+
               setMonto={setMonto}
+
               depositar={depositar}
+
               retirar={retirar}
+
               mensaje={mensaje}
+
               tipoMensaje={tipoMensaje}
+
               data={data}
+
             />
 
           )
         }
 
       </main>
+
+      <ReplicaAlertModal
+
+        isOpen={replicaModalOpen}
+
+        title={replicaModalTitle}
+
+        description={
+          replicaModalDescription
+        }
+
+        type={replicaModalType}
+
+        onClose={() =>
+          setReplicaModalOpen(false)
+        }
+
+      />
 
     </div>
 

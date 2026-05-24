@@ -19,16 +19,16 @@ function AccountSummary({
                 <div>
 
                     <p className="text-xs uppercase tracking-[0.2em] text-slate-500">
-                        Saldo actual
+                        Current Balance
                     </p>
 
                     <h3 className="text-xl font-semibold text-white">
-                        Resumen de cuenta
+                        Account Summary
                     </h3>
 
                 </div>
 
-                <button className="grid h-10 w-10 place-items-center rounded-full bg-white/5 text-cyan-300">
+                <button type="button" aria-label="Toggle balance visibility" title="Toggle balance visibility" className="grid h-10 w-10 place-items-center rounded-full bg-white/5 text-cyan-300">
 
                     <Eye className="h-4 w-4" />
 
@@ -44,13 +44,13 @@ function AccountSummary({
                         <div className="rounded-[26px] bg-gradient-to-br from-cyan-400 to-cyan-500 p-5 text-slate-950">
 
                             <p className="text-xs font-semibold uppercase tracking-[0.25em] text-slate-900/70">
-                                Saldo disponible
+                                Available Balance
                             </p>
 
                             <h1 className="mt-3 text-4xl font-bold tracking-tight">
 
                                 $
-                                {data.account.balance.toLocaleString("es-MX")}
+                                {data.account.balance.toLocaleString("en-US")}
 
                             </h1>
 
@@ -61,7 +61,7 @@ function AccountSummary({
                             <div className="rounded-2xl bg-white/5 p-4">
 
                                 <p className="text-xs uppercase tracking-[0.18em] text-slate-500">
-                                    Cliente
+                                    Client
                                 </p>
 
                                 <p className="mt-2 text-lg font-semibold text-white">
@@ -75,7 +75,7 @@ function AccountSummary({
                             <div className="rounded-2xl bg-white/5 p-4">
 
                                 <p className="text-xs uppercase tracking-[0.18em] text-slate-500">
-                                    Cuenta
+                                    Account
                                 </p>
 
                                 <p className="mt-2 text-lg font-semibold text-white">
@@ -89,7 +89,7 @@ function AccountSummary({
                             <div className="rounded-2xl bg-white/5 p-4">
 
                                 <p className="text-xs uppercase tracking-[0.18em] text-slate-500">
-                                    Tipo
+                                    Type
                                 </p>
 
                                 <p className="mt-2 text-lg font-semibold text-white">
@@ -103,7 +103,7 @@ function AccountSummary({
                             <div className="rounded-2xl bg-white/5 p-4">
 
                                 <p className="text-xs uppercase tracking-[0.18em] text-slate-500">
-                                    Moneda
+                                    Currency
                                 </p>
 
                                 <p className="mt-2 text-lg font-semibold text-white">
@@ -122,7 +122,7 @@ function AccountSummary({
 
                     <div className="rounded-[26px] border border-dashed border-white/10 bg-white/3 p-6 text-center text-sm text-slate-500">
 
-                        Consulta una cuenta para ver saldo.
+                        Search for an account to view balance information.
 
                     </div>
 
