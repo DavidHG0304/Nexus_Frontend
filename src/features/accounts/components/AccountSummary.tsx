@@ -1,8 +1,20 @@
-import { motion } from "framer-motion";
-import { usePrivacy } from "../../../shared/context/PrivacyContext";
-import { Eye, EyeOff } from "lucide-react";
+import {
+    motion,
+    AnimatePresence
+} from "framer-motion";
 
-import type { ApiResponse } from "../../../shared/types";
+import {
+    usePrivacy
+} from "../../../shared/context/PrivacyContext";
+
+import {
+    Eye,
+    EyeOff
+} from "lucide-react";
+
+import type {
+    ApiResponse
+} from "../../../shared/types";
 
 type AccountSummaryProps = {
     data: ApiResponse | null;
@@ -11,7 +23,11 @@ type AccountSummaryProps = {
 function AccountSummary({
     data
 }: AccountSummaryProps) {
-    const { showBalance, toggleBalanceVisibility } = usePrivacy();
+
+    const {
+        showBalance,
+        toggleBalanceVisibility
+    } = usePrivacy();
 
     return (
 
@@ -49,104 +65,156 @@ function AccountSummary({
 
             </div>
 
-            {
-                data ? (
+            <AnimatePresence mode="wait">
 
-                    <>
+                {
+                    data ? (
 
-                        <div className="rounded-[26px] bg-gradient-to-br from-cyan-400 to-cyan-500 p-5 text-slate-950">
+                        <motion.div
+                            key="account-loaded"
+                            initial={{
+                                opacity: 0,
+                                y: 15,
+                                scale: 0.98
+                            }}
+                            animate={{
+                                opacity: 1,
+                                y: 0,
+                                scale: 1
+                            }}
+                            exit={{
+                                opacity: 0,
+                                y: -15
+                            }}
+                            transition={{
+                                duration: 0.25
+                            }}
+                        >
 
-                            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-slate-900/70">
-                                Available Balance
-                            </p>
+                            <div className="rounded-[26px] bg-gradient-to-br from-cyan-400 to-cyan-500 p-5 text-slate-950">
 
-                            <motion.h1
-                                className={`
-    mt-3 text-4xl font-bold tracking-tight
-    transition-all duration-300
-    ${!showBalance
-                                        ? "blur-md opacity-60"
-                                        : ""
-                                    }
-  `}
-                            >
-                                ${data.account.balance.toLocaleString("en-US")}
-                            </motion.h1>
-
-                        </div>
-
-                        <div className="mt-5 grid gap-4 sm:grid-cols-2">
-
-                            <div className="rounded-2xl bg-white/5 p-4">
-
-                                <p className="text-xs uppercase tracking-[0.18em] text-slate-500">
-                                    Client
+                                <p className="text-xs font-semibold uppercase tracking-[0.25em] text-slate-900/70">
+                                    Available Balance
                                 </p>
 
-                                <p className="mt-2 text-lg font-semibold text-white">
+                                <motion.h1
+                                    animate={{
+                                        filter:
+                                            showBalance
+                                                ? "blur(0px)"
+                                                : "blur(8px)",
+                                        opacity:
+                                            showBalance
+                                                ? 1
+                                                : 0.6
+                                    }}
+                                    transition={{
+                                        duration: 0.25
+                                    }}
+                                    className="
+                                        mt-3
+                                        text-4xl
+                                        font-bold
+                                        tracking-tight
+                                        select-none
+                                    "
+                                >
 
-                                    {data.account.clientId.name}
+                                    $
+                                    {data.account.balance.toLocaleString("en-US")}
 
-                                </p>
+                                </motion.h1>
 
                             </div>
 
-                            <div className="rounded-2xl bg-white/5 p-4">
+                            <div className="mt-5 grid gap-4 sm:grid-cols-2">
 
-                                <p className="text-xs uppercase tracking-[0.18em] text-slate-500">
-                                    Account
-                                </p>
+                                <div className="rounded-2xl bg-white/5 p-4">
 
-                                <p className="mt-2 text-lg font-semibold text-white">
+                                    <p className="text-xs uppercase tracking-[0.18em] text-slate-500">
+                                        Client
+                                    </p>
 
-                                    {data.account.accountNumber}
+                                    <p className="mt-2 text-lg font-semibold text-white">
+                                        {data.account.clientId.name}
+                                    </p>
 
-                                </p>
+                                </div>
+
+                                <div className="rounded-2xl bg-white/5 p-4">
+
+                                    <p className="text-xs uppercase tracking-[0.18em] text-slate-500">
+                                        Account
+                                    </p>
+
+                                    <p className="mt-2 text-lg font-semibold text-white">
+                                        {data.account.accountNumber}
+                                    </p>
+
+                                </div>
+
+                                <div className="rounded-2xl bg-white/5 p-4">
+
+                                    <p className="text-xs uppercase tracking-[0.18em] text-slate-500">
+                                        Type
+                                    </p>
+
+                                    <p className="mt-2 text-lg font-semibold text-white">
+                                        {data.account.accountType}
+                                    </p>
+
+                                </div>
+
+                                <div className="rounded-2xl bg-white/5 p-4">
+
+                                    <p className="text-xs uppercase tracking-[0.18em] text-slate-500">
+                                        Currency
+                                    </p>
+
+                                    <p className="mt-2 text-lg font-semibold text-white">
+                                        {data.account.currency}
+                                    </p>
+
+                                </div>
 
                             </div>
 
-                            <div className="rounded-2xl bg-white/5 p-4">
+                        </motion.div>
 
-                                <p className="text-xs uppercase tracking-[0.18em] text-slate-500">
-                                    Type
-                                </p>
+                    ) : (
 
-                                <p className="mt-2 text-lg font-semibold text-white">
+                        <motion.div
+                            key="account-empty"
+                            initial={{
+                                opacity: 0
+                            }}
+                            animate={{
+                                opacity: 1
+                            }}
+                            exit={{
+                                opacity: 0
+                            }}
+                            className="
+                                rounded-[26px]
+                                border
+                                border-dashed
+                                border-white/10
+                                bg-white/3
+                                p-6
+                                text-center
+                                text-sm
+                                text-slate-500
+                            "
+                        >
 
-                                    {data.account.accountType}
+                            Search for an account to view balance information.
 
-                                </p>
+                        </motion.div>
 
-                            </div>
+                    )
+                }
 
-                            <div className="rounded-2xl bg-white/5 p-4">
-
-                                <p className="text-xs uppercase tracking-[0.18em] text-slate-500">
-                                    Currency
-                                </p>
-
-                                <p className="mt-2 text-lg font-semibold text-white">
-
-                                    {data.account.currency}
-
-                                </p>
-
-                            </div>
-
-                        </div>
-
-                    </>
-
-                ) : (
-
-                    <div className="rounded-[26px] border border-dashed border-white/10 bg-white/3 p-6 text-center text-sm text-slate-500">
-
-                        Search for an account to view balance information.
-
-                    </div>
-
-                )
-            }
+            </AnimatePresence>
 
         </div>
 
