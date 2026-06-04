@@ -8,11 +8,11 @@ import {
   glassContainer,
   iconButton,
   pageHeader
-} from "../../styles/layout";
+} from "../../../styles/shared/layout";
 
 import {
   primaryButton
-} from "../../styles/buttons";
+} from "../../../styles/shared/buttons";
 
 type HeaderProps = {
 

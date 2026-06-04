@@ -1,6 +1,6 @@
 import {
   radius
-} from "./theme";
+} from "../shared/theme";
 
 export const inputStyle = `
 w-full

@@ -5,21 +5,21 @@ import {
 
 import type {
     Transaction
-} from "../../types";
+} from "../../../shared/types";
 
 import {
     activityCard,
     emptyStateCard,
     miniIconContainer,
     primaryCard
-} from "../../styles/cards";
+} from "../../../styles/shared/cards";
 
 import {
     depositAmount,
     depositStyle,
     withdrawAmount,
     withdrawStyle
-} from "../../styles/transactions";
+} from "../../../styles/transactions/transactions";
 
 import {
     amountText,
@@ -28,7 +28,7 @@ import {
     sectionHeading,
     smallMutedText,
     statusBadge
-} from "../../styles/text";
+} from "../../../styles/shared/text";
 
 type TransactionsListProps = {
     transactions: Transaction[];

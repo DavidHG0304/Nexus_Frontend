@@ -4,18 +4,18 @@ import {
 
 import {
     primaryButton
-} from "../../styles/buttons";
+} from "../../../styles/shared/buttons";
 
 import {
     formCard,
     inputStyle
-} from "../../styles/forms";
+} from "../../../styles/shared/forms";
 
 import {
     cyanLabel,
     mutedText,
     sectionHeading
-} from "../../styles/text";
+} from "../../../styles/shared/text";
 
 type AccountSearchProps = {
 

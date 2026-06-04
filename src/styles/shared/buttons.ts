@@ -1,7 +1,7 @@
 import {
   radius,
   shadows
-} from "./theme";
+} from "../shared/theme";
 
 export const primaryButton = `
 h-11

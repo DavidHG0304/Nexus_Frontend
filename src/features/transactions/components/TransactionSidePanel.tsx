@@ -4,14 +4,14 @@ import {
     ShieldCheck
 } from "lucide-react";
 
-import type { ApiResponse } from "../../types";
+import type { ApiResponse } from "../../../shared/types";
 
 import {
     activityCard,
     miniIconContainer,
     primaryCard,
     secondaryCard
-} from "../../styles/cards";
+} from "../../../styles/shared/cards";
 
 import {
     depositAmount,
@@ -20,12 +20,12 @@ import {
     secureIcon,
     withdrawAmount,
     withdrawStyle
-} from "../../styles/transactions";
+} from "../../../styles/transactions/transactions";
 
 import {
     cyanLabel,
     smallMutedText
-} from "../../styles/text";
+} from "../../../styles/shared/text";
 
 type TransactionSidePanelProps = {
     data: ApiResponse | null;

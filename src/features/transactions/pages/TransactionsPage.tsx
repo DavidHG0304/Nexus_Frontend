@@ -1,8 +1,8 @@
-import TransactionForm from "../components/transactions/TransactionForm";
+import TransactionForm from "../components/TransactionForm";
 
-import TransactionSidePanel from "../components/transactions/TransactionSidePanel";
+import TransactionSidePanel from "../components/TransactionSidePanel";
 
-import type { ApiResponse } from "../types";
+import type { ApiResponse } from "../../../shared/types";
 
 type TransactionsPageProps = {
 

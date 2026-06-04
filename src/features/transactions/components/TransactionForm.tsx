@@ -9,19 +9,19 @@ import MessageAlert from "./MessageAlert";
 import {
     primaryButton,
     secondaryButton
-} from "../../styles/buttons";
+} from "../../../styles/shared/buttons";
 
 import {
     formCard,
     inputStyle,
     quickAmountButton
-} from "../../styles/forms";
+} from "../../../styles/shared/forms";
 
 import {
     cyanLabel,
     mutedText,
     sectionHeading
-} from "../../styles/text";
+} from "../../../styles/shared/text";
 
 type TransactionFormProps = {
 

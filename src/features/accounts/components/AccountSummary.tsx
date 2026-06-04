@@ -1,6 +1,6 @@
 import { Eye } from "lucide-react";
 
-import type { ApiResponse } from "../../types";
+import type { ApiResponse } from "../../../shared/types";
 
 type AccountSummaryProps = {
     data: ApiResponse | null;

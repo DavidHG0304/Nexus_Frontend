@@ -11,7 +11,7 @@ import {
 
 import {
     primaryButton
-} from "../../styles/buttons";
+} from "../../../styles/shared/buttons";
 
 import {
     dangerModalIcon,
@@ -23,7 +23,7 @@ import {
     modalTitle,
     successModalIcon,
     warningModalIcon
-} from "../../styles/modals";
+} from "../../../styles/shared/modals";
 
 type ReplicaAlertModalProps = {
 

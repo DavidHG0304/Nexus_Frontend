@@ -1,14 +1,13 @@
-import AccountSearch from "../components/accounts/AccountSearch";
+import AccountSearch from "../components/AccountSearch";
 
-import AccountSummary from "../components/accounts/AccountSummary";
+import AccountSummary from "../components/AccountSummary";
+import MonthlyFlow from "../components/MonthlyFlow";
 
-import MonthlyFlow from "../components/accounts/MonthlyFlow";
-
-import TransactionsList from "../components/accounts/TransactionsList";
+import TransactionsList from "../components/TransactionsList";
 
 import type {
     ApiResponse
-} from "../types";
+} from "../../../shared/types";
 
 type AccountsPageProps = {
 

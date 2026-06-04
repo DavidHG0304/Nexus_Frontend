@@ -1,16 +1,16 @@
 import type {
   Transaction
-} from "../../types";
+} from "../../../shared/types";
 
 import {
   primaryCard
-} from "../../styles/cards";
+} from "../../../styles/shared/cards";
 
 import {
   cyanLabel,
   sectionHeading,
   smallMutedText
-} from "../../styles/text";
+} from "../../../styles/shared/text";
 
 type MonthlyFlowProps = {
 
