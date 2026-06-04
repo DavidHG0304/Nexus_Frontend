@@ -3,6 +3,12 @@ import {
     ArrowUpRight
 } from "lucide-react";
 
+import { motion } from "framer-motion";
+
+import {
+    usePrivacy
+} from "../../../shared/context/PrivacyContext";
+
 import type {
     Transaction
 } from "../../../shared/types";
@@ -38,13 +44,16 @@ function TransactionsList({
     transactions
 }: TransactionsListProps) {
 
+    const { showBalance } =
+        usePrivacy();
+
     return (
 
         <section
             className={`
-        ${primaryCard}
-        p-5
-      `}
+                ${primaryCard}
+                p-5
+            `}
         >
 
             <div className="mb-5 flex items-center justify-between">
@@ -52,24 +61,18 @@ function TransactionsList({
                 <div>
 
                     <p className={cyanLabel}>
-
                         Banking History
-
                     </p>
 
                     <h3 className={sectionHeading}>
-
                         Recent Transactions
-
                     </h3>
 
                 </div>
 
                 <span className={smallMutedText}>
 
-                    {
-                        transactions.length
-                    }
+                    {transactions.length}
 
                     {" "}
                     movements
@@ -80,11 +83,11 @@ function TransactionsList({
 
             <div
                 className="
-        max-h-[480px]
-        space-y-3
-        overflow-y-auto
-        pr-2
-        "
+                    max-h-[480px]
+                    space-y-3
+                    overflow-y-auto
+                    pr-2
+                "
             >
 
                 {
@@ -95,23 +98,30 @@ function TransactionsList({
                             .sort((a, b) => {
 
                                 const dateA =
-                                    new Date(a.date || "")
-                                        .getTime();
+                                    new Date(
+                                        a.date || ""
+                                    ).getTime();
 
                                 const dateB =
-                                    new Date(b.date || "")
-                                        .getTime();
+                                    new Date(
+                                        b.date || ""
+                                    ).getTime();
 
                                 return dateB - dateA;
 
                             })
 
-                            .map((transaction, index) => {
+                            .map((
+                                transaction,
+                                index
+                            ) => {
 
                                 const isDeposit =
                                     transaction.type
                                         .toLowerCase()
-                                        .includes("deposit");
+                                        .includes(
+                                            "deposit"
+                                        );
 
                                 return (
 
@@ -124,13 +134,13 @@ function TransactionsList({
 
                                             <div
                                                 className={`
-                          ${miniIconContainer}
+                                                    ${miniIconContainer}
 
-                          ${isDeposit
+                                                    ${isDeposit
                                                         ? depositStyle
                                                         : withdrawStyle
                                                     }
-                        `}
+                                                `}
                                             >
 
                                                 {
@@ -167,27 +177,48 @@ function TransactionsList({
 
                                         <div className="text-right">
 
-                                            <p
-                                                className={`
-                          ${amountText}
+                                            <motion.p
+                                                animate={{
+                                                    filter:
+                                                        showBalance
+                                                            ? "blur(0px)"
+                                                            : "blur(8px)",
 
-                          ${isDeposit
+                                                    opacity:
+                                                        showBalance
+                                                            ? 1
+                                                            : 0.6
+                                                }}
+                                                transition={{
+                                                    duration: 0.25
+                                                }}
+                                                className={`
+                                                    ${amountText}
+
+                                                    ${isDeposit
                                                         ? depositAmount
                                                         : withdrawAmount
                                                     }
-                        `}
+
+                                                    select-none
+                                                `}
                                             >
 
-                                                {isDeposit ? "+" : "-"}
+                                                {isDeposit
+                                                    ? "+"
+                                                    : "-"
+                                                }
 
                                                 $
 
                                                 {
                                                     transaction.amount
-                                                        .toLocaleString("es-MX")
+                                                        .toLocaleString(
+                                                            "es-MX"
+                                                        )
                                                 }
 
-                                            </p>
+                                            </motion.p>
 
                                             <span className={statusBadge}>
 
@@ -205,7 +236,11 @@ function TransactionsList({
 
                     ) : (
 
-                        <div className={emptyStateCard}>
+                        <div
+                            className={
+                                emptyStateCard
+                            }
+                        >
 
                             <p className={mutedText}>
 

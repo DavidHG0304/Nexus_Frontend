@@ -1,4 +1,6 @@
-import { Eye } from "lucide-react";
+import { motion } from "framer-motion";
+import { usePrivacy } from "../../../shared/context/PrivacyContext";
+import { Eye, EyeOff } from "lucide-react";
 
 import type { ApiResponse } from "../../../shared/types";
 
@@ -9,6 +11,7 @@ type AccountSummaryProps = {
 function AccountSummary({
     data
 }: AccountSummaryProps) {
+    const { showBalance, toggleBalanceVisibility } = usePrivacy();
 
     return (
 
@@ -28,9 +31,19 @@ function AccountSummary({
 
                 </div>
 
-                <button type="button" aria-label="Toggle balance visibility" title="Toggle balance visibility" className="grid h-10 w-10 place-items-center rounded-full bg-white/5 text-cyan-300">
+                <button
+                    type="button"
+                    aria-label="Toggle balance visibility"
+                    title="Toggle balance visibility"
+                    onClick={toggleBalanceVisibility}
+                    className="grid h-10 w-10 place-items-center rounded-full bg-white/5 text-cyan-300"
+                >
 
-                    <Eye className="h-4 w-4" />
+                    {
+                        showBalance
+                            ? <Eye className="h-4 w-4" />
+                            : <EyeOff className="h-4 w-4" />
+                    }
 
                 </button>
 
@@ -47,12 +60,18 @@ function AccountSummary({
                                 Available Balance
                             </p>
 
-                            <h1 className="mt-3 text-4xl font-bold tracking-tight">
-
-                                $
-                                {data.account.balance.toLocaleString("en-US")}
-
-                            </h1>
+                            <motion.h1
+                                className={`
+    mt-3 text-4xl font-bold tracking-tight
+    transition-all duration-300
+    ${!showBalance
+                                        ? "blur-md opacity-60"
+                                        : ""
+                                    }
+  `}
+                            >
+                                ${data.account.balance.toLocaleString("en-US")}
+                            </motion.h1>
 
                         </div>
 

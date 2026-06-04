@@ -1,3 +1,8 @@
+import { motion } from "framer-motion";
+
+import { usePrivacy }
+  from "../../../shared/context/PrivacyContext";
+
 import type {
   Transaction
 } from "../../../shared/types";
@@ -13,14 +18,15 @@ import {
 } from "../../../styles/shared/text";
 
 type MonthlyFlowProps = {
-
   transactions: Transaction[];
-
 };
 
 function MonthlyFlow({
   transactions
 }: MonthlyFlowProps) {
+
+  const { showBalance } =
+    usePrivacy();
 
   const recentTransactions =
     [...transactions]
@@ -42,34 +48,51 @@ function MonthlyFlow({
       .slice(0, 4);
 
   const generatedChartData =
-    recentTransactions.flatMap((transaction) => {
+    recentTransactions.flatMap(
+      (transaction) => {
 
-      const base =
-        Math.min(
-          transaction.amount / 40,
-          90
-        );
+        const base =
+          Math.min(
+            transaction.amount / 40,
+            90
+          );
 
-      return [
+        return [
 
-        Math.max(base - 20, 15),
+          Math.max(
+            base - 20,
+            15
+          ),
 
-        base,
+          base,
 
-        Math.min(base + 15, 100)
+          Math.min(
+            base + 15,
+            100
+          )
 
-      ];
+        ];
 
-    });
+      }
+    );
 
   const chartData =
-    generatedChartData.slice(0, 7);
+    generatedChartData.slice(
+      0,
+      7
+    );
 
   const total =
     transactions.reduce(
-      (acc, transaction) => {
+      (
+        acc,
+        transaction
+      ) => {
 
-        return acc + transaction.amount;
+        return (
+          acc +
+          transaction.amount
+        );
 
       },
       0
@@ -89,35 +112,48 @@ function MonthlyFlow({
         <div>
 
           <p className={cyanLabel}>
-
             Monthly Flow
-
           </p>
 
           <h3 className={sectionHeading}>
-
             Financial Activity
-
           </h3>
 
         </div>
 
         <div className="text-right">
 
-          <p className="text-3xl font-bold text-cyan-300">
+          <motion.p
+            animate={{
+              filter:
+                showBalance
+                  ? "blur(0px)"
+                  : "blur(8px)",
+              opacity:
+                showBalance
+                  ? 1
+                  : 0.7
+            }}
+            transition={{
+              duration: 0.25
+            }}
+            className="
+              text-3xl
+              font-bold
+              text-cyan-300
+              select-none
+            "
+          >
 
             $
+            {total.toLocaleString(
+              "es-MX"
+            )}
 
-            {
-              total.toLocaleString("es-MX")
-            }
-
-          </p>
+          </motion.p>
 
           <p className={smallMutedText}>
-
             Based on transaction activity
-
           </p>
 
         </div>
@@ -127,52 +163,76 @@ function MonthlyFlow({
       {
         chartData.length ? (
 
-          <div className="flex h-28 items-end gap-3">
+          <motion.div
+            animate={{
+              filter:
+                showBalance
+                  ? "blur(0px)"
+                  : "blur(4px)",
+              opacity:
+                showBalance
+                  ? 1
+                  : 0.55
+            }}
+            transition={{
+              duration: 0.25
+            }}
+            className="
+              flex
+              h-28
+              items-end
+              gap-3
+            "
+          >
 
             {
-              chartData.map((height, index) => (
+              chartData.map(
+                (
+                  height,
+                  index
+                ) => (
 
-                <div
-                  key={index}
-                  className="
-                  flex-1
-                  rounded-t-2xl
-                  bg-gradient-to-t
-                  from-cyan-500/20
-                  to-cyan-300/80
-                  transition-all
-                  duration-300
-                  hover:scale-y-105
-                  "
-                  style={{
-                    height: `${height}%`
-                  }}
-                />
+                  <div
+                    key={index}
+                    className="
+                      flex-1
+                      rounded-t-2xl
+                      bg-gradient-to-t
+                      from-cyan-500/20
+                      to-cyan-300/80
+                      transition-all
+                      duration-300
+                      hover:scale-y-105
+                    "
+                    style={{
+                      height:
+                        `${height}%`
+                    }}
+                  />
 
-              ))
+                )
+              )
             }
 
-          </div>
+          </motion.div>
 
         ) : (
 
           <div
             className="
-            grid
-            h-28
-            place-items-center
-            rounded-2xl
-            border
-            border-dashed
-            border-white/10
-            bg-white/[0.02]
+              grid
+              h-28
+              place-items-center
+              rounded-2xl
+              border
+              border-dashed
+              border-white/10
+              bg-white/[0.02]
             "
           >
 
             <p className={smallMutedText}>
-
               No activity available.
-
             </p>
 
           </div>
