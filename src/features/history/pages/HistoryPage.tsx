@@ -262,115 +262,121 @@ function HistoryPage() {
 
             <div
                 className="
-                    overflow-hidden
                     rounded-[32px]
                     border
                     border-white/5
                     bg-[#081423]
+                    overflow-hidden
                 "
             >
 
-                <table className="w-full">
+                <div className="overflow-x-auto">
 
-                    <thead>
+                    <table className="w-full min-w-[1000px]">
 
-                        <tr
-                            className="
-                                border-b
-                                border-white/5
-                                text-left
-                            "
-                        >
+                        <thead>
 
-                            <th className="p-5 text-slate-500">
-                                Type
-                            </th>
+                            <tr
+                                className="
+                        border-b
+                        border-white/5
+                        text-left
+                    "
+                            >
 
-                            <th className="p-5 text-slate-500">
-                                Date / Time
-                            </th>
+                                <th className="p-5 text-slate-500">
+                                    Type
+                                </th>
 
-                            <th className="p-5 text-slate-500">
-                                Concept
-                            </th>
+                                <th className="p-5 text-slate-500">
+                                    Date / Time
+                                </th>
 
-                            <th className="p-5 text-slate-500">
-                                Origin
-                            </th>
+                                <th className="p-5 text-slate-500">
+                                    Concept
+                                </th>
 
-                            <th className="p-5 text-slate-500">
-                                Destination
-                            </th>
+                                <th className="p-5 text-slate-500">
+                                    Origin
+                                </th>
 
-                            <th className="p-5 text-slate-500">
-                                Amount
-                            </th>
+                                <th className="p-5 text-slate-500">
+                                    Destination
+                                </th>
 
-                            <th className="p-5 text-slate-500">
-                                Status
-                            </th>
+                                <th className="p-5 text-slate-500">
+                                    Amount
+                                </th>
 
-                        </tr>
+                                <th className="p-5 text-slate-500">
+                                    Status
+                                </th>
 
-                    </thead>
+                            </tr>
 
-                    <tbody>
+                        </thead>
 
-                        {
-                            transactions.map(
-                                (transaction) => (
+                        <tbody>
 
-                                    <TransactionRow
+                            {
+                                transactions.map(
+                                    (transaction) => (
 
+                                        <TransactionRow
 
-                                        key={
-                                            transaction._id
-                                        }
+                                            key={
+                                                transaction._id
+                                            }
 
-                                        type={
-                                            transaction.type
-                                        }
+                                            type={
+                                                transaction.type
+                                            }
 
-                                        description={
-                                            transaction.description
-                                        }
+                                            description={
+                                                transaction.description
+                                            }
 
-                                        date={
-                                            new Date(
-                                                transaction.date
-                                            ).toLocaleString(
-                                                "es-MX"
-                                            )
-                                        }
+                                            date={
+                                                new Date(
+                                                    transaction.date
+                                                ).toLocaleString(
+                                                    "es-MX"
+                                                )
+                                            }
 
-                                        origin={
-                                            transaction.fromAccount
-                                        }
+                                            origin={
+                                                transaction.fromAccount
+                                            }
 
-                                        destination={
-                                            transaction.toAccount
-                                        }
+                                            destination={
+                                                transaction.toAccount
+                                            }
 
-                                        amount={
-                                            transaction.amount.toFixed(2) as unknown as number
-                                        }
+                                            amount={
+                                                Number(
+                                                    transaction.amount.toFixed(2)
+                                                )
+                                            }
 
-                                        status={
-                                            transaction.status
-                                        }
+                                            status={
+                                                transaction.status
+                                            }
 
-                                        myAccount={
-                                            myAccount || ""
-                                        }
+                                            myAccount={
+                                                myAccount || ""
+                                            }
 
-                                    />
+                                        />
 
+                                    )
                                 )
-                            )
-                        }
-                    </tbody>
+                            }
 
-                </table>
+                        </tbody>
+
+                    </table>
+
+                </div>
 
             </div>
 
