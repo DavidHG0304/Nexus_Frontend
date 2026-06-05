@@ -6,18 +6,21 @@ import {
 } from "lucide-react";
 import { useHistory } from "../hooks/useHistory";
 import { useDashboard } from "../../dashboard/hook/useDashboard";
+import Loader from "../../../shared/components/ui/Loader";
 
 function HistoryPage() {
 
     const {
-        data: dashboard
+        data: dashboard,
+        loading: dashboardLoading
     } = useDashboard();
 
     const myAccount =
         dashboard?.account.accountNumber;
 
     const {
-        transactions
+        transactions,
+        loading: loadingTransactions
     } = useHistory();
 
     const totalIncome =
@@ -71,6 +74,11 @@ function HistoryPage() {
         transactions.length;
 
 
+    if (dashboardLoading || loadingTransactions) {
+
+        return <Loader />;
+
+    }
 
 
 

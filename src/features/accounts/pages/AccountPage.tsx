@@ -1,3 +1,4 @@
+import Loader from "../../../shared/components/ui/Loader";
 import { useDashboard } from "../../dashboard/hook/useDashboard";
 import AccountSummary from "../components/AccountSummary";
 
@@ -21,23 +22,9 @@ function AccountsPage() {
 
     if (loading) {
 
-        return (
+        return <Loader />;
 
-            <div
-                className="
-                    flex
-                    h-[60vh]
-                    items-center
-                    justify-center
-                    text-slate-400
-                "
-            >
 
-                Loading dashboard...
-
-            </div>
-
-        );
 
     }
 

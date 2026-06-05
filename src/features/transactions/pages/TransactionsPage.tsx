@@ -1,4 +1,5 @@
 
+import Loader from "../../../shared/components/ui/Loader";
 import { useBeneficiaries } from "../../beneficiaries/hooks/useBeneficiaries";
 import { useDashboard } from "../../dashboard/hook/useDashboard";
 import TransactionForm from "../components/TransactionForm";
@@ -17,10 +18,12 @@ function TransactionsPage() {
   const {
     data,
     fetchDashboard
+    , loading: dashboardLoading,
   } = useDashboard();
 
   const {
     beneficiaries
+    , loading: beneficiariesLoading
   } = useBeneficiaries();
 
   const transactions =
@@ -35,9 +38,15 @@ function TransactionsPage() {
 
     });
 
+  if (dashboardLoading || beneficiariesLoading) {
 
+    return <Loader />;
+
+  }
 
   return (
+
+
 
     <div
       className="

@@ -54,15 +54,15 @@ export function useBeneficiaries() {
         async () => {
 
             try {
-
+                setLoading(true);
                 const data =
                     await getBeneficiaries();
 
                 setBeneficiaries(data);
 
             } finally {
-
                 setLoading(false);
+
 
             }
 
@@ -71,7 +71,6 @@ export function useBeneficiaries() {
     useEffect(() => {
 
         loadBeneficiaries();
-
     }, []);
 
     const addBeneficiary =

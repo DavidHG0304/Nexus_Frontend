@@ -10,6 +10,7 @@ import {
 import {
     useProfile
 } from "../hooks/useProfile";
+import Loader from "../../../shared/components/ui/Loader";
 
 function ProfilePage() {
 
@@ -29,19 +30,7 @@ function ProfilePage() {
 
         return (
 
-            <div
-                className="
-                    flex
-                    h-[70vh]
-                    items-center
-                    justify-center
-                    text-slate-400
-                "
-            >
-
-                Loading profile...
-
-            </div>
+            <Loader />
 
         );
 

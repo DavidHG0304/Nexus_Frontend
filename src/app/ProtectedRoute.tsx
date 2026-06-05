@@ -5,6 +5,7 @@ import {
 import {
     useAuth
 } from "../features/auth/context/AuthContext";
+import Loader from "../shared/components/ui/Loader";
 
 export default function ProtectedRoute({
     children
@@ -32,7 +33,7 @@ export default function ProtectedRoute({
                 "
             >
 
-                Loading...
+                <Loader />
 
             </div>
 

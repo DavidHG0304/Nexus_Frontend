@@ -3,7 +3,10 @@ import {
     Trash2,
     Star,
     CreditCard,
+
 } from "lucide-react";
+
+import Loader from "../../../shared/components/ui/Loader";
 
 import {
     useBeneficiaries
@@ -16,11 +19,18 @@ import {
 
 
 
+
 function BeneficiariesPage() {
 
-    const { beneficiaries, alias, setAlias, accountNumber, setAccountNumber, addBeneficiary, removeBeneficiary, error } = useBeneficiaries();
+    const { beneficiaries, alias, setAlias, accountNumber, setAccountNumber, addBeneficiary, removeBeneficiary, error, loading } = useBeneficiaries();
     const navigate =
         useNavigate();
+
+    if (loading) {
+
+        return <Loader />;
+
+    }
     return (
 
         <div className="space-y-6">
@@ -343,6 +353,8 @@ function Input({
     ) => void;
 
 }) {
+
+
 
     return (
 
