@@ -2,11 +2,13 @@ import {
     ArrowUpRight,
     /*  Search,
      Filter, */
-    ArrowDownLeft
+    ArrowDownLeft,
+    Search
 } from "lucide-react";
 import { useHistory } from "../hooks/useHistory";
 import { useDashboard } from "../../dashboard/hook/useDashboard";
 import Loader from "../../../shared/components/ui/Loader";
+import { useEffect, useState } from "react";
 
 function HistoryPage() {
 
@@ -15,6 +17,7 @@ function HistoryPage() {
         loading: dashboardLoading
     } = useDashboard();
 
+
     const myAccount =
         dashboard?.account.accountNumber;
 
@@ -22,6 +25,17 @@ function HistoryPage() {
         transactions,
         loading: loadingTransactions
     } = useHistory();
+
+    const [search, setSearch] =
+        useState("");
+
+    const [typeFilter, setTypeFilter] =
+        useState("all");
+
+    const [currentPage, setCurrentPage] =
+        useState(1);
+
+    const itemsPerPage = 10;
 
     const totalIncome =
         transactions
@@ -73,6 +87,103 @@ function HistoryPage() {
     const totalTransfers =
         transactions.length;
 
+    const filteredTransactions =
+
+        transactions.filter(
+            (transaction) => {
+
+                const matchesSearch =
+
+                    transaction.description
+                        .toLowerCase()
+                        .includes(
+                            search.toLowerCase()
+                        )
+
+                    ||
+
+                    transaction.fromAccount
+                        .toLowerCase()
+                        .includes(
+                            search.toLowerCase()
+                        )
+
+                    ||
+
+                    transaction.toAccount
+                        .toLowerCase()
+                        .includes(
+                            search.toLowerCase()
+                        );
+
+                const isIncome =
+
+                    transaction.toAccount ===
+                    myAccount;
+
+                const matchesType =
+
+                    typeFilter === "all"
+
+                    ||
+
+                    (
+                        typeFilter === "income" &&
+                        isIncome
+                    )
+
+                    ||
+
+                    (
+                        typeFilter === "expense" &&
+                        !isIncome
+                    );
+
+                return (
+                    matchesSearch &&
+                    matchesType
+                );
+
+            }
+        );
+
+    const totalPages =
+
+        Math.ceil(
+
+            filteredTransactions.length /
+
+            itemsPerPage
+
+        );
+
+    const startIndex =
+
+        (currentPage - 1) *
+
+        itemsPerPage;
+
+    const paginatedTransactions =
+
+        filteredTransactions.slice(
+
+            startIndex,
+
+            startIndex +
+
+            itemsPerPage
+
+        );
+
+
+    useEffect(() => {
+
+        setCurrentPage(1);
+
+    }, [
+        search,
+        typeFilter
+    ]);
 
     if (dashboardLoading || loadingTransactions) {
 
@@ -155,55 +266,63 @@ function HistoryPage() {
 
             {/* FILTERS */}
 
-            {/* <div
+            <div
                 className="
-                    rounded-[32px]
-                    border
-                    border-white/5
-                    bg-[#081423]
-                    p-6
-                "
+        rounded-[32px]
+        border
+        border-white/5
+        bg-[#081423]
+        p-6
+    "
             >
 
                 <div
                     className="
-                        flex
-                        flex-col
-                        gap-4
-                        lg:flex-row
-                        lg:items-center
-                        lg:justify-between
-                    "
+            flex
+            flex-col
+            gap-4
+            lg:flex-row
+            lg:items-center
+            lg:justify-between
+        "
                 >
 
                     <div
                         className="
-                            flex
-                            items-center
-                            gap-3
-                            rounded-full
-                            border
-                            border-white/10
-                            bg-[#05101d]
-                            px-5
-                            py-3
-                        "
+                flex
+                items-center
+                gap-3
+                rounded-full
+                border
+                border-white/10
+                bg-[#05101d]
+                px-5
+                py-3
+            "
                     >
 
                         <Search
                             size={18}
-                            className="
-                                text-slate-500
-                            "
+                            className="text-slate-500"
                         />
 
                         <input
+
+                            value={search}
+
+                            onChange={(e) =>
+                                setSearch(
+                                    e.target.value
+                                )
+                            }
+
                             placeholder="Search transactions..."
+
                             className="
-                                bg-transparent
-                                text-white
-                                outline-none
-                            "
+                    bg-transparent
+                    text-white
+                    outline-none
+                "
                         />
 
                     </div>
@@ -211,44 +330,83 @@ function HistoryPage() {
                     <div className="flex gap-3">
 
                         <button
-                            className="
-                                rounded-full
-                                border
-                                border-white/10
-                                px-5
-                                py-3
-                                text-slate-300
-                            "
+
+                            onClick={() =>
+                                setTypeFilter(
+                                    "all"
+                                )
+                            }
+
+                            className={`
+                    rounded-full
+                    border
+                    px-5
+                    py-3
+
+                    ${typeFilter === "all"
+
+                                    ? "border-cyan-400 text-cyan-300"
+
+                                    : "border-white/10 text-slate-300"
+                                }
+                `}
                         >
 
-                            <span
-                                className="
-                                    flex
-                                    items-center
-                                    gap-2
-                                "
-                            >
-
-                                <Filter size={16} />
-
-                                All Types
-
-                            </span>
+                            All
 
                         </button>
 
                         <button
-                            className="
-                                rounded-full
-                                border
-                                border-white/10
-                                px-5
-                                py-3
-                                text-slate-300
-                            "
+
+                            onClick={() =>
+                                setTypeFilter(
+                                    "income"
+                                )
+                            }
+
+                            className={`
+                    rounded-full
+                    border
+                    px-5
+                    py-3
+
+                    ${typeFilter === "income"
+
+                                    ? "border-green-400 text-green-300"
+
+                                    : "border-white/10 text-slate-300"
+                                }
+                `}
                         >
 
-                            Last 30 Days
+                            Income
+
+                        </button>
+
+                        <button
+
+                            onClick={() =>
+                                setTypeFilter(
+                                    "expense"
+                                )
+                            }
+
+                            className={`
+                    rounded-full
+                    border
+                    px-5
+                    py-3
+
+                    ${typeFilter === "expense"
+
+                                    ? "border-red-400 text-red-300"
+
+                                    : "border-white/10 text-slate-300"
+                                }
+                `}
+                        >
+
+                            Expenses
 
                         </button>
 
@@ -256,8 +414,7 @@ function HistoryPage() {
 
                 </div>
 
-            </div> */}
-
+            </div>
             {/* TABLE */}
 
             <div
@@ -319,7 +476,7 @@ function HistoryPage() {
                         <tbody>
 
                             {
-                                transactions.map(
+                                paginatedTransactions.map(
                                     (transaction) => (
 
                                         <TransactionRow
@@ -375,6 +532,96 @@ function HistoryPage() {
                         </tbody>
 
                     </table>
+
+                    <div
+                        className="
+        flex
+        items-center
+        justify-between
+        border-t
+        border-white/5
+        px-6
+        py-4
+    "
+                    >
+
+                        <p
+                            className="
+            text-sm
+            text-slate-500
+        "
+                        >
+
+                            Showing
+
+                            {" "}
+
+                            {paginatedTransactions.length}
+
+                            {" "}
+
+                            of
+
+                            {" "}
+
+                            {filteredTransactions.length}
+
+                            results
+
+                        </p>
+
+                        <div className="flex gap-2">
+
+                            {
+
+                                Array.from(
+
+                                    {
+                                        length:
+                                            totalPages
+                                    },
+
+                                    (_, index) => (
+
+                                        <button
+
+                                            key={index}
+
+                                            onClick={() =>
+                                                setCurrentPage(
+                                                    index + 1
+                                                )
+                                            }
+
+                                            className={`
+                            h-10
+                            w-10
+                            rounded-xl
+                            border
+
+                            ${currentPage ===
+                                                    index + 1
+
+                                                    ? "border-cyan-400 bg-cyan-400/10 text-cyan-300"
+
+                                                    : "border-white/10 text-white"
+                                                }
+                        `}
+                                        >
+
+                                            {index + 1}
+
+                                        </button>
+
+                                    )
+
+                                )
+
+                            }
+
+                        </div>
+
+                    </div>
 
                 </div>
 
