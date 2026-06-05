@@ -13,6 +13,8 @@ import TransactionsPage from "./features/transactions/pages/TransactionsPage";
 
 import { useAccount } from "./features/accounts/hooks/useAccount";
 import { useTransactions } from "./features/transactions/hooks/useTransactions";
+import BeneficiariesPage from "./features/beneficiaries/pages/BeneficiariesPage";
+import HistoryPage from "./features/history/pages/HistoryPage";
 
 function App() {
 
@@ -73,7 +75,7 @@ function App() {
                   data={account.data}
                 />
 
-              ) : (
+              ) : tab === "transactions" ? (
 
                 <TransactionsPage
                   cuenta={account.cuenta}
@@ -85,8 +87,15 @@ function App() {
                   tipoMensaje={transactions.tipoMensaje}
                   data={account.data}
                 />
+              ) : tab === "beneficiaries" ? (
 
-              )}
+                <BeneficiariesPage />
+
+              ) : tab === "history" ? (
+
+                <HistoryPage />
+
+              ) : null}
 
             </motion.div>
 

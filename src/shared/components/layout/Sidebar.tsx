@@ -2,7 +2,8 @@ import {
     CreditCard,
     ArrowRightLeft,
     ShieldCheck,
-    LogOut
+    LogOut,
+    HistoryIcon
 } from "lucide-react";
 
 const menuItems = [
@@ -13,7 +14,17 @@ const menuItems = [
     {
         icon: ArrowRightLeft,
         label: "transactions"
-    }
+    },
+
+    {
+        icon: ShieldCheck,
+        label: "beneficiaries"
+    },
+
+    {
+        icon: HistoryIcon,
+        label: "history"
+    },
 
 ];
 
