@@ -171,28 +171,24 @@ function Header({
               </button>
 
               <button
-
                 onClick={() =>
                   navigate("/transfers")
                 }
-
-                className={`
-                  ${primaryButton}
-                  flex
-                  h-10
-                  w-10
-                  items-center
-                  justify-center
-                  p-0
-                  md:hidden
-                `}
+                className="
+        h-10
+        w-10
+        rounded-full
+        bg-cyan-400
+        flex
+        items-center
+        justify-center
+        md:hidden
+    "
               >
 
                 <ArrowRightLeft
-                  className="
-                    h-4
-                    w-4
-                  "
+                  size={18}
+                  color="black"
                 />
 
               </button>
