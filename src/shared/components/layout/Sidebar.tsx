@@ -21,10 +21,6 @@ const menuItems = [
         label: "transfers"
     },
 
-    {
-        icon: User,
-        label: "profile"
-    },
 
     {
         icon: ShieldCheck,
@@ -34,7 +30,11 @@ const menuItems = [
     {
         icon: HistoryIcon,
         label: "history"
-    }
+    },
+    {
+        icon: User,
+        label: "profile"
+    },
 
 ];
 

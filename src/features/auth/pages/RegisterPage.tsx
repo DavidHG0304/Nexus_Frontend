@@ -9,7 +9,134 @@ import {
     CreditCard
 } from "lucide-react";
 
+import { useState } from "react";
+
+import { useNavigate } from "react-router-dom";
+
+import { register } from "../services/authService";
+
+import {
+    useAuth
+} from "../context/AuthContext";
+
+import {
+    successToast,
+    errorToast
+} from "../../../shared/utils/toast";
+
 function RegisterPage() {
+
+    const navigate =
+        useNavigate();
+
+    const { loginUser } =
+        useAuth();
+
+    const [name, setName] =
+        useState("");
+
+    const [curp, setCurp] =
+        useState("");
+
+    const [email, setEmail] =
+        useState("");
+
+    const [password, setPassword] =
+        useState("");
+
+    const [confirmPassword,
+        setConfirmPassword] =
+        useState("");
+
+    const [phone, setPhone] =
+        useState("");
+
+    const [address, setAddress] =
+        useState("");
+
+    const [error, setError] =
+        useState("");
+
+
+    const handleRegister =
+        async () => {
+
+            if (
+
+                !name.trim() ||
+                !curp.trim() ||
+                !email.trim() ||
+                !password.trim() ||
+                !phone.trim() ||
+                !address.trim()
+
+            ) {
+
+                setError(
+                    "Complete all fields"
+                );
+
+                return;
+
+            }
+
+            if (
+                password !==
+                confirmPassword
+            ) {
+
+                setError(
+                    "Passwords do not match"
+                );
+
+                return;
+
+            }
+
+            try {
+
+                const response =
+                    await register({
+
+                        name,
+
+                        curp,
+
+                        email,
+
+                        password,
+
+                        phone,
+
+                        address
+
+                    });
+
+                loginUser(
+
+                    response.token,
+
+                    response.client
+
+                );
+
+                successToast(
+                    "Account created successfully"
+                );
+
+                navigate(
+                    "/dashboard"
+                );
+
+            } catch {
+
+                errorToast(
+                    "Registration failed"
+                );
+
+            }
+
+        };
 
     return (
 
@@ -267,16 +394,25 @@ function RegisterPage() {
                             <Input
                                 icon={<User size={18} />}
                                 placeholder="Full Name"
+                                value={name}
+                                onChange={setName}
                             />
+
+
+
 
                             <Input
                                 icon={<CreditCard size={18} />}
                                 placeholder="CURP"
+                                value={curp}
+                                onChange={setCurp}
                             />
 
                             <Input
                                 icon={<Mail size={18} />}
                                 placeholder="Email Address"
+                                value={email}
+                                onChange={setEmail}
                             />
 
                             <div
@@ -291,12 +427,16 @@ function RegisterPage() {
                                     icon={<Lock size={18} />}
                                     placeholder="Password"
                                     type="password"
+                                    value={password}
+                                    onChange={setPassword}
                                 />
 
                                 <Input
                                     icon={<Lock size={18} />}
                                     placeholder="Confirm Password"
                                     type="password"
+                                    value={confirmPassword}
+                                    onChange={setConfirmPassword}
                                 />
 
                             </div>
@@ -304,11 +444,15 @@ function RegisterPage() {
                             <Input
                                 icon={<Phone size={18} />}
                                 placeholder="Phone Number"
+                                value={phone}
+                                onChange={setPhone}
                             />
 
                             <Input
                                 icon={<MapPin size={18} />}
                                 placeholder="Address"
+                                value={address}
+                                onChange={setAddress}
                             />
 
                             <div
@@ -334,7 +478,39 @@ function RegisterPage() {
 
                             </div>
 
+                            {
+                                error && (
+
+                                    <div
+                                        className="
+                rounded-2xl
+                border
+                border-red-500/20
+                bg-[#2b1d2a]
+                px-4
+                py-4
+            "
+                                    >
+
+                                        <p
+                                            className="
+                    text-sm
+                    font-semibold
+                    text-red-100
+                "
+                                        >
+
+                                            {error}
+
+                                        </p>
+
+                                    </div>
+
+                                )
+                            }
+
                             <button
+                                onClick={handleRegister}
                                 className="
                                     mt-4
                                     w-full
@@ -384,6 +560,9 @@ function RegisterPage() {
                                 Already have an account?
 
                                 <button
+                                    onClick={() =>
+                                        navigate("/login")
+                                    }
                                     className="
                                         ml-2
                                         font-semibold
@@ -417,14 +596,28 @@ type InputProps = {
 
     placeholder: string;
 
+    value: string;
+
+    onChange: (
+        value: string
+    ) => void;
+
     type?: string;
 
 };
 
 function Input({
+
     icon,
+
     placeholder,
+
+    value,
+
+    onChange,
+
     type = "text"
+
 }: InputProps) {
 
     return (
@@ -454,14 +647,25 @@ function Input({
             </span>
 
             <input
+
                 type={type}
+
+                value={value}
+
+                onChange={(e) =>
+                    onChange(
+                        e.target.value
+                    )
+                }
+
                 placeholder={placeholder}
+
                 className="
-                    w-full
-                    bg-transparent
-                    text-white
-                    outline-none
-                "
+        w-full
+        bg-transparent
+        text-white
+        outline-none
+    "
             />
 
         </div>

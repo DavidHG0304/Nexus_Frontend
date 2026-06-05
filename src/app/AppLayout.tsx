@@ -79,7 +79,9 @@ export default function AppLayout() {
 
                             {tab === "beneficiaries" && (
 
-                                <BeneficiariesPage />
+                                <BeneficiariesPage
+                                    setTab={setTab}
+                                />
 
                             )}
 

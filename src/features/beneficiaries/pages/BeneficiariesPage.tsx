@@ -1,14 +1,32 @@
 import {
-    UserPlus,
-    Search,
+    /*  UserPlus, */
     Trash2,
     Star,
-    Building2,
     CreditCard,
-    ShieldCheck
 } from "lucide-react";
 
-function BeneficiariesPage() {
+import {
+    useBeneficiaries
+} from "../hooks/useBeneficiaries";
+import { AnimatePresence, motion } from "framer-motion";
+
+
+
+type BeneficiariesPageProps = {
+
+    setTab: React.Dispatch<
+        React.SetStateAction<string>
+    >;
+
+};
+
+function BeneficiariesPage({
+
+    setTab
+
+}: BeneficiariesPageProps) {
+
+    const { beneficiaries, alias, setAlias, accountNumber, setAccountNumber, addBeneficiary, removeBeneficiary, error } = useBeneficiaries();
 
     return (
 
@@ -64,7 +82,7 @@ function BeneficiariesPage() {
 
                     </div>
 
-                    <button
+                    {/* <button
                         className="
                             rounded-full
                             bg-cyan-400
@@ -90,7 +108,7 @@ function BeneficiariesPage() {
 
                         </span>
 
-                    </button>
+                    </button> */}
 
                 </div>
 
@@ -101,6 +119,7 @@ function BeneficiariesPage() {
                     grid
                     gap-6
                     xl:grid-cols-[0.9fr_1.2fr]
+                    items-start
                 "
             >
 
@@ -134,33 +153,78 @@ function BeneficiariesPage() {
                         <Input
                             icon={<Star size={18} />}
                             placeholder="Alias"
+                            value={alias}
+                            onChange={setAlias}
                         />
 
                         <Input
                             icon={<CreditCard size={18} />}
                             placeholder="Account Number"
+                            value={accountNumber}
+                            onChange={setAccountNumber}
                         />
 
-                        <Input
-                            icon={<Building2 size={18} />}
-                            placeholder="Bank Name"
-                        />
+                        <AnimatePresence>
 
-                        <Input
-                            icon={<ShieldCheck size={18} />}
-                            placeholder="Relationship"
-                        />
+                            {error && (
+
+                                <motion.div
+                                    initial={{
+                                        opacity: 0,
+                                        y: -10
+                                    }}
+                                    animate={{
+                                        opacity: 1,
+                                        y: 0
+                                    }}
+                                    exit={{
+                                        opacity: 0,
+                                        y: -10
+                                    }}
+                                    transition={{
+                                        duration: 0.2
+                                    }}
+                                    className="
+                mb-4
+                rounded-2xl
+                border
+                border-red-500/20
+                bg-[#2b1d2a]
+                px-4
+                py-4
+            "
+                                >
+
+                                    <p
+                                        className="
+                    text-sm
+                    font-semibold
+                    text-red-100
+                "
+                                    >
+
+                                        {error}
+
+                                    </p>
+
+                                </motion.div>
+
+                            )}
+
+                        </AnimatePresence>
+
 
                         <button
+                            onClick={addBeneficiary}
                             className="
-                                mt-4
-                                w-full
-                                rounded-full
-                                bg-cyan-400
-                                py-4
-                                font-semibold
-                                text-slate-950
-                            "
+        mt-4
+        w-full
+        rounded-full
+        bg-cyan-400
+        py-4
+        font-semibold
+        text-slate-950
+    "
                         >
 
                             Save Beneficiary
@@ -207,59 +271,47 @@ function BeneficiariesPage() {
 
                         </h2>
 
-                        <div
-                            className="
-                                flex
-                                items-center
-                                gap-3
-                                rounded-full
-                                border
-                                border-white/10
-                                bg-[#05101d]
-                                px-4
-                                py-2
-                            "
-                        >
 
-                            <Search
-                                size={16}
-                                className="
-                                    text-slate-500
-                                "
-                            />
-
-                            <input
-                                placeholder="Search..."
-                                className="
-                                    bg-transparent
-                                    text-white
-                                    outline-none
-                                "
-                            />
-
-                        </div>
 
                     </div>
 
                     <div className="space-y-4">
 
-                        <BeneficiaryCard
-                            alias="Primary Savings"
-                            bank="Nexus Bank"
-                            account="001-445-998-100"
-                        />
+                        {
+                            beneficiaries.map(
+                                (beneficiary) => (
 
-                        <BeneficiaryCard
-                            alias="Investment Vault"
-                            bank="Global Finance"
-                            account="775-221-004-511"
-                        />
+                                    <BeneficiaryCard
 
-                        <BeneficiaryCard
-                            alias="Business Reserve"
-                            bank="Corporate Trust"
-                            account="881-552-777-911"
-                        />
+                                        key={beneficiary._id}
+
+                                        id={beneficiary._id}
+
+                                        alias={beneficiary.alias}
+
+                                        account={beneficiary.accountNumber}
+
+                                        onDelete={removeBeneficiary}
+
+                                        onTransfer={() => {
+
+                                            localStorage.setItem(
+
+                                                "transferAccount",
+
+                                                beneficiary.accountNumber
+
+                                            );
+
+                                            setTab("transfers");
+
+                                        }}
+                                    />
+
+                                )
+                            )
+                        }
+
 
                     </div>
 
@@ -274,11 +326,27 @@ function BeneficiariesPage() {
 }
 
 function Input({
+
     icon,
-    placeholder
+
+    placeholder,
+
+    value,
+
+    onChange
+
 }: {
+
     icon: React.ReactNode;
+
     placeholder: string;
+
+    value: string;
+
+    onChange: (
+        value: string
+    ) => void;
+
 }) {
 
     return (
@@ -308,13 +376,23 @@ function Input({
             </span>
 
             <input
+
+                value={value}
+
+                onChange={(e) =>
+                    onChange(
+                        e.target.value
+                    )
+                }
+
                 placeholder={placeholder}
+
                 className="
-                    w-full
-                    bg-transparent
-                    text-white
-                    outline-none
-                "
+        w-full
+        bg-transparent
+        text-white
+        outline-none
+    "
             />
 
         </div>
@@ -324,13 +402,31 @@ function Input({
 }
 
 function BeneficiaryCard({
+
+    id,
+
     alias,
-    bank,
-    account
+
+    account,
+
+    onDelete,
+
+    onTransfer
+
 }: {
+
+    id: string;
+
     alias: string;
-    bank: string;
+
     account: string;
+
+    onDelete: (
+        id: string
+    ) => void;
+
+    onTransfer: () => void;
+
 }) {
 
     return (
@@ -375,25 +471,52 @@ function BeneficiaryCard({
                         "
                     >
 
-                        {bank}
 
                     </p>
 
                 </div>
 
-                <button
-                    className="
-                        rounded-full
-                        bg-red-500/10
-                        p-3
-                        text-red-400
-                    "
-                >
+                <div className="flex items-center gap-2">
 
-                    <Trash2 size={16} />
+                    <button
 
-                </button>
+                        onClick={onTransfer}
 
+                        className="
+        rounded-full
+        bg-cyan-500/10
+        px-4
+        py-2
+        text-sm
+        font-medium
+        text-cyan-300
+        transition
+        hover:bg-cyan-500/20
+    "
+                    >
+
+                        Transfer
+
+                    </button>
+
+                    <button
+                        onClick={() =>
+                            onDelete(id)
+                        }
+
+                        className="
+        rounded-full
+        bg-red-500/10
+        p-3
+        text-red-400
+    "
+                    >
+
+                        <Trash2 size={16} />
+
+                    </button>
+
+                </div>
             </div>
 
             <div

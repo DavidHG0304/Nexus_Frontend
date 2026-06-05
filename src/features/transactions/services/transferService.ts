@@ -1,6 +1,6 @@
 import api from "../../../shared/services/api";
 
-export type TransferPayload = {
+type TransferPayload = {
 
     toAccount: string;
 
@@ -16,11 +16,13 @@ export const transfer = async (
     payload: TransferPayload
 ) => {
 
-    const { data } =
-        await api.post(
-            "/transactions/transferencia",
-            payload
-        );
+    const { data } = await api.post(
+
+        "/transactions/transferencia",
+
+        payload
+
+    );
 
     return data;
 

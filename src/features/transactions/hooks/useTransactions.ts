@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
     transfer
@@ -7,6 +7,7 @@ import {
 import {
     confirmTransaction
 } from "../../../shared/utils/alerts";
+import { errorToast, successToast } from "../../../shared/utils/toast";
 
 type UseTransfersProps = {
 
@@ -34,6 +35,25 @@ export function useTransactions({
     const [messageType, setMessageType] =
         useState("");
 
+    useEffect(() => {
+
+        const account =
+
+            localStorage.getItem(
+                "transferAccount"
+            );
+
+        if (!account)
+            return;
+
+        setToAccount(account);
+
+        localStorage.removeItem(
+            "transferAccount"
+        );
+
+    }, []);
+
     const showMessage = (
         text: string,
         type: string
@@ -57,7 +77,8 @@ export function useTransactions({
 
         if (
             !toAccount.trim() ||
-            !amount.trim()
+            !amount.trim() ||
+            !description.trim()
         ) {
 
             showMessage(
@@ -71,8 +92,11 @@ export function useTransactions({
 
         const result =
             await confirmTransaction(
+
                 "Confirm Transfer",
-                `Transfer $${amount}?`
+
+                `Transfer $${amount} MXN to account ${toAccount}?`
+
             );
 
         if (!result.isConfirmed)
@@ -95,9 +119,8 @@ export function useTransactions({
 
                 });
 
-            showMessage(
-                response.message,
-                "success"
+            successToast(
+                response.message
             );
 
             setToAccount("");
@@ -108,9 +131,8 @@ export function useTransactions({
 
         } catch {
 
-            showMessage(
-                "Transfer failed",
-                "error"
+            errorToast(
+                "Transfer failed"
             );
 
         }
