@@ -210,10 +210,11 @@ function TransactionForm({
 
                     <div
                         className="
-            flex
+            grid
+            grid-cols-1
             gap-3
-            overflow-x-auto
-            pb-2
+            sm:grid-cols-2
+            lg:grid-cols-3
         "
                     >
 
@@ -239,7 +240,9 @@ function TransactionForm({
                                         }
 
                                         className={`
-                            min-w-[150px]
+
+                            w-full
+
                             rounded-2xl
                             border
                             p-4
@@ -253,11 +256,13 @@ function TransactionForm({
 
                                                 : "border-white/10 bg-white/[0.03] hover:border-cyan-400/20"
                                             }
+
                         `}
                                     >
 
                                         <p
                                             className="
+                                truncate
                                 font-medium
                                 text-white
                             "
@@ -272,6 +277,7 @@ function TransactionForm({
                                         <p
                                             className="
                                 mt-1
+                                truncate
                                 text-xs
                                 text-slate-500
                             "
