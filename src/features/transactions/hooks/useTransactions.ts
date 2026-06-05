@@ -8,6 +8,7 @@ import {
     confirmTransaction
 } from "../../../shared/utils/alerts";
 import { errorToast, successToast } from "../../../shared/utils/toast";
+import { useLocation } from "react-router-dom";
 
 type UseTransfersProps = {
 
@@ -19,6 +20,12 @@ type UseTransfersProps = {
 export function useTransactions({
     onTransferSuccess
 }: UseTransfersProps) {
+
+    const location =
+        useLocation();
+
+    const account =
+        location.state?.account;
 
     const [toAccount, setToAccount] =
         useState("");
@@ -35,24 +42,17 @@ export function useTransactions({
     const [messageType, setMessageType] =
         useState("");
 
+
     useEffect(() => {
 
-        const account =
+        if (account) {
 
-            localStorage.getItem(
-                "transferAccount"
-            );
+            setToAccount(account);
 
-        if (!account)
-            return;
+        }
 
-        setToAccount(account);
+    }, [account]);
 
-        localStorage.removeItem(
-            "transferAccount"
-        );
-
-    }, []);
 
     const showMessage = (
         text: string,
@@ -122,6 +122,7 @@ export function useTransactions({
             successToast(
                 response.message
             );
+
 
             setToAccount("");
             setAmount("");

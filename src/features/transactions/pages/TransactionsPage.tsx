@@ -1,3 +1,4 @@
+
 import { useBeneficiaries } from "../../beneficiaries/hooks/useBeneficiaries";
 import { useDashboard } from "../../dashboard/hook/useDashboard";
 import TransactionForm from "../components/TransactionForm";
@@ -8,7 +9,10 @@ import {
   useTransactions
 } from "../hooks/useTransactions";
 
+
 function TransactionsPage() {
+
+
 
   const {
     data,
@@ -30,6 +34,8 @@ function TransactionsPage() {
         }
 
     });
+
+
 
   return (
 

@@ -7,64 +7,66 @@ import {
     HistoryIcon
 } from "lucide-react";
 
-import { useAuth } from "../../../features/auth/context/AuthContext";
+import {
+    useLocation,
+    useNavigate
+} from "react-router-dom";
+
+import {
+    useAuth
+} from "../../../features/auth/context/AuthContext";
 
 const menuItems = [
 
     {
         icon: LayoutDashboard,
-        label: "dashboard"
+        label: "Dashboard",
+        path: "/dashboard"
     },
 
     {
         icon: ArrowRightLeft,
-        label: "transfers"
+        label: "Transfers",
+        path: "/transfers"
     },
-
 
     {
         icon: ShieldCheck,
-        label: "beneficiaries"
+        label: "Beneficiaries",
+        path: "/beneficiaries"
     },
 
     {
         icon: HistoryIcon,
-        label: "history"
+        label: "History",
+        path: "/history"
     },
+
     {
         icon: User,
-        label: "profile"
-    },
+        label: "Profile",
+        path: "/profile"
+    }
 
 ];
 
-type SidebarProps = {
-
-    tab: string;
-
-    setTab: React.Dispatch<
-        React.SetStateAction<string>
-    >;
-
-};
-
-function Sidebar({
-
-    tab,
-
-    setTab
-
-}: SidebarProps) {
+function Sidebar() {
 
     const {
         logout
     } = useAuth();
 
+    const navigate =
+        useNavigate();
+
+    const location =
+        useLocation();
+
     return (
 
         <aside
             className="
-            sticky
+                sticky
                 top-0
                 h-screen
                 hidden
@@ -144,17 +146,25 @@ function Sidebar({
                             const Icon =
                                 item.icon;
 
+                            const active =
+
+                                location.pathname ===
+                                item.path;
+
                             return (
 
                                 <button
+
                                     key={
-                                        item.label
+                                        item.path
                                     }
+
                                     onClick={() =>
-                                        setTab(
-                                            item.label
+                                        navigate(
+                                            item.path
                                         )
                                     }
+
                                     className={`
                                         flex
                                         w-full
@@ -165,11 +175,9 @@ function Sidebar({
                                         py-3
                                         text-left
                                         text-sm
-                                        capitalize
                                         transition
 
-                                        ${tab ===
-                                            item.label
+                                        ${active
 
                                             ? "bg-white/8 text-white ring-1 ring-white/10"
 
@@ -185,9 +193,7 @@ function Sidebar({
                                         "
                                     />
 
-                                    {
-                                        item.label
-                                    }
+                                    {item.label}
 
                                 </button>
 
@@ -203,7 +209,9 @@ function Sidebar({
             <div className="mt-auto">
 
                 <button
+
                     onClick={logout}
+
                     className="
                         flex
                         w-full

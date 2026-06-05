@@ -10,24 +10,17 @@ import {
 } from "../hooks/useBeneficiaries";
 import { AnimatePresence, motion } from "framer-motion";
 
+import {
+    useNavigate
+} from "react-router-dom";
 
 
-type BeneficiariesPageProps = {
 
-    setTab: React.Dispatch<
-        React.SetStateAction<string>
-    >;
-
-};
-
-function BeneficiariesPage({
-
-    setTab
-
-}: BeneficiariesPageProps) {
+function BeneficiariesPage() {
 
     const { beneficiaries, alias, setAlias, accountNumber, setAccountNumber, addBeneficiary, removeBeneficiary, error } = useBeneficiaries();
-
+    const navigate =
+        useNavigate();
     return (
 
         <div className="space-y-6">
@@ -295,15 +288,17 @@ function BeneficiariesPage({
 
                                         onTransfer={() => {
 
-                                            localStorage.setItem(
 
-                                                "transferAccount",
 
-                                                beneficiary.accountNumber
-
+                                            navigate(
+                                                "/transfers",
+                                                {
+                                                    state: {
+                                                        account:
+                                                            beneficiary.accountNumber
+                                                    }
+                                                }
                                             );
-
-                                            setTab("transfers");
 
                                         }}
                                     />

@@ -3,6 +3,11 @@ import {
 } from "lucide-react";
 
 import {
+  useLocation,
+  useNavigate
+} from "react-router-dom";
+
+import {
   avatarStyle,
   glassContainer,
   pageHeader
@@ -12,37 +17,35 @@ import {
   primaryButton
 } from "../../../styles/shared/buttons";
 
-type HeaderProps = {
-
-  tab: string;
-
-  setTab: React.Dispatch<
-    React.SetStateAction<string>
-  >;
-
-};
-
 const titles: Record<string, string> = {
 
-  dashboard: "Dashboard",
+  "/dashboard": "Dashboard",
 
-  transfers: "Transfers",
+  "/transfers": "Transfers",
 
-  profile: "Profile",
+  "/profile": "Profile",
 
-  beneficiaries: "Beneficiaries",
+  "/beneficiaries": "Beneficiaries",
 
-  history: "History"
+  "/history": "History"
 
 };
 
-function Header({
+function Header() {
 
-  tab,
+  const navigate =
+    useNavigate();
 
-  setTab
+  const location =
+    useLocation();
 
-}: HeaderProps) {
+  const currentTitle =
+
+    titles[
+    location.pathname
+    ] ||
+
+    "Dashboard";
 
   return (
 
@@ -77,10 +80,7 @@ function Header({
           "
         >
 
-          {
-            titles[tab] ||
-            "Dashboard"
-          }
+          {currentTitle}
 
         </h1>
 
@@ -90,14 +90,17 @@ function Header({
 
         {
 
-          tab !== "transfers" && (
+          location.pathname !==
+          "/transfers" && (
 
             <button
+
               onClick={() =>
-                setTab(
-                  "transfers"
+                navigate(
+                  "/transfers"
                 )
               }
+
               className={`
                 ${primaryButton}
                 hidden
@@ -123,9 +126,6 @@ function Header({
           )
 
         }
-
-
-
 
         <div
           className={
