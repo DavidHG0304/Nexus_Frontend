@@ -149,10 +149,9 @@ function Sidebar({
                                 text-sm
                                 transition
 
-                                ${
-                                    active
-                                        ? "bg-white/8 text-white ring-1 ring-white/10"
-                                        : "text-slate-400 hover:bg-white/5 hover:text-white"
+                                ${active
+                                    ? "bg-white/8 text-white ring-1 ring-white/10"
+                                    : "text-slate-400 hover:bg-white/5 hover:text-white"
                                 }
                             `}
                         >
@@ -214,20 +213,19 @@ function Sidebar({
                     bg-black/60
                     transition-opacity
                     lg:hidden
-                    ${
-                        isOpen
-                            ? "opacity-100"
-                            : "pointer-events-none opacity-0"
+                    ${isOpen
+                        ? "opacity-100"
+                        : "pointer-events-none opacity-0"
                     }
                 `}
             />
 
-            <aside
+            <aside style={{ zIndex: 100 }}
                 className={`
                     fixed
                     left-0
                     top-0
-                    z-100
+                    z-50
                     flex
                     h-screen
                     w-72
@@ -241,10 +239,9 @@ function Sidebar({
                     duration-300
                     lg:hidden
 
-                    ${
-                        isOpen
-                            ? "translate-x-0"
-                            : "-translate-x-full"
+                    ${isOpen
+                        ? "translate-x-0"
+                        : "-translate-x-full"
                     }
                 `}
             >
@@ -258,7 +255,6 @@ function Sidebar({
                     hidden
                     h-screen
                     w-72
-                    shrink-0
                     border-r
                     border-white/5
                     bg-[#0b1524]
