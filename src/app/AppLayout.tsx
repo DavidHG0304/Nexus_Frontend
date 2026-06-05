@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import Sidebar from "../shared/components/layout/Sidebar";
 import Header from "../shared/components/layout/Header";
 
@@ -17,47 +19,65 @@ import {
 
 export default function AppLayout() {
 
-    const location =
-        useLocation();
+    const location = useLocation();
+
+    const [
+        sidebarOpen,
+        setSidebarOpen
+    ] = useState(false);
 
     return (
 
         <PrivacyProvider>
 
-            <div className="flex min-h-screen bg-[#07111f] text-slate-100">
+            <div className="flex min-h-screen overflow-x-hidden bg-[#07111f] text-slate-100">
 
-                <Sidebar />
+                <Sidebar
+                    isOpen={sidebarOpen}
+                    onClose={() =>
+                        setSidebarOpen(false)
+                    }
+                />
 
-                <main className="flex-1 px-4 py-4 sm:px-6 lg:px-8">
+                <main
+                    className="
+                        flex-1
+                        min-w-0
+                        px-3
+                        py-3
+                        sm:px-4
+                        sm:py-4
+                        md:px-6
+                        lg:px-8
+                    "
+                >
 
-                    <Header />
+                    <Header
+                        onMenuClick={() =>
+                            setSidebarOpen(prev => !prev)
+                        }
+                    />
 
                     <AnimatePresence mode="wait">
 
                         <motion.div
-
-                            key={
-                                location.pathname
-                            }
-
+                            key={location.pathname}
                             initial={{
                                 opacity: 0,
                                 y: 10
                             }}
-
                             animate={{
                                 opacity: 1,
                                 y: 0
                             }}
-
                             exit={{
                                 opacity: 0,
                                 y: -10
                             }}
-
                             transition={{
                                 duration: 0.2
                             }}
+                            className="w-full"
                         >
 
                             <Outlet />

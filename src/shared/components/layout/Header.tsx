@@ -1,5 +1,6 @@
 import {
-  ArrowRightLeft
+  ArrowRightLeft,
+  Menu
 } from "lucide-react";
 
 import {
@@ -17,6 +18,10 @@ import {
   primaryButton
 } from "../../../styles/shared/buttons";
 
+type HeaderProps = {
+  onMenuClick: () => void;
+};
+
 const titles: Record<string, string> = {
 
   "/dashboard": "Dashboard",
@@ -31,20 +36,16 @@ const titles: Record<string, string> = {
 
 };
 
-function Header() {
+function Header({
+  onMenuClick
+}: HeaderProps) {
 
-  const navigate =
-    useNavigate();
+  const navigate = useNavigate();
 
-  const location =
-    useLocation();
+  const location = useLocation();
 
   const currentTitle =
-
-    titles[
-    location.pathname
-    ] ||
-
+    titles[location.pathname] ||
     "Dashboard";
 
   return (
@@ -53,84 +54,164 @@ function Header() {
       className={`
         ${pageHeader}
         ${glassContainer}
+        flex
+        flex-wrap
+        items-center
+        justify-between
+        gap-4
       `}
     >
 
-      <div>
+      <div className="flex min-w-0 flex-1 items-center gap-3">
 
-        <p
+        <button
+          onClick={onMenuClick}
           className="
-            text-xs
-            uppercase
-            tracking-[0.25em]
-            text-cyan-300
+            flex
+            h-10
+            w-10
+            items-center
+            justify-center
+            rounded-xl
+            border
+            border-white/10
+            bg-white/5
+            text-slate-300
+            lg:hidden
           "
         >
 
-          Nexus Finance
+          <Menu
+            className="
+              h-5
+              w-5
+            "
+          />
 
-        </p>
+        </button>
 
-        <h1
-          className="
-            mt-1
-            text-3xl
-            font-bold
-            text-white
-          "
-        >
+        <div className="min-w-0">
 
-          {currentTitle}
+          <p
+            className="
+              text-[10px]
+              uppercase
+              tracking-[0.2em]
+              text-cyan-300
+              sm:text-xs
+              sm:tracking-[0.25em]
+            "
+          >
 
-        </h1>
+            Nexus Finance
+
+          </p>
+
+          <h1
+            className="
+              mt-1
+              truncate
+              text-xl
+              font-bold
+              text-white
+              sm:text-2xl
+              md:text-3xl
+            "
+          >
+
+            {currentTitle}
+
+          </h1>
+
+        </div>
 
       </div>
 
-      <div className="flex items-center gap-3">
+      <div
+        className="
+          flex
+          shrink-0
+          items-center
+          gap-2
+          sm:gap-3
+        "
+      >
 
         {
 
-          location.pathname !==
-          "/transfers" && (
+          location.pathname !== "/transfers" && (
 
-            <button
+            <>
+              <button
 
-              onClick={() =>
-                navigate(
-                  "/transfers"
-                )
-              }
+                onClick={() =>
+                  navigate("/transfers")
+                }
 
-              className={`
-                ${primaryButton}
-                hidden
-                h-11
-                px-5
-                md:flex
-                md:items-center
-                md:gap-2
-              `}
-            >
+                className={`
+                  ${primaryButton}
+                  hidden
+                  h-11
+                  px-5
+                  md:flex
+                  md:items-center
+                  md:gap-2
+                `}
+              >
 
-              <ArrowRightLeft
-                className="
-                  h-4
-                  w-4
-                "
-              />
+                <ArrowRightLeft
+                  className="
+                    h-4
+                    w-4
+                  "
+                />
 
-              Transfer
+                Transfer
 
-            </button>
+              </button>
+
+              <button
+
+                onClick={() =>
+                  navigate("/transfers")
+                }
+
+                className={`
+                  ${primaryButton}
+                  flex
+                  h-10
+                  w-10
+                  items-center
+                  justify-center
+                  p-0
+                  md:hidden
+                `}
+              >
+
+                <ArrowRightLeft
+                  className="
+                    h-4
+                    w-4
+                  "
+                />
+
+              </button>
+            </>
 
           )
 
         }
 
         <div
-          className={
-            avatarStyle
-          }
+          className={`
+            ${avatarStyle}
+            h-10
+            w-10
+            shrink-0
+            text-sm
+            sm:h-11
+            sm:w-11
+          `}
         >
 
           N
