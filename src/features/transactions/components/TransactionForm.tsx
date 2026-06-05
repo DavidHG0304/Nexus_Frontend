@@ -21,7 +21,14 @@ import {
     sectionHeading
 } from "../../../styles/shared/text";
 
+import type {
+    Beneficiary
+} from "../../beneficiaries/types/beneficiary.types";
+
 type TransactionFormProps = {
+
+    beneficiaries:
+    Beneficiary[];
 
     toAccount: string;
 
@@ -50,6 +57,7 @@ type TransactionFormProps = {
 };
 
 function TransactionForm({
+    beneficiaries,
 
     toAccount,
 
@@ -106,6 +114,7 @@ function TransactionForm({
 
                 </div>
 
+
                 <div
                     className="
                         grid
@@ -158,6 +167,128 @@ function TransactionForm({
                         }
                         className={inputStyle}
                     />
+
+                </div>
+
+                <div>
+
+                    <div
+                        className="
+            mb-3
+            flex
+            items-center
+            justify-between
+        "
+                    >
+
+                        <label
+                            className="
+                text-sm
+                font-medium
+                text-slate-300
+            "
+                        >
+
+                            Quick Beneficiaries
+
+                        </label>
+
+                        <span
+                            className="
+                text-xs
+                text-slate-500
+            "
+                        >
+
+                            Tap to autofill
+
+                        </span>
+
+                    </div>
+
+                    <div
+                        className="
+            flex
+            gap-3
+            overflow-x-auto
+            pb-2
+        "
+                    >
+
+                        {
+
+                            beneficiaries.map(
+                                (
+                                    beneficiary
+                                ) => (
+
+                                    <button
+
+                                        key={
+                                            beneficiary._id
+                                        }
+
+                                        type="button"
+
+                                        onClick={() =>
+                                            setToAccount(
+                                                beneficiary.accountNumber
+                                            )
+                                        }
+
+                                        className={`
+                            min-w-[150px]
+                            rounded-2xl
+                            border
+                            p-4
+                            text-left
+                            transition
+
+                            ${toAccount ===
+                                                beneficiary.accountNumber
+
+                                                ? "border-cyan-400/40 bg-cyan-400/10"
+
+                                                : "border-white/10 bg-white/[0.03] hover:border-cyan-400/20"
+                                            }
+                        `}
+                                    >
+
+                                        <p
+                                            className="
+                                font-medium
+                                text-white
+                            "
+                                        >
+
+                                            {
+                                                beneficiary.alias
+                                            }
+
+                                        </p>
+
+                                        <p
+                                            className="
+                                mt-1
+                                text-xs
+                                text-slate-500
+                            "
+                                        >
+
+                                            {
+                                                beneficiary.accountNumber
+                                            }
+
+                                        </p>
+
+                                    </button>
+
+                                )
+                            )
+
+                        }
+
+                    </div>
 
                 </div>
 

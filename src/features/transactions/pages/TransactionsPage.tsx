@@ -1,3 +1,4 @@
+import { useBeneficiaries } from "../../beneficiaries/hooks/useBeneficiaries";
 import { useDashboard } from "../../dashboard/hook/useDashboard";
 import TransactionForm from "../components/TransactionForm";
 
@@ -13,6 +14,10 @@ function TransactionsPage() {
     data,
     fetchDashboard
   } = useDashboard();
+
+  const {
+    beneficiaries
+  } = useBeneficiaries();
 
   const transactions =
     useTransactions({
@@ -37,6 +42,10 @@ function TransactionsPage() {
     >
 
       <TransactionForm
+
+        beneficiaries={
+          beneficiaries
+        }
 
         toAccount={
           transactions.toAccount
