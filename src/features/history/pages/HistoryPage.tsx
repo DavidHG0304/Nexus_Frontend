@@ -197,7 +197,7 @@ function HistoryPage() {
 
         <div className="space-y-6">
 
-            {/* HEADER */}
+            {/* HEADER  */}
 
             <div
                 className="
