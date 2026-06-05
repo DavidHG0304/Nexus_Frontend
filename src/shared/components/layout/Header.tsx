@@ -17,6 +17,7 @@ import {
 import {
   primaryButton
 } from "../../../styles/shared/buttons";
+import { useDashboard } from "../../../features/dashboard/hook/useDashboard";
 
 type HeaderProps = {
   onMenuClick: () => void;
@@ -43,6 +44,10 @@ function Header({
   const navigate = useNavigate();
 
   const location = useLocation();
+
+  const { data } = useDashboard();
+
+  const client = data?.client;
 
   const currentTitle =
     titles[location.pathname] ||
@@ -210,7 +215,7 @@ function Header({
           `}
         >
 
-          N
+          {client?.name[0]}
 
         </div>
 
