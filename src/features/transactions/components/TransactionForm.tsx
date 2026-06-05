@@ -3,8 +3,6 @@ import {
     Landmark
 } from "lucide-react";
 
-import MessageAlert from "./MessageAlert";
-
 import {
     primaryButton
 } from "../../../styles/shared/buttons";
@@ -73,9 +71,6 @@ function TransactionForm({
 
     transferir,
 
-    message,
-
-    messageType
 
 }: TransactionFormProps) {
 
@@ -416,16 +411,7 @@ function TransactionForm({
 
                 </div>
 
-                {
-                    message && (
-
-                        <MessageAlert
-                            mensaje={message}
-                            tipoMensaje={messageType}
-                        />
-
-                    )
-                }
+              
 
                 <div className="pt-2">
 

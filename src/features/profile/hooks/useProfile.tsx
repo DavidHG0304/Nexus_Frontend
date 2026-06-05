@@ -54,6 +54,50 @@ export function useProfile() {
             if (!profile)
                 return;
 
+            if (!profile.name.trim()) {
+
+                errorToast(
+                    "Name is required"
+                );
+
+                return;
+
+            }
+
+            if (!profile.phone.trim()) {
+
+                errorToast(
+                    "Phone is required"
+                );
+
+                return;
+
+            }
+
+            if (
+                !/^\d{10}$/.test(
+                    profile.phone
+                )
+            ) {
+
+                errorToast(
+                    "Phone must contain 10 digits"
+                );
+
+                return;
+
+            }
+
+            if (!profile.address.trim()) {
+
+                errorToast(
+                    "Address is required"
+                );
+
+                return;
+
+            }
+
             try {
 
                 const response =

@@ -203,7 +203,10 @@ function Header({
 
         }
 
-        <div
+        <button
+          onClick={() =>
+            navigate("/profile")
+          }
           className={`
             ${avatarStyle}
             h-10
@@ -217,7 +220,7 @@ function Header({
 
           {client?.name[0]}
 
-        </div>
+        </button>
 
       </div>
 
