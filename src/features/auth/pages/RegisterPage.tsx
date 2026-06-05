@@ -195,6 +195,8 @@ function RegisterPage() {
 
                     <div
                         className="
+                            hidden
+                            lg:block
                             relative
                             border-r
                             border-white/5
