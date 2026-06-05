@@ -1,7 +1,9 @@
 import {
     Mail,
-    Lock,
-    ArrowRight
+
+    ArrowRight,
+    EyeOff,
+    Eye
 } from "lucide-react";
 
 import { useState } from "react";
@@ -13,6 +15,7 @@ import { login } from "../services/authService";
 import { useAuth } from "../context/AuthContext";
 import Swal from "sweetalert2";
 import { successToast } from "../../../shared/utils/toast";
+
 
 function LoginPage() {
     const navigate = useNavigate();
@@ -30,6 +33,9 @@ function LoginPage() {
 
     const [error, setError] =
         useState("");
+
+    const [showPassword, setShowPassword] =
+        useState(false);
 
     const showError = (
         message: string
@@ -298,8 +304,8 @@ function LoginPage() {
 
                             </div>
 
-                            <div
-                                className="
+                            <div className="
+                            relative
                                     flex
                                     items-center
                                     gap-3
@@ -309,30 +315,72 @@ function LoginPage() {
                                     bg-[#05101d]
                                     px-5
                                     py-4
-                                "
-                            >
-
-                                <Lock
-                                    className="
-                                        h-4
-                                        w-4
-                                        text-slate-500
-                                    "
-                                />
+                                ">
 
                                 <input
-                                    type="password"
-                                    value={password}
-                                    onChange={(e) =>
-                                        setPassword(e.target.value)
+
+                                    type={
+                                        showPassword
+                                            ? "text"
+                                            : "password"
                                     }
-                                    placeholder="••••••••••••"
-                                    className="w-full
-                                            bg-transparent
-                                            text-white
-                                            outline-none
-                                        "
+
+                                    value={password}
+
+                                    onChange={(e) =>
+                                        setPassword(
+                                            e.target.value
+                                        )
+                                    }
+
+                                    className="
+                                                w-full
+                                                bg-transparent
+                                                text-white
+                                                outline-none
+                                            "
+
+                                    placeholder="Password"
+
                                 />
+
+                                <button
+
+                                    type="button"
+
+                                    onClick={() =>
+                                        setShowPassword(
+                                            !showPassword
+                                        )
+                                    }
+
+                                    className="
+                                                    absolute
+                                                    right-4
+                                                    top-1/2
+                                                    -translate-y-1/2
+                                                    text-slate-400
+                                                    hover:text-white
+                                                "
+                                >
+
+                                    {
+                                        showPassword
+
+                                            ? (
+                                                <EyeOff
+                                                    size={18}
+                                                />
+                                            )
+
+                                            : (
+                                                <Eye
+                                                    size={18}
+                                                />
+                                            )
+                                    }
+
+                                </button>
 
                             </div>
 

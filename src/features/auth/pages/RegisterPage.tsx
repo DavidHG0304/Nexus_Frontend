@@ -6,7 +6,9 @@ import {
     MapPin,
     ArrowRight,
     Shield,
-    CreditCard
+    CreditCard,
+    EyeOff,
+    Eye
 } from "lucide-react";
 
 import { useState } from "react";
@@ -56,6 +58,7 @@ function RegisterPage() {
 
     const [error, setError] =
         useState("");
+
 
     const showError = (
         message: string
@@ -630,6 +633,13 @@ function Input({
 
 }: InputProps) {
 
+    const [showPassword, setShowPassword] =
+        useState(false);
+
+    const isPassword =
+
+        type === "password";
+
     return (
 
         <div
@@ -658,7 +668,19 @@ function Input({
 
             <input
 
-                type={type}
+                type={
+
+                    isPassword
+
+                        ? (
+                            showPassword
+                                ? "text"
+                                : "password"
+                        )
+
+                        : type
+
+                }
 
                 value={value}
 
@@ -671,12 +693,57 @@ function Input({
                 placeholder={placeholder}
 
                 className="
-        w-full
-        bg-transparent
-        text-white
-        outline-none
-    "
+                    w-full
+                    bg-transparent
+                    text-white
+                    outline-none
+                "
             />
+
+            {
+
+                isPassword && (
+
+                    <button
+
+                        type="button"
+
+                        onClick={() =>
+                            setShowPassword(
+                                !showPassword
+                            )
+                        }
+
+                        className="
+                            text-slate-500
+                            transition
+                            hover:text-cyan-400
+                        "
+                    >
+
+                        {
+
+                            showPassword
+
+                                ? (
+                                    <EyeOff
+                                        size={18}
+                                    />
+                                )
+
+                                : (
+                                    <Eye
+                                        size={18}
+                                    />
+                                )
+
+                        }
+
+                    </button>
+
+                )
+
+            }
 
         </div>
 
