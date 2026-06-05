@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-
+import axios from "axios";
 import {
     transfer
 } from "../services/transferService";
@@ -123,6 +123,10 @@ export function useTransactions({
                 response.message
             );
 
+            showMessage(
+                response.message,
+                "success"
+            );
 
             setToAccount("");
             setAmount("");
@@ -130,10 +134,28 @@ export function useTransactions({
 
             await onTransferSuccess?.();
 
-        } catch {
+        } catch (error) {
+
+            let errorMessage =
+                "Transfer failed";
+
+            if (
+                axios.isAxiosError(error)
+            ) {
+
+                errorMessage =
+                    error.response?.data?.message ??
+                    errorMessage;
+
+            }
+
+            showMessage(
+                errorMessage,
+                "error"
+            );
 
             errorToast(
-                "Transfer failed"
+                errorMessage
             );
 
         }

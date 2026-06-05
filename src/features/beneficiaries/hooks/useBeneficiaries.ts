@@ -3,21 +3,26 @@ import {
     useState
 } from "react";
 
+import axios from "axios";
+
 import {
-
     getBeneficiaries,
-
     createBeneficiary,
-
     deleteBeneficiary
-
 } from "../services/beneficiariesService";
 
 import type {
     Beneficiary
 } from "../types/beneficiary.types";
-import { errorToast, successToast } from "../../../shared/utils/toast";
-import { confirmDelete } from "../../../shared/utils/confirm";
+
+import {
+    errorToast,
+    successToast
+} from "../../../shared/utils/toast";
+
+import {
+    confirmDelete
+} from "../../../shared/utils/confirm";
 
 export function useBeneficiaries() {
 
@@ -54,15 +59,17 @@ export function useBeneficiaries() {
         async () => {
 
             try {
+
                 setLoading(true);
+
                 const data =
                     await getBeneficiaries();
 
                 setBeneficiaries(data);
 
             } finally {
-                setLoading(false);
 
+                setLoading(false);
 
             }
 
@@ -71,6 +78,7 @@ export function useBeneficiaries() {
     useEffect(() => {
 
         loadBeneficiaries();
+
     }, []);
 
     const addBeneficiary =
@@ -96,7 +104,6 @@ export function useBeneficiaries() {
                 await createBeneficiary({
 
                     alias,
-
                     accountNumber
 
                 });
@@ -105,21 +112,32 @@ export function useBeneficiaries() {
                     "Beneficiary added"
                 );
 
-            } catch {
+                setAlias("");
 
-                errorToast(
-                    "Failed to add beneficiary"
-                );
+                setAccountNumber("");
 
-                return;
+                await loadBeneficiaries();
+
+            } catch (error) {
+
+                let message =
+                    "Failed to add beneficiary";
+
+                if (
+                    axios.isAxiosError(error)
+                ) {
+
+                    message =
+                        error.response?.data?.message ??
+                        message;
+
+                }
+
+                setError(message);
+
+                errorToast(message);
 
             }
-
-            setAlias("");
-
-            setAccountNumber("");
-
-            await loadBeneficiaries();
 
         };
 
@@ -151,11 +169,22 @@ export function useBeneficiaries() {
 
                 await loadBeneficiaries();
 
-            } catch {
+            } catch (error) {
 
-                errorToast(
-                    "Failed to delete beneficiary"
-                );
+                let message =
+                    "Failed to delete beneficiary";
+
+                if (
+                    axios.isAxiosError(error)
+                ) {
+
+                    message =
+                        error.response?.data?.message ??
+                        message;
+
+                }
+
+                errorToast(message);
 
             }
 
