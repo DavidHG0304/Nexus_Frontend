@@ -106,7 +106,7 @@ function HistoryPage() {
                     "
                 >
 
-                    Transaction History
+                    Transactions History
 
                 </h1>
 
