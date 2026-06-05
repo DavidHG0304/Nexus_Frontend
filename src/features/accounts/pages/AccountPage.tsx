@@ -90,9 +90,15 @@ function AccountsPage() {
                     />
 
                     <TransactionsList
+
                         transactions={
                             data.lastTransactions
                         }
+
+                        accountNumber={
+                            data.account.accountNumber
+                        }
+
                     />
 
                 </div>
@@ -100,9 +106,15 @@ function AccountsPage() {
                 <div className="sticky top-24">
 
                     <MonthlyFlow
+
                         transactions={
                             data.lastTransactions
                         }
+
+                        accountNumber={
+                            data.account.accountNumber
+                        }
+
                     />
 
                 </div>

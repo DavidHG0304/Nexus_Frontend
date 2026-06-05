@@ -1,8 +1,8 @@
 import {
     ArrowUpRight,
-    ArrowRightLeft,
-    Search,
-    Filter
+    /*  Search,
+     Filter, */
+    ArrowDownLeft
 } from "lucide-react";
 import { useHistory } from "../hooks/useHistory";
 import { useDashboard } from "../../dashboard/hook/useDashboard";
@@ -147,7 +147,7 @@ function HistoryPage() {
 
             {/* FILTERS */}
 
-            <div
+            {/* <div
                 className="
                     rounded-[32px]
                     border
@@ -248,7 +248,7 @@ function HistoryPage() {
 
                 </div>
 
-            </div>
+            </div> */}
 
             {/* TABLE */}
 
@@ -279,7 +279,11 @@ function HistoryPage() {
                             </th>
 
                             <th className="p-5 text-slate-500">
-                                Date
+                                Date / Time
+                            </th>
+
+                            <th className="p-5 text-slate-500">
+                                Concept
                             </th>
 
                             <th className="p-5 text-slate-500">
@@ -310,6 +314,7 @@ function HistoryPage() {
 
                                     <TransactionRow
 
+
                                         key={
                                             transaction._id
                                         }
@@ -318,10 +323,14 @@ function HistoryPage() {
                                             transaction.type
                                         }
 
+                                        description={
+                                            transaction.description
+                                        }
+
                                         date={
                                             new Date(
                                                 transaction.date
-                                            ).toLocaleDateString(
+                                            ).toLocaleString(
                                                 "es-MX"
                                             )
                                         }
@@ -340,6 +349,10 @@ function HistoryPage() {
 
                                         status={
                                             transaction.status
+                                        }
+
+                                        myAccount={
+                                            myAccount || ""
                                         }
 
                                     />
@@ -418,7 +431,12 @@ function TransactionRow({
 
     amount,
 
-    status
+    status,
+
+    myAccount,
+
+    description
+
 
 }: {
 
@@ -434,14 +452,16 @@ function TransactionRow({
 
     status: string;
 
+    myAccount: string;
+
+    description: string;
+
 }) {
 
-    const isTransfer =
-        type
-            .toLowerCase()
-            .includes(
-                "transfer"
-            );
+    const isIncome =
+
+        destination ===
+        myAccount;
 
 
 
@@ -465,27 +485,36 @@ function TransactionRow({
                 >
 
                     <div
-                        className="
-                            rounded-full
-                            bg-white/5
-                            p-2
-                            text-cyan-400
-                        "
+                        className={`
+    rounded-full
+    p-2
+
+    ${isIncome
+
+                                ? "bg-green-500/10 text-green-400"
+
+                                : "bg-red-500/10 text-red-400"
+                            }
+`}
                     >
 
                         {
-                            isTransfer
+                            isIncome
 
                                 ? (
-                                    <ArrowRightLeft
+
+                                    <ArrowDownLeft
                                         size={18}
                                     />
+
                                 )
 
                                 : (
+
                                     <ArrowUpRight
                                         size={18}
                                     />
+
                                 )
                         }
 
@@ -501,8 +530,23 @@ function TransactionRow({
 
             </td>
 
+
             <td className="p-5 text-slate-300">
-                {date}
+
+                <div>
+
+                    <p>
+                        {date}
+                    </p>
+
+                </div>
+
+            </td>
+
+            <td className="p-5 text-slate-300">
+
+                {description}
+
             </td>
 
             <td className="p-5 text-slate-300">
@@ -514,12 +558,26 @@ function TransactionRow({
             </td>
 
             <td
-                className="
-        p-5
-        font-semibold
-        text-cyan-400
-    "
+                className={`
+    p-5
+    font-semibold
+
+    ${isIncome
+
+                        ? "text-green-400"
+
+                        : "text-red-400"
+                    }
+`}
             >
+
+                {
+
+                    isIncome
+                        ? "+"
+                        : "-"
+
+                }
 
                 $
 

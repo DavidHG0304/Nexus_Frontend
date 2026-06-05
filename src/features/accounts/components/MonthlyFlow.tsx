@@ -23,10 +23,13 @@ type MonthlyFlowProps = {
   transactions:
   DashboardTransaction[];
 
+  accountNumber: string;
+
 };
 
 function MonthlyFlow({
-  transactions
+  transactions,
+  accountNumber
 }: MonthlyFlowProps) {
 
   const {
@@ -97,18 +100,37 @@ function MonthlyFlow({
   const total =
 
     transactions.reduce(
+
       (
         acc,
         transaction
       ) => {
 
+        const isIncome =
+
+          transaction.toAccount ===
+          accountNumber;
+
         return (
+
           acc +
-          transaction.amount
+
+          (
+
+            isIncome
+
+              ? transaction.amount
+
+              : -transaction.amount
+
+          )
+
         );
 
       },
+
       0
+
     );
 
   return (
@@ -151,20 +173,36 @@ function MonthlyFlow({
             transition={{
               duration: 0.25
             }}
-            className="
-              text-3xl
-              font-bold
-              text-cyan-300
-              select-none
-            "
+            className={`
+  text-3xl
+  font-bold
+
+  ${total >= 0
+
+                ? "text-green-400"
+
+                : "text-red-400"
+              }
+
+  select-none
+`}
           >
+
+            {
+
+              total > 0
+                ? "+"
+                : ""
+
+            }
 
             $
 
             {
-              total.toLocaleString(
-                "es-MX"
-              )
+              Math.abs(total)
+                .toLocaleString(
+                  "es-MX"
+                )
             }
 
           </motion.p>

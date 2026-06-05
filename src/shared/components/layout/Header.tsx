@@ -1,13 +1,10 @@
 import {
-  Bell,
-  Settings,
   ArrowRightLeft
 } from "lucide-react";
 
 import {
   avatarStyle,
   glassContainer,
-  iconButton,
   pageHeader
 } from "../../../styles/shared/layout";
 
@@ -127,31 +124,8 @@ function Header({
 
         }
 
-        <button
-          className={iconButton}
-        >
 
-          <Bell
-            className="
-              h-5
-              w-5
-            "
-          />
 
-        </button>
-
-        <button
-          className={iconButton}
-        >
-
-          <Settings
-            className="
-              h-5
-              w-5
-            "
-          />
-
-        </button>
 
         <div
           className={

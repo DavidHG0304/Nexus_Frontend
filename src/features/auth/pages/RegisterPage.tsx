@@ -57,6 +57,20 @@ function RegisterPage() {
     const [error, setError] =
         useState("");
 
+    const showError = (
+        message: string
+    ) => {
+
+        setError(message);
+
+        setTimeout(() => {
+
+            setError("");
+
+        }, 3000);
+
+    };
+
 
     const handleRegister =
         async () => {
@@ -72,9 +86,7 @@ function RegisterPage() {
 
             ) {
 
-                setError(
-                    "Complete all fields"
-                );
+                showError("Complete all fields");
 
                 return;
 
@@ -85,9 +97,7 @@ function RegisterPage() {
                 confirmPassword
             ) {
 
-                setError(
-                    "Passwords do not match"
-                );
+                showError("Passwords do not match");
 
                 return;
 

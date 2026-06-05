@@ -1,5 +1,7 @@
 import {
-    ArrowRightLeft
+    ArrowDownLeft,
+
+    ArrowUpRight
 } from "lucide-react";
 
 import { motion } from "framer-motion";
@@ -33,15 +35,20 @@ type TransactionsListProps = {
     transactions:
     DashboardTransaction[];
 
+    accountNumber: string;
+
 };
 
 function TransactionsList({
-    transactions
+    transactions,
+    accountNumber
 }: TransactionsListProps) {
 
     const {
         showBalance
     } = usePrivacy();
+
+
 
     return (
 
@@ -108,131 +115,181 @@ function TransactionsList({
 
                             })
 
-                            .map((transaction) => (
+                            .map((transaction) => {
+                                const isIncome =
 
-                                <article
-                                    key={
-                                        transaction._id
-                                    }
-                                    className={
-                                        activityCard
-                                    }
-                                >
+                                    transaction.toAccount ===
+                                    accountNumber;
+                                return (
 
-                                    <div
-                                        className="
+                                    <article
+                                        key={
+                                            transaction._id
+                                        }
+                                        className={
+                                            activityCard
+                                        }
+                                    >
+
+                                        <div
+                                            className="
                                             flex
                                             items-center
                                             gap-3
                                         "
-                                    >
-
-                                        <div
-                                            className={`
-                                                ${miniIconContainer}
-                                                bg-cyan-400/10
-                                                text-cyan-300
-                                            `}
                                         >
 
-                                            <ArrowRightLeft
-                                                className="
-                                                    h-4
-                                                    w-4
-                                                "
-                                            />
+                                            <div
+                                                className={`
+        ${miniIconContainer}
 
-                                        </div>
+        ${isIncome
 
-                                        <div>
+                                                        ? "bg-green-500/10 text-green-400"
 
-                                            <h4
-                                                className="
+                                                        : "bg-red-500/10 text-red-400"
+                                                    }
+    `}
+                                            >
+
+                                                {
+
+                                                    isIncome
+
+                                                        ? (
+
+                                                            <ArrowDownLeft
+                                                                className="
+                        h-4
+                        w-4
+                    "
+                                                            />
+
+                                                        )
+
+                                                        : (
+
+                                                            <ArrowUpRight
+                                                                className="
+                        h-4
+                        w-4
+                    "
+                                                            />
+
+                                                        )
+
+                                                }
+
+                                            </div>
+
+                                            <div>
+
+                                                <h4
+                                                    className="
                                                     text-sm
                                                     font-medium
                                                     text-white
                                                 "
-                                            >
+                                                >
 
-                                                {
-                                                    transaction.type
-                                                }
+                                                    {
+                                                        transaction.type
+                                                    }
 
-                                            </h4>
+                                                </h4>
 
-                                            <p
-                                                className={
-                                                    mutedText
-                                                }
-                                            >
+                                                <p
+                                                    className={
+                                                        mutedText
+                                                    }
+                                                >
 
-                                                {
-                                                    transaction.description
-                                                }
+                                                    {
+                                                        transaction.description
+                                                    }
 
-                                            </p>
+                                                </p>
+
+                                            </div>
 
                                         </div>
 
-                                    </div>
-
-                                    <div
-                                        className="
+                                        <div
+                                            className="
                                             text-right
                                         "
-                                    >
-
-                                        <motion.p
-                                            animate={{
-                                                filter:
-                                                    showBalance
-                                                        ? "blur(0px)"
-                                                        : "blur(8px)",
-
-                                                opacity:
-                                                    showBalance
-                                                        ? 1
-                                                        : 0.6
-                                            }}
-                                            transition={{
-                                                duration:
-                                                    0.25
-                                            }}
-                                            className={`
-                                                ${amountText}
-                                                text-cyan-400
-                                                select-none
-                                            `}
                                         >
 
-                                            $
+                                            <motion.p
+                                                animate={{
+                                                    filter:
+                                                        showBalance
+                                                            ? "blur(0px)"
+                                                            : "blur(8px)",
 
-                                            {
-                                                transaction.amount
-                                                    .toLocaleString(
-                                                        "es-MX"
-                                                    )
-                                            }
+                                                    opacity:
+                                                        showBalance
+                                                            ? 1
+                                                            : 0.6
+                                                }}
+                                                transition={{
+                                                    duration:
+                                                        0.25
+                                                }}
+                                                className={`
+    ${amountText}
 
-                                        </motion.p>
+    ${isIncome
 
-                                        <span
-                                            className={
-                                                statusBadge
-                                            }
-                                        >
+                                                        ? "text-green-400"
 
-                                            {
-                                                transaction.status
-                                            }
+                                                        : "text-red-400"
+                                                    }
 
-                                        </span>
+    select-none
+`}
+                                            >
 
-                                    </div>
+                                                {
 
-                                </article>
+                                                    isIncome
 
-                            ))
+                                                        ? "+"
+
+                                                        : "-"
+
+                                                }
+
+                                                $
+
+                                                {
+                                                    transaction.amount
+                                                        .toLocaleString(
+                                                            "es-MX"
+                                                        )
+                                                }
+
+                                            </motion.p>
+
+                                            <span
+                                                className={
+                                                    statusBadge
+                                                }
+                                            >
+
+                                                {
+                                                    transaction.status
+                                                }
+
+                                            </span>
+
+                                        </div>
+
+                                    </article>
+
+                                )
+                            }
+                            )
 
                     ) : (
 

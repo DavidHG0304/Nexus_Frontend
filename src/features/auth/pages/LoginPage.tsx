@@ -11,6 +11,8 @@ import { useNavigate } from "react-router-dom";
 import { login } from "../services/authService";
 
 import { useAuth } from "../context/AuthContext";
+import Swal from "sweetalert2";
+import { successToast } from "../../../shared/utils/toast";
 
 function LoginPage() {
     const navigate = useNavigate();
@@ -26,7 +28,40 @@ function LoginPage() {
     const [loading, setLoading] =
         useState(false);
 
+    const [error, setError] =
+        useState("");
+
+    const showError = (
+        message: string
+    ) => {
+
+        setError(message);
+
+        setTimeout(() => {
+
+            setError("");
+
+        }, 3000);
+
+    };
+
     const handleLogin = async () => {
+
+        if (
+
+            !email.trim() ||
+
+            !password.trim()
+
+        ) {
+
+            showError("Complete all fields"
+
+            );
+
+            return;
+
+        }
 
         try {
 
@@ -42,16 +77,46 @@ function LoginPage() {
                 response.token,
                 response.client
             );
-
+            successToast(
+                "Welcome back"
+            );
+            setError("");
             navigate("/dashboard");
 
-        } catch (error) {
+        } catch (error: any) {
 
             console.error(error);
 
-            alert(
-                "Invalid credentials"
-            );
+            Swal.fire({
+                customClass: {
+
+                    popup:
+                        "rounded-[28px] border border-cyan-400/10"
+
+
+
+                },
+
+                icon: "error",
+
+                title: "Login Failed",
+
+                text:
+
+                    error?.response?.data?.message ||
+
+                    "Invalid email or password",
+
+                confirmButtonColor:
+                    "#22d3ee",
+
+                background:
+                    "#081423",
+
+                color:
+                    "#ffffff"
+
+            });
 
         } finally {
 
@@ -296,6 +361,37 @@ function LoginPage() {
 
                         </div>
 
+                        {
+                            error && (
+
+                                <div
+                                    className="
+                rounded-2xl
+                border
+                border-red-500/20
+                bg-[#2b1d2a]
+                px-4
+                py-4
+            "
+                                >
+
+                                    <p
+                                        className="
+                    text-sm
+                    font-semibold
+                    text-red-100
+                "
+                                    >
+
+                                        {error}
+
+                                    </p>
+
+                                </div>
+
+                            )
+                        }
+
                         <button
                             onClick={handleLogin}
                             disabled={loading}
@@ -354,8 +450,10 @@ function LoginPage() {
                         Don't have an institutional account?
 
                         <button
-                            onClick={() =>
+                            onClick={() => {
+
                                 navigate("/register")
+                            }
                             }
                             className="
                                 ml-2

@@ -64,6 +64,9 @@ function Sidebar({
 
         <aside
             className="
+            sticky
+                top-0
+                h-screen
                 hidden
                 w-72
                 border-r
