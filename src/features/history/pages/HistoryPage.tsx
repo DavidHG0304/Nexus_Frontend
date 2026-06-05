@@ -1,12 +1,78 @@
 import {
-    ArrowDownLeft,
     ArrowUpRight,
     ArrowRightLeft,
     Search,
     Filter
 } from "lucide-react";
+import { useHistory } from "../hooks/useHistory";
+import { useDashboard } from "../../dashboard/hook/useDashboard";
 
 function HistoryPage() {
+
+    const {
+        data: dashboard
+    } = useDashboard();
+
+    const myAccount =
+        dashboard?.account.accountNumber;
+
+    const {
+        transactions
+    } = useHistory();
+
+    const totalIncome =
+        transactions
+
+            .filter(
+
+                transaction =>
+
+                    transaction.toAccount ===
+                    myAccount
+
+            )
+
+            .reduce(
+
+                (sum, transaction) =>
+
+                    sum +
+                    transaction.amount,
+
+                0
+
+            );
+
+    const totalExpenses =
+        transactions
+
+            .filter(
+
+                transaction =>
+
+                    transaction.fromAccount ===
+                    myAccount
+
+            )
+
+            .reduce(
+
+                (sum, transaction) =>
+
+                    sum +
+                    transaction.amount,
+
+                0
+
+            );
+
+
+    const totalTransfers =
+        transactions.length;
+
+
+
+
 
     return (
 
@@ -61,19 +127,19 @@ function HistoryPage() {
 
                 <StatCard
                     title="Monthly Income"
-                    value="$58,250"
+                    value={`$${totalIncome.toLocaleString("es-MX")}`}
                     color="text-green-400"
                 />
 
                 <StatCard
                     title="Monthly Expenses"
-                    value="$21,840"
+                    value={`$${totalExpenses.toLocaleString("es-MX")}`}
                     color="text-red-400"
                 />
 
                 <StatCard
                     title="Transfers"
-                    value="142"
+                    value={totalTransfers.toString()}
                     color="text-cyan-400"
                 />
 
@@ -238,48 +304,49 @@ function HistoryPage() {
 
                     <tbody>
 
-                        <TransactionRow
-                            icon={
-                                <ArrowDownLeft
-                                    size={18}
-                                />
-                            }
-                            type="Deposit"
-                            date="May 10, 2026"
-                            origin="Cash Deposit"
-                            destination="Main Account"
-                            amount="+$3,500"
-                            amountColor="text-green-400"
-                        />
+                        {
+                            transactions.map(
+                                (transaction) => (
 
-                        <TransactionRow
-                            icon={
-                                <ArrowUpRight
-                                    size={18}
-                                />
-                            }
-                            type="Withdrawal"
-                            date="May 08, 2026"
-                            origin="Main Account"
-                            destination="ATM Network"
-                            amount="-$500"
-                            amountColor="text-red-400"
-                        />
+                                    <TransactionRow
 
-                        <TransactionRow
-                            icon={
-                                <ArrowRightLeft
-                                    size={18}
-                                />
-                            }
-                            type="Transfer"
-                            date="May 07, 2026"
-                            origin="Main Account"
-                            destination="Beneficiary"
-                            amount="-$1,250"
-                            amountColor="text-cyan-400"
-                        />
+                                        key={
+                                            transaction._id
+                                        }
 
+                                        type={
+                                            transaction.type
+                                        }
+
+                                        date={
+                                            new Date(
+                                                transaction.date
+                                            ).toLocaleDateString(
+                                                "es-MX"
+                                            )
+                                        }
+
+                                        origin={
+                                            transaction.fromAccount
+                                        }
+
+                                        destination={
+                                            transaction.toAccount
+                                        }
+
+                                        amount={
+                                            transaction.amount.toFixed(2) as unknown as number
+                                        }
+
+                                        status={
+                                            transaction.status
+                                        }
+
+                                    />
+
+                                )
+                            )
+                        }
                     </tbody>
 
                 </table>
@@ -340,22 +407,43 @@ function StatCard({
 }
 
 function TransactionRow({
-    icon,
+
     type,
+
     date,
+
     origin,
+
     destination,
+
     amount,
-    amountColor
+
+    status
+
 }: {
-    icon: React.ReactNode;
+
     type: string;
+
     date: string;
+
     origin: string;
+
     destination: string;
-    amount: string;
-    amountColor: string;
+
+    amount: number;
+
+    status: string;
+
 }) {
+
+    const isTransfer =
+        type
+            .toLowerCase()
+            .includes(
+                "transfer"
+            );
+
+
 
     return (
 
@@ -385,7 +473,21 @@ function TransactionRow({
                         "
                     >
 
-                        {icon}
+                        {
+                            isTransfer
+
+                                ? (
+                                    <ArrowRightLeft
+                                        size={18}
+                                    />
+                                )
+
+                                : (
+                                    <ArrowUpRight
+                                        size={18}
+                                    />
+                                )
+                        }
 
                     </div>
 
@@ -412,13 +514,21 @@ function TransactionRow({
             </td>
 
             <td
-                className={`
-                    p-5
-                    font-semibold
-                    ${amountColor}
-                `}
+                className="
+        p-5
+        font-semibold
+        text-cyan-400
+    "
             >
-                {amount}
+
+                $
+
+                {
+                    amount.toLocaleString(
+                        "es-MX"
+                    )
+                }
+
             </td>
 
             <td className="p-5">
@@ -435,7 +545,7 @@ function TransactionRow({
                     "
                 >
 
-                    COMPLETED
+                    {status}
 
                 </span>
 
