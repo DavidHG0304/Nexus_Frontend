@@ -18,9 +18,16 @@ export const successToast = (
 
         showConfirmButton: false,
 
-        background: "#081423",
+        background: "#0b2837",
 
-        color: "#fff"
+        color: "#fff",
+
+        timerProgressBar: true,
+        customClass: {
+
+            timerProgressBar: "bg-cyan-400"
+        }
+
 
     });
 
@@ -42,10 +49,16 @@ export const errorToast = (
 
         timer: 2500,
 
+        background: "#0b2837",
+
         showConfirmButton: false,
 
-        background: "#081423",
+        timerProgressBar: true,
 
+        customClass: {
+
+            timerProgressBar: "bg-cyan-400"
+        },
         color: "#fff"
 
     });
