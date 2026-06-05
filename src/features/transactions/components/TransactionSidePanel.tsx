@@ -5,7 +5,7 @@ import {
     ShieldCheck
 } from "lucide-react";
 
-import type { ApiResponse } from "../../../shared/types";
+import type { DashboardResponse } from "../../dashboard/types/dashboard.types";
 
 import {
 
@@ -25,7 +25,7 @@ import {
 } from "../../../styles/shared/text";
 
 type TransactionSidePanelProps = {
-    data: ApiResponse | null;
+    data: DashboardResponse | null;
 };
 
 function TransactionSidePanel({
