@@ -1,53 +1,79 @@
+import { useDashboard } from "../../dashboard/hook/useDashboard";
 import TransactionForm from "../components/TransactionForm";
 
 import TransactionSidePanel from "../components/TransactionSidePanel";
 
-import type { ApiResponse } from "../../../shared/types";
+import {
+  useTransactions
+} from "../hooks/useTransactions";
 
-type TransactionsPageProps = {
+function TransactionsPage() {
 
-  cuenta: string;
+  const {
+    data,
+    fetchDashboard
+  } = useDashboard();
 
-  monto: string;
+  const transactions =
+    useTransactions({
 
-  setMonto: React.Dispatch<
-    React.SetStateAction<string>
-  >;
+      onTransferSuccess:
+        async () => {
 
-  depositar: () => void;
+          await fetchDashboard();
 
-  retirar: () => void;
+        }
 
-  mensaje: string;
-
-  tipoMensaje: string;
-
-  data: ApiResponse | null;
-};
-
-function TransactionsPage({
-  cuenta,
-  monto,
-  setMonto,
-  depositar,
-  retirar,
-  mensaje,
-  tipoMensaje,
-  data
-}: TransactionsPageProps) {
+    });
 
   return (
 
-    <div className="grid gap-5 xl:grid-cols-[1.15fr_0.55fr]">
+    <div
+      className="
+        grid
+        gap-5
+        xl:grid-cols-[1.15fr_0.55fr]
+      "
+    >
 
       <TransactionForm
-        cuenta={cuenta}
-        monto={monto}
-        setMonto={setMonto}
-        depositar={depositar}
-        retirar={retirar}
-        mensaje={mensaje}
-        tipoMensaje={tipoMensaje}
+
+        toAccount={
+          transactions.toAccount
+        }
+
+        setToAccount={
+          transactions.setToAccount
+        }
+
+        amount={
+          transactions.amount
+        }
+
+        setAmount={
+          transactions.setAmount
+        }
+
+        description={
+          transactions.description
+        }
+
+        setDescription={
+          transactions.setDescription
+        }
+
+        transferir={
+          transactions.transferir
+        }
+
+        message={
+          transactions.message
+        }
+
+        messageType={
+          transactions.messageType
+        }
+
       />
 
       <TransactionSidePanel

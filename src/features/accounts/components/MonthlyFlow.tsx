@@ -1,11 +1,12 @@
 import { motion } from "framer-motion";
 
-import { usePrivacy }
-  from "../../../shared/context/PrivacyContext";
+import {
+  usePrivacy
+} from "../../../shared/context/PrivacyContext";
 
 import type {
-  Transaction
-} from "../../../shared/types";
+  DashboardTransaction
+} from "../../dashboard/types/dashboard.types";
 
 import {
   primaryCard
@@ -18,40 +19,51 @@ import {
 } from "../../../styles/shared/text";
 
 type MonthlyFlowProps = {
-  transactions: Transaction[];
+
+  transactions:
+  DashboardTransaction[];
+
 };
 
 function MonthlyFlow({
   transactions
 }: MonthlyFlowProps) {
 
-  const { showBalance } =
-    usePrivacy();
+  const {
+    showBalance
+  } = usePrivacy();
 
   const recentTransactions =
+
     [...transactions]
 
       .sort((a, b) => {
 
-        const dateA =
-          new Date(a.date || "")
-            .getTime();
+        return (
 
-        const dateB =
-          new Date(b.date || "")
-            .getTime();
+          new Date(
+            b.date
+          ).getTime()
 
-        return dateB - dateA;
+          -
+
+          new Date(
+            a.date
+          ).getTime()
+
+        );
 
       })
 
       .slice(0, 4);
 
   const generatedChartData =
+
     recentTransactions.flatMap(
       (transaction) => {
 
         const base =
+
           Math.min(
             transaction.amount / 40,
             90
@@ -83,6 +95,7 @@ function MonthlyFlow({
     );
 
   const total =
+
     transactions.reduce(
       (
         acc,
@@ -129,6 +142,7 @@ function MonthlyFlow({
                 showBalance
                   ? "blur(0px)"
                   : "blur(8px)",
+
               opacity:
                 showBalance
                   ? 1
@@ -146,14 +160,19 @@ function MonthlyFlow({
           >
 
             $
-            {total.toLocaleString(
-              "es-MX"
-            )}
+
+            {
+              total.toLocaleString(
+                "es-MX"
+              )
+            }
 
           </motion.p>
 
           <p className={smallMutedText}>
-            Based on transaction activity
+
+            Based on transfer activity
+
           </p>
 
         </div>
@@ -161,6 +180,7 @@ function MonthlyFlow({
       </div>
 
       {
+
         chartData.length ? (
 
           <motion.div
@@ -169,6 +189,7 @@ function MonthlyFlow({
                 showBalance
                   ? "blur(0px)"
                   : "blur(4px)",
+
               opacity:
                 showBalance
                   ? 1
@@ -186,6 +207,7 @@ function MonthlyFlow({
           >
 
             {
+
               chartData.map(
                 (
                   height,
@@ -212,6 +234,7 @@ function MonthlyFlow({
 
                 )
               )
+
             }
 
           </motion.div>
@@ -232,12 +255,15 @@ function MonthlyFlow({
           >
 
             <p className={smallMutedText}>
+
               No activity available.
+
             </p>
 
           </div>
 
         )
+
       }
 
     </section>

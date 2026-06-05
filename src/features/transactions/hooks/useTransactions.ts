@@ -1,151 +1,116 @@
 import { useState } from "react";
 
 import {
-    deposit as depositAPI,
-    withdraw as withdrawAPI
-} from "../api/transactionsApi";
+    transfer
+} from "../services/transferService";
 
 import {
     confirmTransaction
-} from "../../../shared/utils/alerts.ts";
+} from "../../../shared/utils/alerts";
 
-type UseTransactionsProps = {
-    cuenta: string;
-    onTransactionSuccess?: () => Promise<void> | void;
+type UseTransfersProps = {
+
+    onTransferSuccess?:
+    () => Promise<void> | void;
+
 };
 
 export function useTransactions({
-    cuenta,
-    onTransactionSuccess
-}: UseTransactionsProps) {
+    onTransferSuccess
+}: UseTransfersProps) {
 
-    const [monto, setMonto] = useState("");
+    const [toAccount, setToAccount] =
+        useState("");
 
-    const [mensaje, setMensaje] = useState("");
+    const [amount, setAmount] =
+        useState("");
 
-    const [tipoMensaje, setTipoMensaje] = useState("");
+    const [description, setDescription] =
+        useState("");
+
+    const [message, setMessage] =
+        useState("");
+
+    const [messageType, setMessageType] =
+        useState("");
 
     const showMessage = (
         text: string,
         type: string
     ) => {
 
-        setMensaje(text);
+        setMessage(text);
 
-        setTipoMensaje(type);
+        setMessageType(type);
 
         setTimeout(() => {
 
-            setMensaje("");
+            setMessage("");
 
-            setTipoMensaje("");
+            setMessageType("");
 
         }, 3000);
 
     };
 
-    const depositar = async () => {
+    const transferir = async () => {
 
         if (
-            !monto.trim() ||
-            isNaN(Number(monto)) ||
-            Number(monto) <= 0
+            !toAccount.trim() ||
+            !amount.trim()
         ) {
 
             showMessage(
-                "Enter a valid amount.",
+                "Complete all fields",
                 "error"
             );
 
             return;
+
         }
 
         const result =
             await confirmTransaction(
-                "Confirm Deposit",
-                `Do you want to deposit $${monto}?`
+                "Confirm Transfer",
+                `Transfer $${amount}?`
             );
 
-        if (!result.isConfirmed) {
+        if (!result.isConfirmed)
             return;
-        }
 
         try {
 
             const response =
-                await depositAPI(
-                    cuenta,
-                    Number(monto)
-                );
+                await transfer({
+
+                    toAccount,
+
+                    amount:
+                        Number(amount),
+
+                    description,
+
+                    branch:
+                        "La Paz"
+
+                });
 
             showMessage(
-                response.message ||
-                "Deposit completed successfully",
+                response.message,
                 "success"
             );
 
-            setMonto("");
+            setToAccount("");
+            setAmount("");
+            setDescription("");
 
-            await onTransactionSuccess?.();
-
-        } catch (error) {
-            console.error(
-                "Deposit error:",
-                error
-            );
-            throw error;
-        }
-
-    };
-
-    const retirar = async () => {
-
-        if (
-            !monto.trim() ||
-            isNaN(Number(monto)) ||
-            Number(monto) <= 0
-        ) {
-
-            showMessage(
-                "Enter a valid amount.",
-                "error"
-            );
-
-            return;
-        }
-
-        const result =
-            await confirmTransaction(
-                "Confirm Withdrawal",
-                `Do you want to withdraw $${monto}?`
-            );
-
-        if (!result.isConfirmed) {
-            return;
-        }
-
-        try {
-
-            const response =
-                await withdrawAPI(
-                    cuenta,
-                    Number(monto)
-                );
-
-            showMessage(
-                response.message ||
-                "Withdrawal completed successfully",
-                "success"
-            );
-
-            setMonto("");
-
-            await onTransactionSuccess?.();
+            await onTransferSuccess?.();
 
         } catch {
 
-            throw new Error(
-                "Withdrawal failed"
+            showMessage(
+                "Transfer failed",
+                "error"
             );
 
         }
@@ -154,14 +119,19 @@ export function useTransactions({
 
     return {
 
-        monto,
-        setMonto,
+        toAccount,
+        setToAccount,
 
-        mensaje,
-        tipoMensaje,
+        amount,
+        setAmount,
 
-        depositar,
-        retirar
+        description,
+        setDescription,
+
+        message,
+        messageType,
+
+        transferir
 
     };
 

@@ -4,7 +4,62 @@ import {
     ArrowRight
 } from "lucide-react";
 
+import { useState } from "react";
+
+import { useNavigate } from "react-router-dom";
+
+import { login } from "../services/authService";
+
+import { useAuth } from "../context/AuthContext";
+
 function LoginPage() {
+    const navigate = useNavigate();
+
+    const { loginUser } = useAuth();
+
+    const [email, setEmail] =
+        useState("");
+
+    const [password, setPassword] =
+        useState("");
+
+    const [loading, setLoading] =
+        useState(false);
+
+    const handleLogin = async () => {
+
+        try {
+
+            setLoading(true);
+
+            const response =
+                await login(
+                    email,
+                    password
+                );
+
+            loginUser(
+                response.token,
+                response.client
+            );
+
+            navigate("/dashboard");
+
+        } catch (error) {
+
+            console.error(error);
+
+            alert(
+                "Invalid credentials"
+            );
+
+        } finally {
+
+            setLoading(false);
+
+        }
+
+    };
 
     return (
 
@@ -122,13 +177,17 @@ function LoginPage() {
 
                                 <input
                                     type="email"
+                                    value={email}
+                                    onChange={(e) =>
+                                        setEmail(e.target.value)
+                                    }
                                     placeholder="name@nexus.io"
                                     className="
-                                        w-full
-                                        bg-transparent
-                                        text-white
-                                        outline-none
-                                    "
+                                                w-full
+                                                bg-transparent
+                                                text-white
+                                                outline-none
+                                            "
                                 />
 
                             </div>
@@ -198,13 +257,16 @@ function LoginPage() {
 
                                 <input
                                     type="password"
+                                    value={password}
+                                    onChange={(e) =>
+                                        setPassword(e.target.value)
+                                    }
                                     placeholder="••••••••••••"
-                                    className="
-                                        w-full
-                                        bg-transparent
-                                        text-white
-                                        outline-none
-                                    "
+                                    className="w-full
+                                            bg-transparent
+                                            text-white
+                                            outline-none
+                                        "
                                 />
 
                             </div>
@@ -235,18 +297,21 @@ function LoginPage() {
                         </div>
 
                         <button
+                            onClick={handleLogin}
+                            disabled={loading}
                             className="
-                                w-full
-                                rounded-full
-                                bg-cyan-400
-                                py-4
-                                text-lg
-                                font-semibold
-                                text-slate-950
-                                transition
-                                hover:scale-[1.02]
-                                shadow-[0_0_30px_rgba(6,182,212,.4)]
-                            "
+        w-full
+        rounded-full
+        bg-cyan-400
+        py-4
+        text-lg
+        font-semibold
+        text-slate-950
+        transition
+        hover:scale-[1.02]
+        shadow-[0_0_30px_rgba(6,182,212,.4)]
+        disabled:opacity-50
+    "
                         >
 
                             <span
@@ -258,7 +323,11 @@ function LoginPage() {
                                 "
                             >
 
-                                Authorize Session
+                                {
+                                    loading
+                                        ? "Signing In..."
+                                        : "Authorize Session"
+                                }
 
                                 <ArrowRight
                                     className="
@@ -285,6 +354,9 @@ function LoginPage() {
                         Don't have an institutional account?
 
                         <button
+                            onClick={() =>
+                                navigate("/register")
+                            }
                             className="
                                 ml-2
                                 font-semibold

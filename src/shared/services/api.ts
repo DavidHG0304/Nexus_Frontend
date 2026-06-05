@@ -1,64 +1,29 @@
-import type { ApiResponse } from "../types";
+import axios from "axios";
 
-const API = "http://localhost:3000/api";
+const api = axios.create({
 
-export const consultarCuenta = async (
-    cuenta: string
-): Promise<ApiResponse> => {
+    baseURL: "http://localhost:3000/api"
 
-    const response = await fetch(
-        `${API}/accounts/${cuenta}`
-    );
+});
 
-    if (!response.ok) {
-        throw new Error("No se pudo consultar la cuenta");
+api.interceptors.request.use(
+
+    (config) => {
+
+        const token =
+            localStorage.getItem("token");
+
+        if (token) {
+
+            config.headers.Authorization =
+                `Bearer ${token}`;
+
+        }
+
+        return config;
+
     }
 
-    return response.json();
-};
+);
 
-export const depositar = async (
-    cuenta: string,
-    monto: number
-) => {
-
-    const response = await fetch(
-        `${API}/transactions/deposito`,
-        {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                accountNumber: cuenta,
-                amount: monto,
-                branch: "CDMX"
-            })
-        }
-    );
-
-    return response.json();
-};
-
-export const retirar = async (
-    cuenta: string,
-    monto: number
-) => {
-
-    const response = await fetch(
-        `${API}/transactions/retiro`,
-        {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                accountNumber: cuenta,
-                amount: monto,
-                branch: "CDMX"
-            })
-        }
-    );
-
-    return response.json();
-};
+export default api;

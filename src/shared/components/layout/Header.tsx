@@ -1,6 +1,7 @@
 import {
   Bell,
-  Settings
+  Settings,
+  ArrowRightLeft
 } from "lucide-react";
 
 import {
@@ -24,9 +25,26 @@ type HeaderProps = {
 
 };
 
+const titles: Record<string, string> = {
+
+  dashboard: "Dashboard",
+
+  transfers: "Transfers",
+
+  profile: "Profile",
+
+  beneficiaries: "Beneficiaries",
+
+  history: "History"
+
+};
+
 function Header({
+
   tab,
+
   setTab
+
 }: HeaderProps) {
 
   return (
@@ -40,15 +58,32 @@ function Header({
 
       <div>
 
-        <p className="text-xs uppercase tracking-[0.25em] text-cyan-300">
+        <p
+          className="
+            text-xs
+            uppercase
+            tracking-[0.25em]
+            text-cyan-300
+          "
+        >
 
           Nexus Finance
 
         </p>
 
-        <h1 className="mt-1 text-3xl font-bold text-white capitalize">
+        <h1
+          className="
+            mt-1
+            text-3xl
+            font-bold
+            text-white
+          "
+        >
 
-          {tab}
+          {
+            titles[tab] ||
+            "Dashboard"
+          }
 
         </h1>
 
@@ -56,36 +91,75 @@ function Header({
 
       <div className="flex items-center gap-3">
 
+        {
+
+          tab !== "transfers" && (
+
+            <button
+              onClick={() =>
+                setTab(
+                  "transfers"
+                )
+              }
+              className={`
+                ${primaryButton}
+                hidden
+                h-11
+                px-5
+                md:flex
+                md:items-center
+                md:gap-2
+              `}
+            >
+
+              <ArrowRightLeft
+                className="
+                  h-4
+                  w-4
+                "
+              />
+
+              Transfer
+
+            </button>
+
+          )
+
+        }
+
         <button
-          onClick={() => setTab("transactions")}
-          className={`
-            ${primaryButton}
-            hidden
-            h-11
-            px-5
-            md:block
-          `}
+          className={iconButton}
         >
 
-          New Transaction
+          <Bell
+            className="
+              h-5
+              w-5
+            "
+          />
 
         </button>
 
-        <button className={iconButton}>
+        <button
+          className={iconButton}
+        >
 
-          <Bell className="h-5 w-5" />
+          <Settings
+            className="
+              h-5
+              w-5
+            "
+          />
 
         </button>
 
-        <button className={iconButton}>
+        <div
+          className={
+            avatarStyle
+          }
+        >
 
-          <Settings className="h-5 w-5" />
-
-        </button>
-
-        <div className={avatarStyle}>
-
-          U
+          N
 
         </div>
 

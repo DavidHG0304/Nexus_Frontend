@@ -4,20 +4,20 @@ import {
 } from "framer-motion";
 
 import {
-    usePrivacy
-} from "../../../shared/context/PrivacyContext";
-
-import {
     Eye,
     EyeOff
 } from "lucide-react";
 
+import {
+    usePrivacy
+} from "../../../shared/context/PrivacyContext";
+
 import type {
-    ApiResponse
-} from "../../../shared/types";
+    DashboardResponse
+} from "../../dashboard/types/dashboard.types";
 
 type AccountSummaryProps = {
-    data: ApiResponse | null;
+    data: DashboardResponse | null;
 };
 
 function AccountSummary({
@@ -57,8 +57,22 @@ function AccountSummary({
 
                     {
                         showBalance
-                            ? <Eye className="h-4 w-4" />
-                            : <EyeOff className="h-4 w-4" />
+                            ? (
+                                <Eye
+                                    className="
+                                        h-4
+                                        w-4
+                                    "
+                                />
+                            )
+                            : (
+                                <EyeOff
+                                    className="
+                                        h-4
+                                        w-4
+                                    "
+                                />
+                            )
                     }
 
                 </button>
@@ -91,10 +105,29 @@ function AccountSummary({
                             }}
                         >
 
-                            <div className="rounded-[26px] bg-gradient-to-br from-cyan-400 to-cyan-500 p-5 text-slate-950">
+                            <div
+                                className="
+                                    rounded-[26px]
+                                    bg-gradient-to-br
+                                    from-cyan-400
+                                    to-cyan-500
+                                    p-5
+                                    text-slate-950
+                                "
+                            >
 
-                                <p className="text-xs font-semibold uppercase tracking-[0.25em] text-slate-900/70">
+                                <p
+                                    className="
+                                        text-xs
+                                        font-semibold
+                                        uppercase
+                                        tracking-[0.25em]
+                                        text-slate-900/70
+                                    "
+                                >
+
                                     Available Balance
+
                                 </p>
 
                                 <motion.h1
@@ -103,6 +136,7 @@ function AccountSummary({
                                             showBalance
                                                 ? "blur(0px)"
                                                 : "blur(8px)",
+
                                         opacity:
                                             showBalance
                                                 ? 1
@@ -121,58 +155,265 @@ function AccountSummary({
                                 >
 
                                     $
-                                    {data.account.balance.toLocaleString("en-US")}
+
+                                    {
+                                        data
+                                            .account
+                                            .balance
+                                            .toLocaleString(
+                                                "en-US"
+                                            )
+                                    }
 
                                 </motion.h1>
 
                             </div>
 
-                            <div className="mt-5 grid gap-4 sm:grid-cols-2">
+                            <div
+                                className="
+                                    mt-5
+                                    grid
+                                    gap-4
+                                    sm:grid-cols-2
+                                "
+                            >
 
-                                <div className="rounded-2xl bg-white/5 p-4">
+                                <div
+                                    className="
+                                        rounded-2xl
+                                        bg-white/5
+                                        p-4
+                                    "
+                                >
 
-                                    <p className="text-xs uppercase tracking-[0.18em] text-slate-500">
+                                    <p
+                                        className="
+                                            text-xs
+                                            uppercase
+                                            tracking-[0.18em]
+                                            text-slate-500
+                                        "
+                                    >
+
                                         Client
+
                                     </p>
 
-                                    <p className="mt-2 text-lg font-semibold text-white">
-                                        {data.account.clientId.name}
+                                    <p
+                                        className="
+                                            mt-2
+                                            text-lg
+                                            font-semibold
+                                            text-white
+                                        "
+                                    >
+
+                                        {
+                                            data
+                                                .client
+                                                .name
+                                        }
+
                                     </p>
 
                                 </div>
 
-                                <div className="rounded-2xl bg-white/5 p-4">
+                                <div
+                                    className="
+                                        rounded-2xl
+                                        bg-white/5
+                                        p-4
+                                    "
+                                >
 
-                                    <p className="text-xs uppercase tracking-[0.18em] text-slate-500">
+                                    <p
+                                        className="
+                                            text-xs
+                                            uppercase
+                                            tracking-[0.18em]
+                                            text-slate-500
+                                        "
+                                    >
+
                                         Account
+
                                     </p>
 
-                                    <p className="mt-2 text-lg font-semibold text-white">
-                                        {data.account.accountNumber}
+                                    <p
+                                        className="
+                                            mt-2
+                                            text-lg
+                                            font-semibold
+                                            text-white
+                                        "
+                                    >
+
+                                        {
+                                            data
+                                                .account
+                                                .accountNumber
+                                        }
+
                                     </p>
 
                                 </div>
 
-                                <div className="rounded-2xl bg-white/5 p-4">
+                                <div
+                                    className="
+                                        rounded-2xl
+                                        bg-white/5
+                                        p-4
+                                    "
+                                >
 
-                                    <p className="text-xs uppercase tracking-[0.18em] text-slate-500">
+                                    <p
+                                        className="
+                                            text-xs
+                                            uppercase
+                                            tracking-[0.18em]
+                                            text-slate-500
+                                        "
+                                    >
+
                                         Type
+
                                     </p>
 
-                                    <p className="mt-2 text-lg font-semibold text-white">
-                                        {data.account.accountType}
+                                    <p
+                                        className="
+                                            mt-2
+                                            text-lg
+                                            font-semibold
+                                            text-white
+                                        "
+                                    >
+
+                                        {
+                                            data
+                                                .account
+                                                .accountType
+                                        }
+
                                     </p>
 
                                 </div>
 
-                                <div className="rounded-2xl bg-white/5 p-4">
+                                <div
+                                    className="
+                                        rounded-2xl
+                                        bg-white/5
+                                        p-4
+                                    "
+                                >
 
-                                    <p className="text-xs uppercase tracking-[0.18em] text-slate-500">
+                                    <p
+                                        className="
+                                            text-xs
+                                            uppercase
+                                            tracking-[0.18em]
+                                            text-slate-500
+                                        "
+                                    >
+
                                         Currency
+
                                     </p>
 
-                                    <p className="mt-2 text-lg font-semibold text-white">
-                                        {data.account.currency}
+                                    <p
+                                        className="
+                                            mt-2
+                                            text-lg
+                                            font-semibold
+                                            text-white
+                                        "
+                                    >
+
+                                        {
+                                            data
+                                                .account
+                                                .currency
+                                        }
+
+                                    </p>
+
+                                </div>
+
+                                <div
+                                    className="
+                                        rounded-2xl
+                                        bg-white/5
+                                        p-4
+                                    "
+                                >
+
+                                    <p
+                                        className="
+                                            text-xs
+                                            uppercase
+                                            tracking-[0.18em]
+                                            text-slate-500
+                                        "
+                                    >
+
+                                        Status
+
+                                    </p>
+
+                                    <p
+                                        className="
+                                            mt-2
+                                            text-lg
+                                            font-semibold
+                                            text-emerald-400
+                                        "
+                                    >
+
+                                        {
+                                            data
+                                                .account
+                                                .status
+                                        }
+
+                                    </p>
+
+                                </div>
+
+                                <div
+                                    className="
+                                        rounded-2xl
+                                        bg-white/5
+                                        p-4
+                                    "
+                                >
+
+                                    <p
+                                        className="
+                                            text-xs
+                                            uppercase
+                                            tracking-[0.18em]
+                                            text-slate-500
+                                        "
+                                    >
+
+                                        Email
+
+                                    </p>
+
+                                    <p
+                                        className="
+                                            mt-2
+                                            text-sm
+                                            font-medium
+                                            text-white
+                                        "
+                                    >
+
+                                        {
+                                            data
+                                                .client
+                                                .email
+                                        }
+
                                     </p>
 
                                 </div>
@@ -207,7 +448,7 @@ function AccountSummary({
                             "
                         >
 
-                            Search for an account to view balance information.
+                            Loading account information...
 
                         </motion.div>
 

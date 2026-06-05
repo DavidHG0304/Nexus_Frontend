@@ -1,5 +1,4 @@
 import {
-    ArrowLeft,
     ArrowRight,
     Landmark
 } from "lucide-react";
@@ -7,8 +6,7 @@ import {
 import MessageAlert from "./MessageAlert";
 
 import {
-    primaryButton,
-    secondaryButton
+    primaryButton
 } from "../../../styles/shared/buttons";
 
 import {
@@ -25,39 +23,51 @@ import {
 
 type TransactionFormProps = {
 
-    cuenta: string;
+    toAccount: string;
 
-    monto: string;
-
-    setMonto: React.Dispatch<
+    setToAccount: React.Dispatch<
         React.SetStateAction<string>
     >;
 
-    depositar: () => void;
+    amount: string;
 
-    retirar: () => void;
+    setAmount: React.Dispatch<
+        React.SetStateAction<string>
+    >;
 
-    mensaje: string;
+    description: string;
 
-    tipoMensaje: string;
+    setDescription: React.Dispatch<
+        React.SetStateAction<string>
+    >;
+
+    transferir: () => void;
+
+    message: string;
+
+    messageType: string;
 
 };
 
 function TransactionForm({
 
-    cuenta,
+    toAccount,
 
-    monto,
+    setToAccount,
 
-    setMonto,
+    amount,
 
-    depositar,
+    setAmount,
 
-    retirar,
+    description,
 
-    mensaje,
+    setDescription,
 
-    tipoMensaje
+    transferir,
+
+    message,
+
+    messageType
 
 }: TransactionFormProps) {
 
@@ -84,13 +94,13 @@ function TransactionForm({
 
                     <h2 className={sectionHeading}>
 
-                        New Transaction
+                        Bank Transfer
 
                     </h2>
 
                     <p className={`mt-2 ${mutedText}`}>
 
-                        Make deposits and withdrawals securely.
+                        Send funds securely to another account.
 
                     </p>
 
@@ -98,17 +108,22 @@ function TransactionForm({
 
                 <div
                     className="
-          grid
-          h-14
-          w-14
-          place-items-center
-          rounded-2xl
-          bg-cyan-400/10
-          text-cyan-300
-          "
+                        grid
+                        h-14
+                        w-14
+                        place-items-center
+                        rounded-2xl
+                        bg-cyan-400/10
+                        text-cyan-300
+                    "
                 >
 
-                    <Landmark className="h-6 w-6" />
+                    <Landmark
+                        className="
+                            h-6
+                            w-6
+                        "
+                    />
 
                 </div>
 
@@ -120,48 +135,61 @@ function TransactionForm({
 
                     <label
                         className="
-            mb-2
-            block
-            text-sm
-            font-medium
-            text-slate-300
-            "
+                            mb-2
+                            block
+                            text-sm
+                            font-medium
+                            text-slate-300
+                        "
                     >
 
-                        Account Number
+                        Destination Account
 
                     </label>
 
                     <input
                         type="text"
-                        value={cuenta}
-                        disabled
-                        className={`
-              ${inputStyle}
-              opacity-60
-              cursor-not-allowed
-            `}
+                        placeholder="1800000021"
+                        value={toAccount}
+                        onChange={(e) =>
+                            setToAccount(
+                                e.target.value
+                            )
+                        }
+                        className={inputStyle}
                     />
 
                 </div>
 
                 <div>
 
-                    <div className="mb-2 flex items-center justify-between">
+                    <div
+                        className="
+                            mb-2
+                            flex
+                            items-center
+                            justify-between
+                        "
+                    >
 
                         <label
                             className="
-              text-sm
-              font-medium
-              text-slate-300
-              "
+                                text-sm
+                                font-medium
+                                text-slate-300
+                            "
                         >
 
                             Amount
 
                         </label>
 
-                        <span className="text-xs text-slate-500">
+                        <span
+                            className="
+                                text-xs
+                                text-slate-500
+                            "
+                        >
 
                             MXN Currency
 
@@ -172,9 +200,11 @@ function TransactionForm({
                     <input
                         type="number"
                         placeholder="Enter amount..."
-                        value={monto}
+                        value={amount}
                         onChange={(e) =>
-                            setMonto(e.target.value)
+                            setAmount(
+                                e.target.value
+                            )
                         }
                         className={inputStyle}
                     />
@@ -184,63 +214,104 @@ function TransactionForm({
                 <div className="flex flex-wrap gap-2">
 
                     {
-                        quickAmounts.map((amount) => (
+                        quickAmounts.map(
+                            (quickAmount) => (
 
-                            <button
-                                key={amount}
-                                onClick={() =>
-                                    setMonto(String(amount))
-                                }
-                                className={quickAmountButton}
-                            >
+                                <button
+                                    key={quickAmount}
+                                    onClick={() =>
+                                        setAmount(
+                                            String(
+                                                quickAmount
+                                            )
+                                        )
+                                    }
+                                    className={
+                                        quickAmountButton
+                                    }
+                                >
 
-                                ${amount.toLocaleString("es-MX")}
+                                    $
+                                    {
+                                        quickAmount
+                                            .toLocaleString(
+                                                "es-MX"
+                                            )
+                                    }
 
-                            </button>
+                                </button>
 
-                        ))
+                            )
+                        )
                     }
 
                 </div>
 
+                <div>
+
+                    <label
+                        className="
+                            mb-2
+                            block
+                            text-sm
+                            font-medium
+                            text-slate-300
+                        "
+                    >
+
+                        Transfer Concept
+
+                    </label>
+
+                    <textarea
+                        rows={4}
+                        value={description}
+                        onChange={(e) =>
+                            setDescription(
+                                e.target.value
+                            )
+                        }
+                        placeholder="Payment, rent, services..."
+                        className={inputStyle}
+                    />
+
+                </div>
+
                 {
-                    mensaje && (
+                    message && (
 
                         <MessageAlert
-                            mensaje={mensaje}
-                            tipoMensaje={tipoMensaje}
+                            mensaje={message}
+                            tipoMensaje={messageType}
                         />
 
                     )
                 }
 
-                <div className="grid gap-3 pt-2 sm:grid-cols-2">
+                <div className="pt-2">
 
                     <button
-                        onClick={retirar}
-                        className={secondaryButton}
-                    >
-
-                        <span className="flex items-center justify-center gap-2">
-
-                            <ArrowLeft className="h-4 w-4" />
-
-                            Withdraw
-
-                        </span>
-
-                    </button>
-
-                    <button
-                        onClick={depositar}
+                        onClick={transferir}
                         className={primaryButton}
                     >
 
-                        <span className="flex items-center justify-center gap-2">
+                        <span
+                            className="
+                                flex
+                                items-center
+                                justify-center
+                                gap-2
+                            "
+                        >
 
-                            Deposit
+                            Transfer Funds
 
-                            <ArrowRight className="h-4 w-4" />
+                            <ArrowRight
+                                className="
+                                    h-4
+                                    w-4
+                                "
+                            />
 
                         </span>
 
