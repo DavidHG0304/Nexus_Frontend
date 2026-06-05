@@ -251,8 +251,7 @@ function Sidebar({
             <aside
                 className="
                     sticky
-                    top-0
-                    hidden
+                    top-0                    
                     h-screen
                     w-72
                     border-r
