@@ -15,6 +15,7 @@ import {
 import {
     useAuth
 } from "../../../features/auth/context/AuthContext";
+import { confirmLogout } from "../../utils/confirm";
 
 type SidebarProps = {
     isOpen: boolean;
@@ -67,6 +68,19 @@ function Sidebar({
         navigate(path);
 
         onClose();
+
+    };
+    
+    const handleLogout = async () => {
+
+        const result =
+            await confirmLogout();
+
+        if (!result.isConfirmed) {
+            return;
+        }
+
+        logout();
 
     };
 
@@ -171,9 +185,9 @@ function Sidebar({
             </nav>
 
             <div className="mt-auto">
-
+                
                 <button
-                    onClick={logout}
+                    onClick={handleLogout}
                     className="
                         flex
                         w-full

@@ -51,3 +51,51 @@ export const confirmDelete =
         });
 
     };
+
+export const confirmLogout = async () => {
+
+    return Swal.fire({
+
+        title: "Close session?",
+
+        text:
+            "You will need to sign in again to access your account.",
+
+        icon: "question",
+
+        showCancelButton: true,
+
+        customClass: {
+
+            popup:
+                "rounded-[28px] border border-cyan-400/10",
+
+            title:
+                "text-2xl font-bold",
+
+            htmlContainer:
+                "text-slate-400",
+
+            confirmButton:
+                "!bg-cyan-400 !text-slate-950 !rounded-full !px-6 !py-3 !font-semibold",
+
+            cancelButton:
+                "!bg-white/10 !text-white !rounded-full !px-6 !py-3 !font-semibold"
+
+        },
+
+        confirmButtonText:
+            "Logout",
+
+        cancelButtonText:
+            "Stay",
+
+        background:
+            "#091423",
+
+        color:
+            "#fff"
+
+    });
+
+};
