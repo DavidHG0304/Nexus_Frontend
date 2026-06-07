@@ -24,16 +24,21 @@ import {
     confirmDelete
 } from "../../../shared/utils/confirm";
 
+let cachedBeneficiaries: Beneficiary[] = [];
+let cachedError = "";
+let fetchPromise: Promise<Beneficiary[]> | null = null;
+let hasLoadedOnce = false;
+
 export function useBeneficiaries() {
 
     const [beneficiaries, setBeneficiaries] =
-        useState<Beneficiary[]>([]);
+        useState<Beneficiary[]>(cachedBeneficiaries);
 
     const [error, setError] =
-        useState("");
+        useState(cachedError);
 
     const [loading, setLoading] =
-        useState(true);
+        useState(!hasLoadedOnce);
 
     const [alias, setAlias] =
         useState("");
@@ -58,18 +63,42 @@ export function useBeneficiaries() {
     const loadBeneficiaries =
         async () => {
 
+            if (fetchPromise) {
+                try {
+                    const data = await fetchPromise;
+                    await new Promise((resolve) => setTimeout(resolve, 800));
+                    setBeneficiaries(data);
+                    setLoading(false);
+                } catch (err) {
+                    // Handled by original promise
+                }
+                return;
+            }
+
             try {
+                if (!hasLoadedOnce) {
+                    setLoading(true);
+                }
 
-                setLoading(true);
+                fetchPromise = getBeneficiaries();
+                const data = await fetchPromise;
 
-                const data =
-                    await getBeneficiaries();
+                await new Promise((resolve) => setTimeout(resolve, 800));
 
+                cachedBeneficiaries = data;
                 setBeneficiaries(data);
+                setError("");
+                cachedError = "";
+                hasLoadedOnce = true;
 
+            } catch (err) {
+                const message = err instanceof Error ? err.message : "Failed to load beneficiaries";
+                setError(message);
+                cachedError = message;
             } finally {
 
                 setLoading(false);
+                fetchPromise = null;
 
             }
 

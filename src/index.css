@@ -1,3 +1,223 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Smooth theme transitions */
+body, 
+.min-h-screen,
+header,
+aside,
+main,
+nav button,
+input,
+select,
+textarea,
+div.rounded-\[28px\],
+div.rounded-\[30px\],
+div.rounded-2xl,
+div.rounded-\[26px\],
+div.rounded-\[32px\],
+button.rounded-2xl,
+button.rounded-full {
+  transition: background-color 0.35s cubic-bezier(0.4, 0, 0.2, 1), 
+              border-color 0.35s cubic-bezier(0.4, 0, 0.2, 1), 
+              color 0.35s cubic-bezier(0.4, 0, 0.2, 1), 
+              box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Light mode overrides */
+.light {
+  color-scheme: light;
+}
+
+/* Base layouts */
+.light body {
+  background-color: #f8fafc;
+  color: #0f172a;
+}
+
+.light .flex.min-h-screen {
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+}
+
+/* Main background overrides */
+.light .bg-\[\#07111f\] {
+  background-color: #f8fafc !important;
+}
+.light .bg-\[\#020d19\] {
+  background-color: #f1f5f9 !important;
+}
+.light .bg-\[\#091423\] {
+  background-color: #ffffff !important;
+}
+.light .bg-\[\#0b1524\] {
+  background-color: #ffffff !important;
+}
+.light .bg-\[\#081423\] {
+  background-color: #ffffff !important;
+}
+.light .bg-\[\#05101d\] {
+  background-color: #f1f5f9 !important;
+}
+.light .bg-\[\#081423\]\/95 {
+  background-color: #ffffff !important;
+}
+.light .bg-\[\#081423\]\/90 {
+  background-color: #ffffff !important;
+}
+.light .bg-\[\#091423\]\/90 {
+  background-color: rgba(255, 255, 255, 0.85) !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+.light .bg-\[\#2b1d2a\] {
+  background-color: #fdf2f8 !important; /* light pink background */
+}
+
+/* Sub-elements / transparency overrides */
+.light .bg-white\/5 {
+  background-color: rgba(15, 23, 42, 0.05) !important;
+}
+.light .bg-white\/8 {
+  background-color: rgba(15, 23, 42, 0.08) !important;
+}
+.light .bg-white\/10 {
+  background-color: rgba(15, 23, 42, 0.08) !important;
+}
+.light .bg-white\/20 {
+  background-color: rgba(15, 23, 42, 0.16) !important;
+}
+.light .bg-white\/3 {
+  background-color: rgba(15, 23, 42, 0.03) !important;
+}
+.light .bg-white\/\[0\.02\] {
+  background-color: rgba(15, 23, 42, 0.02) !important;
+}
+.light .bg-white\/\[0\.03\] {
+  background-color: rgba(15, 23, 42, 0.03) !important;
+}
+.light .bg-white\/\[0\.05\] {
+  background-color: rgba(15, 23, 42, 0.06) !important;
+}
+.light .bg-cyan-400\/10 {
+  background-color: rgba(6, 182, 212, 0.12) !important;
+}
+.light .bg-cyan-400\/15 {
+  background-color: rgba(6, 182, 212, 0.15) !important;
+}
+.light .bg-red-500\/10 {
+  background-color: rgba(239, 68, 68, 0.08) !important;
+}
+
+/* Border overrides */
+.light .border-white\/5 {
+  border-color: rgba(15, 23, 42, 0.08) !important;
+}
+.light .border-white\/10 {
+  border-color: rgba(15, 23, 42, 0.12) !important;
+}
+.light .border-white\/20 {
+  border-color: rgba(15, 23, 42, 0.18) !important;
+}
+.light .border-dashed.border-white\/10 {
+  border-color: rgba(15, 23, 42, 0.15) !important;
+}
+.light .border-cyan-400\/10 {
+  border-color: rgba(6, 182, 212, 0.2) !important;
+}
+.light .border-cyan-400\/20 {
+  border-color: rgba(6, 182, 212, 0.3) !important;
+}
+.light .border-cyan-400\/40 {
+  border-color: rgba(6, 182, 212, 0.5) !important;
+}
+.light .border-red-500\/20 {
+  border-color: rgba(239, 68, 68, 0.2) !important;
+}
+
+/* Text overrides */
+.light .text-white {
+  color: #0f172a !important;
+}
+.light .text-slate-100 {
+  color: #0f172a !important;
+}
+.light .text-slate-200 {
+  color: #1e293b !important;
+}
+.light .text-slate-300 {
+  color: #334155 !important;
+}
+.light .text-slate-400 {
+  color: #475569 !important;
+}
+.light .text-slate-500 {
+  color: #64748b !important;
+}
+.light .text-cyan-300 {
+  color: #0891b2 !important;
+}
+.light .text-cyan-400 {
+  color: #0891b2 !important;
+}
+.light .text-red-400 {
+  color: #dc2626 !important;
+}
+
+/* Input specific overrides */
+.light input::placeholder,
+.light textarea::placeholder {
+  color: #94a3b8 !important;
+}
+
+/* Hover background overrides */
+.light .hover\:bg-white\/5:hover {
+  background-color: rgba(15, 23, 42, 0.05) !important;
+}
+.light .hover\:bg-white\/\[0\.06\]:hover {
+  background-color: rgba(15, 23, 42, 0.08) !important;
+}
+.light .hover\:bg-white\/\[0\.05\]:hover {
+  background-color: rgba(15, 23, 42, 0.07) !important;
+}
+.light .hover\:text-white:hover {
+  color: #0f172a !important;
+}
+
+/* Special overrides for shadcn/dashboard elements */
+.light .shadow-2xl {
+  --tw-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.08) !important;
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow) !important;
+}
+
+.light .shadow-cyan-950\/40 {
+  --tw-shadow-color: rgb(6 182 212 / 0.05) !important;
+}
+
+/* SweetAlert2 buttons explicit overrides in light mode */
+.light .swal2-popup .swal2-confirm {
+  background-color: #22d3ee !important;
+  color: #020d19 !important;
+}
+
+.light .swal2-popup .swal2-cancel {
+  background-color: rgba(15, 23, 42, 0.08) !important;
+  color: #0f172a !important;
+}
+
+.light .swal2-popup .swal2-cancel:hover {
+  background-color: rgba(15, 23, 42, 0.12) !important;
+}
+
+/* Override exclamation-marked Tailwind classes in light mode */
+.light .\!text-white {
+  color: #0f172a !important;
+}
+
+.light .\!bg-white\/10 {
+  background-color: rgba(15, 23, 42, 0.08) !important;
+}
+
+.light .\!bg-white\/10:hover {
+  background-color: rgba(15, 23, 42, 0.12) !important;
+}

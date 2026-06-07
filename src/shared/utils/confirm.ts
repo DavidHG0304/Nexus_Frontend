@@ -5,6 +5,9 @@ export const confirmDelete =
         item = "item"
     ) => {
 
+        const isLight =
+            document.documentElement.classList.contains("light");
+
         return Swal.fire({
 
             title: "Are you sure?",
@@ -42,10 +45,10 @@ export const confirmDelete =
                 "Cancel",
 
             background:
-                "#091423",
+                isLight ? "#ffffff" : "#091423",
 
             color:
-                "#fff",
+                isLight ? "#0f172a" : "#fff",
 
 
         });
@@ -53,6 +56,9 @@ export const confirmDelete =
     };
 
 export const confirmLogout = async () => {
+
+    const isLight =
+        document.documentElement.classList.contains("light");
 
     return Swal.fire({
 
@@ -91,11 +97,11 @@ export const confirmLogout = async () => {
             "Stay",
 
         background:
-            "#091423",
+            isLight ? "#ffffff" : "#091423",
 
         color:
-            "#fff"
+            isLight ? "#0f172a" : "#fff"
 
     });
 
-};
+};

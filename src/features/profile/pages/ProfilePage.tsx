@@ -30,7 +30,64 @@ function ProfilePage() {
 
         return (
 
-            <Loader />
+            <div className="grid gap-5 xl:grid-cols-[1fr_0.45fr] animate-pulse">
+
+                <section
+                    className="
+                        rounded-[28px]
+                        border
+                        border-white/5
+                        bg-[#0b1524]
+                        p-6
+                        space-y-8
+                    "
+                >
+
+                    <div>
+                        <div className="h-3 w-32 rounded bg-white/5 uppercase" />
+                        <div className="mt-2 h-8 w-48 rounded bg-white/5" />
+                    </div>
+
+                    <div className="space-y-5">
+                        {[1, 2, 3, 4, 5].map((i) => (
+                            <div key={i} className="space-y-2">
+                                <div className="h-3 w-20 rounded bg-white/5" />
+                                <div className="h-14 w-full rounded-2xl bg-white/3" />
+                            </div>
+                        ))}
+                        <div className="h-14 w-full rounded-full bg-white/5" />
+                    </div>
+
+                </section>
+
+                <section
+                    className="
+                        rounded-[28px]
+                        border
+                        border-white/5
+                        bg-[#0b1524]
+                        p-6
+                        space-y-6
+                    "
+                >
+
+                    <div>
+                        <div className="h-3 w-32 rounded bg-white/5" />
+                        <div className="mt-2 h-7 w-40 rounded bg-white/5" />
+                    </div>
+
+                    <div className="space-y-4">
+                        {[1, 2, 3].map((i) => (
+                            <div key={i} className="h-20 w-full rounded-2xl bg-white/3 p-4 space-y-2">
+                                <div className="h-3 w-24 rounded bg-white/5" />
+                                <div className="h-5 w-32 rounded bg-white/5" />
+                            </div>
+                        ))}
+                    </div>
+
+                </section>
+
+            </div>
 
         );
 

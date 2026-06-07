@@ -1,6 +1,8 @@
 import {
   ArrowRightLeft,
-  Menu
+  Menu,
+  Sun,
+  Moon
 } from "lucide-react";
 
 import {
@@ -17,7 +19,9 @@ import {
 import {
   primaryButton
 } from "../../../styles/shared/buttons";
-import { useDashboard } from "../../../features/dashboard/hook/useDashboard";
+import { useAuth } from "../../../features/auth/context/AuthContext";
+import { useTheme } from "../../../shared/context/ThemeContext";
+import { motion } from "framer-motion";
 
 type HeaderProps = {
   onMenuClick: () => void;
@@ -45,9 +49,11 @@ function Header({
 
   const location = useLocation();
 
-  const { data } = useDashboard();
+  const { user } = useAuth();
 
-  const client = data?.client;
+  const { theme, toggleTheme } = useTheme();
+
+  const client = user?.client || user;
 
   const currentTitle =
     titles[location.pathname] ||
@@ -204,6 +210,49 @@ function Header({
         }
 
         <button
+          onClick={toggleTheme}
+          className="
+            relative
+            flex
+            h-10
+            w-10
+            items-center
+            justify-center
+            rounded-xl
+            border
+            border-white/5
+            bg-white/5
+            text-cyan-300
+            transition-all
+            duration-300
+            hover:bg-white/10
+            sm:h-11
+            sm:w-11
+          "
+          aria-label="Toggle theme"
+          title="Toggle theme"
+        >
+
+          <motion.div
+            key={theme}
+            initial={{ scale: 0.6, rotate: -90, opacity: 0 }}
+            animate={{ scale: 1, rotate: 0, opacity: 1 }}
+            exit={{ scale: 0.6, rotate: 90, opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="flex items-center justify-center"
+          >
+
+            {theme === "dark" ? (
+              <Sun className="h-5 w-5" />
+            ) : (
+              <Moon className="h-5 w-5" />
+            )}
+
+          </motion.div>
+
+        </button>
+
+        <button
           onClick={() =>
             navigate("/profile")
           }
@@ -218,7 +267,7 @@ function Header({
           `}
         >
 
-          {client?.name[0]}
+          {client?.name?.[0] || ""}
 
         </button>
 

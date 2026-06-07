@@ -7,6 +7,7 @@ import "./index.css";
 import {
   AuthProvider
 } from "./features/auth/context/AuthContext";
+import { ThemeProvider } from "./shared/context/ThemeContext";
 
 ReactDOM.createRoot(
   document.getElementById("root")!
@@ -14,8 +15,12 @@ ReactDOM.createRoot(
 
   <AuthProvider>
 
-    <App />
+    <ThemeProvider>
+
+      <App />
+
+    </ThemeProvider>
 
   </AuthProvider>
 
-);
+);

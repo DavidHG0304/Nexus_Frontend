@@ -5,6 +5,9 @@ export const confirmTransaction = async (
   text: string
 ) => {
 
+  const isLight =
+    document.documentElement.classList.contains("light");
+
   return Swal.fire({
 
     title,
@@ -21,9 +24,9 @@ export const confirmTransaction = async (
 
     cancelButtonText: "Cancelar",
 
-    background: "#091423",
+    background: isLight ? "#ffffff" : "#091423",
 
-    color: "#f8fafc",
+    color: isLight ? "#0f172a" : "#f8fafc",
 
     customClass: {
 
@@ -48,4 +51,4 @@ export const confirmTransaction = async (
 
   });
 
-};
+};

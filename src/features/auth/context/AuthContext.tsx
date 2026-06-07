@@ -65,7 +65,7 @@ export function AuthProvider({
 
             .then((data) => {
 
-                setUser(data);
+                setUser(data.client || data);
 
             })
 

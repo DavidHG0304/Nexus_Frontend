@@ -187,7 +187,51 @@ function HistoryPage() {
 
     if (dashboardLoading || loadingTransactions) {
 
-        return <Loader />;
+        return (
+
+            <div className="space-y-6 animate-pulse">
+
+                {/* HEADER SKELETON */}
+                <div className="rounded-[32px] border border-white/5 bg-[#081423] p-6 space-y-2">
+                    <div className="h-8 w-64 rounded bg-white/5" />
+                    <div className="h-4 w-96 rounded bg-white/5" />
+                </div>
+
+                {/* STATS SKELETON */}
+                <div className="grid gap-5 md:grid-cols-3">
+                    {[1, 2, 3].map((i) => (
+                        <div key={i} className="rounded-[28px] border border-white/5 bg-[#081423] p-6 space-y-3">
+                            <div className="h-4 w-32 rounded bg-white/5" />
+                            <div className="h-8 w-24 rounded bg-white/5" />
+                        </div>
+                    ))}
+                </div>
+
+                {/* FILTERS SKELETON */}
+                <div className="rounded-[32px] border border-white/5 bg-[#081423] p-6">
+                    <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+                        <div className="h-12 w-64 rounded-full bg-white/3" />
+                        <div className="flex gap-3">
+                            <div className="h-12 w-20 rounded-full bg-white/3" />
+                            <div className="h-12 w-24 rounded-full bg-white/3" />
+                            <div className="h-12 w-28 rounded-full bg-white/3" />
+                        </div>
+                    </div>
+                </div>
+
+                {/* TABLE SKELETON */}
+                <div className="rounded-[32px] border border-white/5 bg-[#081423] overflow-hidden p-6 space-y-4">
+                    <div className="h-8 w-full rounded bg-white/5" />
+                    <div className="space-y-3">
+                        {[1, 2, 3, 4, 5].map((i) => (
+                            <div key={i} className="h-12 w-full rounded bg-white/3" />
+                        ))}
+                    </div>
+                </div>
+
+            </div>
+
+        );
 
     }
 
@@ -415,7 +459,7 @@ function HistoryPage() {
                 </div>
 
             </div>
-            {/* TABLE */}
+            {/* TABLE / RESPONSIVE CARDS CONTAINER */}
 
             <div
                 className="
@@ -424,21 +468,177 @@ function HistoryPage() {
                     border-white/5
                     bg-[#081423]
                     overflow-hidden
+                    p-4
+                    md:p-0
                 "
             >
 
-                <div className="overflow-x-auto">
+                {/* Mobile view: hidden on md and up */}
+                <div className="md:hidden space-y-4">
 
-                    <table className="w-full min-w-[1000px]">
+                    {
+                        paginatedTransactions.map((transaction) => {
+
+                            const isIncome =
+                                transaction.toAccount === myAccount;
+
+                            return (
+
+                                <div
+                                    key={transaction._id}
+                                    className="
+                                        rounded-2xl
+                                        border
+                                        border-white/5
+                                        bg-white/5
+                                        p-4
+                                        space-y-3
+                                    "
+                                >
+
+                                    <div className="flex items-center justify-between">
+
+                                        <div className="flex items-center gap-2">
+
+                                            <div
+                                                className={`
+                                                    rounded-full
+                                                    p-2
+                                                    ${isIncome
+                                                        ? "bg-green-500/10 text-green-400"
+                                                        : "bg-red-500/10 text-red-400"
+                                                    }
+                                                `}
+                                            >
+
+                                                {isIncome ? (
+                                                    <ArrowDownLeft size={16} />
+                                                ) : (
+                                                    <ArrowUpRight size={16} />
+                                                )}
+
+                                            </div>
+
+                                            <div>
+
+                                                <span className="font-semibold text-white text-sm block">
+                                                    {transaction.type}
+                                                </span>
+
+                                                <span className="text-[10px] text-slate-500">
+                                                    {new Date(
+                                                        transaction.date
+                                                    ).toLocaleString("es-MX")}
+                                                </span>
+
+                                            </div>
+
+                                        </div>
+
+                                        <span
+                                            className={`
+                                                text-sm
+                                                font-bold
+                                                ${isIncome
+                                                    ? "text-green-400"
+                                                    : "text-red-400"
+                                                }
+                                            `}
+                                        >
+
+                                            {isIncome ? "+" : "-"}
+
+                                            $
+
+                                            {transaction.amount.toLocaleString(
+                                                "es-MX",
+                                                {
+                                                    minimumFractionDigits: 2
+                                                }
+                                            )}
+
+                                        </span>
+
+                                    </div>
+
+                                    <div className="text-xs text-slate-400 bg-black/10 rounded-xl p-3 space-y-2">
+
+                                        <div>
+
+                                            <span className="text-slate-500 block text-[9px] uppercase tracking-wider">
+                                                Concept
+                                            </span>
+
+                                            <span className="text-white font-medium">
+                                                {transaction.description}
+                                            </span>
+
+                                        </div>
+
+                                        <div className="grid grid-cols-2 gap-2 pt-2 border-t border-white/5">
+
+                                            <div>
+
+                                                <span className="text-slate-500 block text-[9px] uppercase tracking-wider">
+                                                    Origin
+                                                </span>
+
+                                                <span className="text-white truncate block">
+                                                    {transaction.fromAccount}
+                                                </span>
+
+                                            </div>
+
+                                            <div>
+
+                                                <span className="text-slate-500 block text-[9px] uppercase tracking-wider">
+                                                    Destination
+                                                </span>
+
+                                                <span className="text-white truncate block">
+                                                    {transaction.toAccount}
+                                                </span>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div className="flex justify-between items-center text-[10px]">
+
+                                        <span className="text-slate-500">
+                                            Status
+                                        </span>
+
+                                        <span className="inline-flex rounded-full border border-white/5 bg-white/[0.03] px-2 py-1 uppercase tracking-[0.15em] text-slate-500">
+                                            {transaction.status}
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            );
+
+                        })
+                    }
+
+                </div>
+
+                {/* Desktop view: hidden on small screens, block on md and up */}
+                <div className="hidden md:block overflow-x-auto">
+
+                    <table className="w-full">
 
                         <thead>
 
                             <tr
                                 className="
-                        border-b
-                        border-white/5
-                        text-left
-                    "
+                                    border-b
+                                    border-white/5
+                                    text-left
+                                "
                             >
 
                                 <th className="p-5 text-slate-500">
@@ -533,6 +733,8 @@ function HistoryPage() {
 
                     </table>
 
+                </div>
+
                     <div
                         className="
         flex
@@ -622,8 +824,6 @@ function HistoryPage() {
                         </div>
 
                     </div>
-
-                </div>
 
             </div>
 

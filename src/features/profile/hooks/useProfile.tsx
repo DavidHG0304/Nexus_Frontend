@@ -20,29 +20,55 @@ import {
     errorToast
 } from "../../../shared/utils/toast";
 
+let cachedProfile: ProfileResponse | null = null;
+let cachedError = "";
+let fetchPromise: Promise<ProfileResponse> | null = null;
+let hasLoadedOnce = false;
+
 export function useProfile() {
 
     const [profile, setProfile] =
-        useState<ProfileResponse | null>(
-            null
-        );
+        useState<ProfileResponse | null>(cachedProfile);
 
     const [loading, setLoading] =
-        useState(true);
+        useState(!hasLoadedOnce);
 
     const loadProfile =
         async () => {
 
+            if (fetchPromise) {
+                try {
+                    const data = await fetchPromise;
+                    await new Promise((resolve) => setTimeout(resolve, 800));
+                    setProfile(data);
+                    setLoading(false);
+                } catch (err) {
+                    // Handled by original promise
+                }
+                return;
+            }
+
             try {
+                if (!hasLoadedOnce) {
+                    setLoading(true);
+                }
 
-                const data =
-                    await getProfile();
+                fetchPromise = getProfile();
+                const data = await fetchPromise;
 
+                await new Promise((resolve) => setTimeout(resolve, 800));
+
+                cachedProfile = data;
                 setProfile(data);
+                hasLoadedOnce = true;
 
+            } catch (err) {
+                const message = err instanceof Error ? err.message : "Failed to load profile";
+                cachedError = message;
             } finally {
 
                 setLoading(false);
+                fetchPromise = null;
 
             }
 

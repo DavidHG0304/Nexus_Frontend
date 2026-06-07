@@ -4,6 +4,9 @@ export const successToast = (
     title: string
 ) => {
 
+    const isLight =
+        document.documentElement.classList.contains("light");
+
     Swal.fire({
 
         toast: true,
@@ -18,9 +21,9 @@ export const successToast = (
 
         showConfirmButton: false,
 
-        background: "#0b2837",
+        background: isLight ? "#ffffff" : "#0b2837",
 
-        color: "#fff",
+        color: isLight ? "#0f172a" : "#fff",
 
         timerProgressBar: true,
         customClass: {
@@ -37,6 +40,9 @@ export const errorToast = (
     title: string
 ) => {
 
+    const isLight =
+        document.documentElement.classList.contains("light");
+
     Swal.fire({
 
         toast: true,
@@ -49,7 +55,7 @@ export const errorToast = (
 
         timer: 2500,
 
-        background: "#0b2837",
+        background: isLight ? "#ffffff" : "#0b2837",
 
         showConfirmButton: false,
 
@@ -59,8 +65,8 @@ export const errorToast = (
 
             timerProgressBar: "bg-cyan-400"
         },
-        color: "#fff"
+        color: isLight ? "#0f172a" : "#fff"
 
     });
 
-};
+};

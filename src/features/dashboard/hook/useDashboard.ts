@@ -11,30 +11,50 @@ import type {
     DashboardResponse
 } from "../types/dashboard.types";
 
+let cachedData: DashboardResponse | null = null;
+let cachedError = "";
+let fetchPromise: Promise<DashboardResponse> | null = null;
+
 export function useDashboard() {
 
     const [data, setData] =
-        useState<DashboardResponse | null>(
-            null
-        );
+        useState<DashboardResponse | null>(cachedData);
 
     const [loading, setLoading] =
-        useState(true);
+        useState(!cachedData);
 
     const [error, setError] =
-        useState("");
+        useState(cachedError);
 
     const fetchDashboard =
         async () => {
 
+            if (fetchPromise) {
+                try {
+                    const response = await fetchPromise;
+                    await new Promise((resolve) => setTimeout(resolve, 800));
+                    setData(response);
+                    setLoading(false);
+                } catch (err) {
+                    // Handled by the original promise
+                }
+                return;
+            }
+
             try {
+                if (!cachedData) {
+                    setLoading(true);
+                }
 
-                setLoading(true);
+                fetchPromise = getDashboard();
+                const response = await fetchPromise;
 
-                const response =
-                    await getDashboard();
+                await new Promise((resolve) => setTimeout(resolve, 800));
 
+                cachedData = response;
                 setData(response);
+                setError("");
+                cachedError = "";
 
             } catch (err) {
 
@@ -44,10 +64,12 @@ export function useDashboard() {
                         : "Dashboard error";
 
                 setError(message);
+                cachedError = message;
 
             } finally {
 
                 setLoading(false);
+                fetchPromise = null;
 
             }
 
@@ -71,4 +93,4 @@ export function useDashboard() {
 
     };
 
-}
+}
