@@ -11,6 +11,8 @@ import {
     Eye
 } from "lucide-react";
 
+import axios from "axios";
+
 import { useState } from "react";
 
 import { useNavigate } from "react-router-dom";
@@ -141,7 +143,83 @@ function RegisterPage() {
                     "/dashboard"
                 );
 
-            } catch {
+            } catch (error) {
+
+                if (
+                    axios.isAxiosError(error)
+                ) {
+
+                    const fieldErrors =
+                        error.response?.data?.errors?.fieldErrors;
+
+                    if (fieldErrors?.curp) {
+
+                        errorToast(
+                            "CURP must contain 18 characters"
+                        );
+
+                        return;
+
+                    }
+
+                    if (fieldErrors?.email) {
+
+                        errorToast(
+                            "Enter a valid email address"
+                        );
+
+                        return;
+
+                    }
+
+                    if (fieldErrors?.phone) {
+
+                        errorToast(
+                            "Phone number is invalid"
+                        );
+
+                        return;
+
+                    }
+
+                    if (fieldErrors?.password) {
+
+                        errorToast(
+                            "Password does not meet requirements"
+                        );
+
+                        return;
+
+                    }
+
+                    if (fieldErrors?.name) {
+
+                        errorToast(
+                            "Name is required"
+                        );
+
+                        return;
+
+                    }
+
+                    if (fieldErrors?.address) {
+
+                        errorToast(
+                            "Address is required"
+                        );
+
+                        return;
+
+                    }
+
+                    errorToast(
+                        error.response?.data?.message ||
+                        "Registration failed"
+                    );
+
+                    return;
+
+                }
 
                 errorToast(
                     "Registration failed"
