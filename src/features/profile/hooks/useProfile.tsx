@@ -21,7 +21,6 @@ import {
 } from "../../../shared/utils/toast";
 
 let cachedProfile: ProfileResponse | null = null;
-let cachedError = "";
 let fetchPromise: Promise<ProfileResponse> | null = null;
 let hasLoadedOnce = false;
 
@@ -63,8 +62,7 @@ export function useProfile() {
                 hasLoadedOnce = true;
 
             } catch (err) {
-                const message = err instanceof Error ? err.message : "Failed to load profile";
-                cachedError = message;
+                // Error is not cached anymore
             } finally {
 
                 setLoading(false);

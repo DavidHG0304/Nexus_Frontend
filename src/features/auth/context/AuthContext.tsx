@@ -12,7 +12,7 @@ import type { Client } from "../types/auth";
 
 type AuthContextType = {
 
-    user: Client;
+    user: Client | null;
 
     loading: boolean;
 
@@ -41,7 +41,7 @@ export function AuthProvider({
 }) {
 
     const [user, setUser] =
-        useState(null);
+        useState<Client | null>(null);
 
     const [loading, setLoading] =
         useState(true);

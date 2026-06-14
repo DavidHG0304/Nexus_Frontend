@@ -53,7 +53,7 @@ function Header({
 
   const { theme, toggleTheme } = useTheme();
 
-  const client = user?.client || user;
+  const client = user;
 
   const currentTitle =
     titles[location.pathname] ||

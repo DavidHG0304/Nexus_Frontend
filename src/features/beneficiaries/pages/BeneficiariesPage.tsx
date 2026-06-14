@@ -6,8 +6,6 @@ import {
 
 } from "lucide-react";
 
-import Loader from "../../../shared/components/ui/Loader";
-
 import {
     useBeneficiaries
 } from "../hooks/useBeneficiaries";

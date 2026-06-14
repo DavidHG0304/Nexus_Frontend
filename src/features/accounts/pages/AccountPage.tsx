@@ -1,4 +1,3 @@
-import Loader from "../../../shared/components/ui/Loader";
 import { useDashboard } from "../../dashboard/hook/useDashboard";
 import AccountSummary from "../components/AccountSummary";
 

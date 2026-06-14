@@ -10,7 +10,6 @@ import {
 import {
     useProfile
 } from "../hooks/useProfile";
-import Loader from "../../../shared/components/ui/Loader";
 
 function ProfilePage() {
 

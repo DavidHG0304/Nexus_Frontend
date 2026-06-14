@@ -1,5 +1,3 @@
-
-import Loader from "../../../shared/components/ui/Loader";
 import { useBeneficiaries } from "../../beneficiaries/hooks/useBeneficiaries";
 import { useDashboard } from "../../dashboard/hook/useDashboard";
 import TransactionForm from "../components/TransactionForm";

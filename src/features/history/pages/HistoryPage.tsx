@@ -7,7 +7,6 @@ import {
 } from "lucide-react";
 import { useHistory } from "../hooks/useHistory";
 import { useDashboard } from "../../dashboard/hook/useDashboard";
-import Loader from "../../../shared/components/ui/Loader";
 import { useEffect, useState } from "react";
 
 function HistoryPage() {
